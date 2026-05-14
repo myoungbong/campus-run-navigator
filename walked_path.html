@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GNSS Walked Path</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">ZED-F9P 실측 로그 시각화</p>
+      <h1>충북대 GNSS 이동 경로</h1>
+    </div>
+    <div class="status-pill"><span class="dot"></span>gnss_log_2.csv</div>
+  </header>
+
+  <nav class="quick-links" aria-label="페이지 이동">
+    <a class="quick-link" href="index.html">추천 경로 설계</a>
+    <a class="quick-link active" href="walked_path.html">실측 GNSS 경로 보기</a>
+  </nav>
+
+  <main class="walk-shell">
+    <section class="walk-map-panel">
+      <div class="map-toolbar">
+        <div>
+          <p class="eyebrow">Measured Track</p>
+          <h2 id="walkTitle">측정 경로 불러오는 중</h2>
+        </div>
+        <div class="route-badge" id="walkBadge">CSV 분석</div>
+      </div>
+      <div class="naver-config">
+        <input id="walkNaverClientId" type="password" placeholder="네이버 지도 Client ID 입력">
+        <button id="loadWalkNaverMap">네이버 지도에 표시</button>
+        <a href="index.html">추천 경로 화면</a>
+      </div>
+      <div class="walk-map-wrap">
+        <div id="walkNaverMap" class="naver-map" aria-label="네이버 지도 기반 실측 이동 경로"></div>
+        <svg id="walkSvg" class="walk-svg" viewBox="0 0 900 560" role="img" aria-label="GNSS 실측 이동 경로">
+          <rect x="0" y="0" width="900" height="560" rx="28" fill="#eef4ef"></rect>
+          <path d="M68 135 C192 96 306 110 438 82 C570 52 702 70 836 122" class="terrain-line"></path>
+          <path d="M82 450 C210 378 332 394 462 338 C586 286 704 290 828 232" class="terrain-line"></path>
+          <path d="M82 120 C204 188 318 244 448 306 C586 372 704 422 830 470" class="road"></path>
+          <path d="M118 488 C210 384 318 316 438 248 C564 176 690 126 820 92" class="road"></path>
+          <path id="walkTrack" class="measured-track" d=""></path>
+          <g id="walkPoints"></g>
+        </svg>
+      </div>
+    </section>
+
+    <section class="walk-summary-panel">
+      <div class="metric"><span>유효 좌표</span><strong id="pointCount">-</strong></div>
+      <div class="metric"><span>이동 거리</span><strong id="walkDistance">-</strong></div>
+      <div class="metric"><span>측정 시간</span><strong id="walkDuration">-</strong></div>
+      <div class="metric"><span>평균 위성 수</span><strong id="avgSatellites">-</strong></div>
+      <div class="metric"><span>고도</span><strong id="altRange">이번 버전 미사용</strong></div>
+      <div class="metric"><span>시작 / 종료</span><strong id="startEnd">-</strong></div>
+    </section>
+  </main>
+
+  <script src="walked_path.js"></script>
+</body>
+</html>
