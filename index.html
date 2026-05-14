@@ -12,10 +12,7 @@
       <p class="eyebrow">충북대학교 GNSS 기반 러닝 경로 안내</p>
       <h1>Campus Run Navigator</h1>
     </div>
-    <div class="status-pill">
-      <span class="dot"></span>
-      CBNU 캠퍼스 좌표 연동 예정
-    </div>
+    <div class="status-pill"><span class="dot"></span>CBNU GNSS route</div>
   </header>
 
   <nav class="quick-links" aria-label="페이지 이동">
@@ -25,28 +22,13 @@
 
   <main class="app-shell">
     <section class="control-panel" aria-label="경로 설정">
-      <div class="section-title">
-        <span>01</span>
-        <h2>러닝 조건</h2>
-      </div>
+      <div class="section-title"><span>01</span><h2>러닝 조건</h2></div>
 
       <label for="start">출발점</label>
-      <select id="start">
-        <option value="" selected>선택 안 함</option>
-        <option value="main">충북대 정문</option>
-        <option value="library">도서관</option>
-        <option value="stadium">종합운동장</option>
-        <option value="engineering">공과대학</option>
-      </select>
+      <select id="start"><option value="" selected>선택 안 함</option></select>
 
       <label for="finish">도착점</label>
-      <select id="finish">
-        <option value="" selected>선택 안 함</option>
-        <option value="stadium">종합운동장</option>
-        <option value="library">도서관</option>
-        <option value="dorm">학생생활관</option>
-        <option value="main">충북대 정문</option>
-      </select>
+      <select id="finish"><option value="" selected>선택 안 함</option></select>
 
       <label>목표 거리</label>
       <div class="segmented" role="group" aria-label="목표 거리 선택">
@@ -62,23 +44,15 @@
       </div>
 
       <label for="slopeMode">경사도 반영</label>
-      <select id="slopeMode">
-        <option value="off">현재 미사용</option>
-      </select>
+      <select id="slopeMode"><option value="off">현재 미사용</option></select>
 
       <button class="secondary-action" id="loadMeasuredNodes">실측 GNSS 노드 불러오기</button>
 
       <label for="nodeLimit">선택할 노드 개수</label>
       <select id="nodeLimit">
-        <option value="2">2개</option>
-        <option value="3">3개</option>
-        <option value="4">4개</option>
-        <option value="5">5개</option>
-        <option value="6">6개</option>
-        <option value="7">7개</option>
-        <option value="8">8개</option>
-        <option value="9">9개</option>
-        <option value="10">10개</option>
+        <option value="2">2개</option><option value="3">3개</option><option value="4">4개</option>
+        <option value="5">5개</option><option value="6">6개</option><option value="7">7개</option>
+        <option value="8">8개</option><option value="9">9개</option><option value="10">10개</option>
       </select>
 
       <label>노드 선택</label>
@@ -95,9 +69,9 @@
       <div class="map-toolbar">
         <div>
           <p class="eyebrow">Naver Map Preview</p>
-          <h2 id="routeName">충북대 정문 → 종합운동장 3 km 코스</h2>
+          <h2 id="routeName">네이버 지도 위 실측 경로를 불러온 뒤 경로 위를 클릭해 주세요.</h2>
         </div>
-        <div class="route-badge" id="routeBadge">균형 추천</div>
+        <div class="route-badge" id="routeBadge">대기 중</div>
       </div>
 
       <div class="naver-config" id="naverConfig">
@@ -109,96 +83,25 @@
 
       <div class="campus-map">
         <div id="naverMap" class="naver-map" aria-label="네이버 지도 기반 충북대학교 경로 미리보기"></div>
-        <div id="mapFallbackNotice" class="fallback-notice">API 키가 없으면 충북대 캠퍼스 스케치 지도로 미리 표시됩니다.</div>
-        <svg viewBox="0 0 840 540" role="img" aria-label="학교 내 러닝 경로 예시 지도">
-          <defs>
-            <linearGradient id="greenPath" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#17a673"/>
-              <stop offset="100%" stop-color="#2f80ed"/>
-            </linearGradient>
-            <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#214236" flood-opacity=".22"/>
-            </filter>
-          </defs>
-
-          <rect x="0" y="0" width="840" height="540" rx="28" fill="#eef4ef"/>
-          <path d="M50 128 C160 90 288 88 410 70 C528 52 652 62 790 104" class="terrain-line"/>
-          <path d="M48 442 C154 380 272 396 390 350 C508 304 626 306 790 236" class="terrain-line"/>
-          <path d="M96 470 C168 396 240 338 326 286 C440 215 568 160 770 92" class="road"/>
-          <path d="M78 126 C180 178 282 232 388 282 C514 342 638 412 766 462" class="road"/>
-          <path d="M126 258 C242 222 356 216 470 196 C588 176 684 166 780 142" class="road"/>
-          <path d="M170 404 C288 360 406 332 520 290 C640 246 710 230 790 218" class="road"/>
-          <path d="M318 92 C314 180 332 252 386 330 C430 392 490 430 622 438" class="road secondary"/>
-
-          <g class="building library">
-            <rect x="300" y="82" width="140" height="76" rx="14"/>
-            <text x="370" y="128">도서관</text>
-          </g>
-          <g class="building engineering">
-            <rect x="558" y="178" width="138" height="82" rx="14"/>
-            <text x="627" y="227">공과대학</text>
-          </g>
-          <g class="building dorm">
-            <rect x="142" y="314" width="142" height="78" rx="14"/>
-            <text x="213" y="362">학생생활관</text>
-          </g>
-          <g class="building culture">
-            <rect x="500" y="72" width="138" height="70" rx="14"/>
-            <text x="569" y="114">개신문화관</text>
-          </g>
-          <g class="building sports">
-            <rect x="420" y="384" width="138" height="72" rx="14"/>
-            <text x="489" y="428">스포츠센터</text>
-          </g>
-          <g class="field">
-            <ellipse cx="642" cy="410" rx="112" ry="68"/>
-            <ellipse cx="642" cy="410" rx="80" ry="46"/>
-            <text x="642" y="417">종합운동장</text>
-          </g>
-
-          <path id="routePath" d="M92 116 C183 202 291 253 386 129 C466 202 544 230 622 405" class="route-path" filter="url(#softShadow)"/>
-          <path id="measuredBasePath" class="measured-base-path" d=""></path>
-          <g id="routePoints"></g>
-          <g id="measuredNodeLayer"></g>
-          <g id="nodeTooltipLayer"></g>
-
-          <g class="gate">
-            <circle cx="92" cy="116" r="20"/>
-            <text x="92" y="163">충북대 정문</text>
-          </g>
-        </svg>
+        <div id="mapFallbackNotice" class="fallback-notice">네이버 지도를 연결하면 이 영역에 실측 경로가 표시됩니다.</div>
       </div>
       <div class="segment-list map-segment-summary" id="mapSegmentSummary">네이버 지도에서 실측 경로 위 노드를 선택하면 첫 노드와 마지막 노드 사이 거리가 표시됩니다.</div>
     </section>
 
     <section class="summary-panel" aria-label="추천 결과">
-      <div class="metric">
-        <span>총 거리</span>
-        <strong id="metricDistance">3.0 km</strong>
-      </div>
-      <div class="metric">
-        <span>예상 시간</span>
-        <strong id="metricTime">18분 00초</strong>
-      </div>
-      <div class="metric">
-        <span>데이터 기준</span>
-        <strong id="metricClimb">42 m</strong>
-      </div>
-      <div class="metric">
-        <span>상태</span>
-        <strong id="metricLevel">보통</strong>
-      </div>
+      <div class="metric"><span>총 거리</span><strong id="metricDistance">-</strong></div>
+      <div class="metric"><span>예상 시간</span><strong id="metricTime">-</strong></div>
+      <div class="metric"><span>데이터 기준</span><strong id="metricClimb">-</strong></div>
+      <div class="metric"><span>상태</span><strong id="metricLevel">-</strong></div>
     </section>
 
     <section class="candidate-panel" aria-label="후보 경로">
-      <div class="section-title">
-        <span>02</span>
-        <h2>후보 경로</h2>
-      </div>
+      <div class="section-title"><span>02</span><h2>후보 경로</h2></div>
       <div class="route-list" id="routeList"></div>
     </section>
   </main>
 
+  <script src="csv_upload.js?v=20260514-local-csv"></script>
   <script src="app.js?v=20260514-infowindow-autoclose"></script>
 </body>
 </html>
