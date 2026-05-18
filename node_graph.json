@@ -1,0 +1,442 @@
+{
+  "version": 1,
+  "exportedAt": "2026-05-18T13:53:42.299Z",
+  "nodes": [
+    {
+      "id": "N001",
+      "name": "후문",
+      "lat": 36.6249365,
+      "lng": 127.4634122,
+      "altitude": 64.3,
+      "sourceKey": "track:8926",
+      "sourceIndex": 8926,
+      "sourceLog": "gnss_log_4.csv"
+    },
+    {
+      "id": "N002",
+      "name": "충대 후문 사거리",
+      "lat": 36.6307095,
+      "lng": 127.4614343,
+      "altitude": 71.8,
+      "sourceKey": "track:8556",
+      "sourceIndex": 8556,
+      "sourceLog": "gnss_log_4.csv"
+    },
+    {
+      "id": "N003",
+      "name": "스포츠센터, 의대 사이",
+      "lat": 36.6262592,
+      "lng": 127.4600645,
+      "altitude": 65.7,
+      "sourceKey": "track:504",
+      "sourceIndex": 504,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N004",
+      "name": "공대 오르막 시작점",
+      "lat": 36.6265447,
+      "lng": 127.4596092,
+      "altitude": 65.3,
+      "sourceKey": "track:529",
+      "sourceIndex": 529,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N007",
+      "name": "양진재",
+      "lat": 36.6241473,
+      "lng": 127.4596617,
+      "altitude": 83.2,
+      "sourceKey": "track:2524",
+      "sourceIndex": 2524,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N008",
+      "name": "제5공학관 E8-10동",
+      "lat": 36.6243007,
+      "lng": 127.4580227,
+      "altitude": 75.1,
+      "sourceKey": "track:2416",
+      "sourceIndex": 2416,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N010",
+      "name": "소운동장",
+      "lat": 36.6244698,
+      "lng": 127.4560718,
+      "altitude": 68.2,
+      "sourceKey": "track:2271",
+      "sourceIndex": 2271,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N011",
+      "name": "자연대 4호관 S1-4동",
+      "lat": 36.62621,
+      "lng": 127.457197,
+      "altitude": 71.4,
+      "sourceKey": "track:5953",
+      "sourceIndex": 5953,
+      "sourceLog": "gnss_log_4.csv"
+    },
+    {
+      "id": "N014",
+      "name": "학생회관 입구",
+      "lat": 36.627927,
+      "lng": 127.4581892,
+      "altitude": 63.7,
+      "sourceKey": "track:4604",
+      "sourceIndex": 4604,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N015",
+      "name": "본부관리동 S3동",
+      "lat": 36.6261402,
+      "lng": 127.45465,
+      "altitude": 66.3,
+      "sourceKey": "track:1832",
+      "sourceIndex": 1832,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N016",
+      "name": "야외무대 S8동",
+      "lat": 36.6268733,
+      "lng": 127.4543158,
+      "altitude": 65,
+      "sourceKey": "track:1766",
+      "sourceIndex": 1766,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N017",
+      "name": "풋살구장",
+      "lat": 36.6274023,
+      "lng": 127.4536468,
+      "altitude": 69,
+      "sourceKey": "track:1678",
+      "sourceIndex": 1678,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N019",
+      "name": "첨단바이오연구센터 S20동",
+      "lat": 36.6285367,
+      "lng": 127.4530983,
+      "altitude": 72.3,
+      "sourceKey": "track:1556",
+      "sourceIndex": 1556,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N021",
+      "name": "대학본부 서쪽",
+      "lat": 36.6297257,
+      "lng": 127.4542595,
+      "altitude": 61.4,
+      "sourceKey": "track:6925",
+      "sourceIndex": 6925,
+      "sourceLog": "gnss_log_4.csv"
+    },
+    {
+      "id": "N022",
+      "name": "대학본부 입구",
+      "lat": 36.6304813,
+      "lng": 127.4551013,
+      "altitude": 56.5,
+      "sourceKey": "track:8081",
+      "sourceIndex": 8081,
+      "sourceLog": "gnss_log_4.csv"
+    },
+    {
+      "id": "N023",
+      "name": "정문",
+      "lat": 36.6313895,
+      "lng": 127.4539535,
+      "altitude": 56.7,
+      "sourceKey": "track:1290",
+      "sourceIndex": 1290,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N024",
+      "name": "테니스장",
+      "lat": 36.6305587,
+      "lng": 127.4553453,
+      "altitude": 57.9,
+      "sourceKey": "track:1187",
+      "sourceIndex": 1187,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N025",
+      "name": "경영학관 N13동",
+      "lat": 36.630313,
+      "lng": 127.4564483,
+      "altitude": 58,
+      "sourceKey": "track:4112",
+      "sourceIndex": 4112,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N026",
+      "name": "인문사회관 및 미술관",
+      "lat": 36.6308607,
+      "lng": 127.4569035,
+      "altitude": 62.3,
+      "sourceKey": "track:1068",
+      "sourceIndex": 1068,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N027",
+      "name": "기숙사 본관",
+      "lat": 36.6311258,
+      "lng": 127.4574242,
+      "altitude": 72,
+      "sourceKey": "track:984",
+      "sourceIndex": 984,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N028",
+      "name": "자연대3호관 S1-3동",
+      "lat": 36.6265535,
+      "lng": 127.4573627,
+      "altitude": 69.8,
+      "sourceKey": "track:5594",
+      "sourceIndex": 5594,
+      "sourceLog": "gnss_log_4.csv"
+    },
+    {
+      "id": "N029",
+      "name": "도서관",
+      "lat": 36.6281212,
+      "lng": 127.4583168,
+      "altitude": 62,
+      "sourceKey": "track:4639",
+      "sourceIndex": 4639,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N030",
+      "name": "전자정보1관 E8-7 및 제2공장동 E8-5",
+      "lat": 36.6250955,
+      "lng": 127.4583877,
+      "altitude": 69.6,
+      "sourceKey": "track:289",
+      "sourceIndex": 289,
+      "sourceLog": "gnss_log_2.csv"
+    },
+    {
+      "id": "N031",
+      "name": "전자정보2관 E10동",
+      "lat": 36.6248067,
+      "lng": 127.4579527,
+      "altitude": 71.2,
+      "sourceKey": "track:22",
+      "sourceIndex": 22,
+      "sourceLog": "gnss_log_2.csv"
+    },
+    {
+      "id": "N032",
+      "name": "수의대",
+      "lat": 36.6236235,
+      "lng": 127.4554033,
+      "altitude": 65.7,
+      "sourceKey": "track:2184",
+      "sourceIndex": 2184,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N033",
+      "name": "농대생연구동S21-5동",
+      "lat": 36.629385,
+      "lng": 127.4535985,
+      "altitude": 63.4,
+      "sourceKey": "track:1487",
+      "sourceIndex": 1487,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N034",
+      "name": "법학관",
+      "lat": 36.6305323,
+      "lng": 127.459433,
+      "altitude": 72.8,
+      "sourceKey": "track:3923",
+      "sourceIndex": 3923,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N035",
+      "name": "미술과 N16-3동",
+      "lat": 36.6306443,
+      "lng": 127.4586208,
+      "altitude": 71.2,
+      "sourceKey": "track:3962",
+      "sourceIndex": 3962,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N036",
+      "name": "생활과학대학 N20-1동",
+      "lat": 36.6304318,
+      "lng": 127.4603467,
+      "altitude": 73.7,
+      "sourceKey": "track:8474",
+      "sourceIndex": 8474,
+      "sourceLog": "gnss_log_4.csv"
+    },
+    {
+      "id": "N037",
+      "name": "은하수식당",
+      "lat": 36.6297947,
+      "lng": 127.4598053,
+      "altitude": 70.7,
+      "sourceKey": "track:3062",
+      "sourceIndex": 3062,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N038",
+      "name": "개신문화관",
+      "lat": 36.6285982,
+      "lng": 127.4596103,
+      "altitude": 62.4,
+      "sourceKey": "track:2928",
+      "sourceIndex": 2928,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N039",
+      "name": "스포츠센터",
+      "lat": 36.6276167,
+      "lng": 127.4599387,
+      "altitude": 62.2,
+      "sourceKey": "track:2850",
+      "sourceIndex": 2850,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N040",
+      "name": "대운동장",
+      "lat": 36.6253408,
+      "lng": 127.462458,
+      "altitude": 57.1,
+      "sourceKey": "track:4752",
+      "sourceIndex": 4752,
+      "sourceLog": "gnss_log_4.csv"
+    }
+  ],
+  "edges": [
+    {
+      "id": "EN001-N002",
+      "from": "N001",
+      "to": "N002",
+      "distanceKm": 0.666,
+      "climbM": 8,
+      "descentM": 0,
+      "altitudeRange": "64-72 m",
+      "method": "직선 연결",
+      "path": [
+        {
+          "lat": 36.6249365,
+          "lng": 127.4634122,
+          "altitude": 64.3
+        },
+        {
+          "lat": 36.6307095,
+          "lng": 127.4614343,
+          "altitude": 71.8
+        }
+      ]
+    },
+    {
+      "id": "EN003-N040",
+      "from": "N003",
+      "to": "N040",
+      "distanceKm": 0.296,
+      "climbM": 8,
+      "descentM": 17,
+      "altitudeRange": "57-72 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6262592,
+          "lng": 127.4600645,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6261327,
+          "lng": 127.460309,
+          "altitude": 66.7
+        },
+        {
+          "lat": 36.6259947,
+          "lng": 127.4605435,
+          "altitude": 67.4
+        },
+        {
+          "lat": 36.6258565,
+          "lng": 127.460778,
+          "altitude": 68.8
+        },
+        {
+          "lat": 36.6257302,
+          "lng": 127.4610142,
+          "altitude": 70.1
+        },
+        {
+          "lat": 36.6255915,
+          "lng": 127.4612462,
+          "altitude": 71.8
+        },
+        {
+          "lat": 36.62545,
+          "lng": 127.4614807,
+          "altitude": 71.6
+        },
+        {
+          "lat": 36.6253155,
+          "lng": 127.461727,
+          "altitude": 67.9
+        },
+        {
+          "lat": 36.6251842,
+          "lng": 127.4619632,
+          "altitude": 68.3
+        },
+        {
+          "lat": 36.625065,
+          "lng": 127.4622115,
+          "altitude": 68.3
+        },
+        {
+          "lat": 36.6250758,
+          "lng": 127.4621963,
+          "altitude": 68.5
+        },
+        {
+          "lat": 36.6250117,
+          "lng": 127.4624608,
+          "altitude": 70.2
+        },
+        {
+          "lat": 36.6252167,
+          "lng": 127.46246,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6253408,
+          "lng": 127.462458,
+          "altitude": 57.1
+        }
+      ]
+    }
+  ]
+}

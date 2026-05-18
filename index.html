@@ -90,6 +90,11 @@
       </div>
       <button class="secondary-action compact" id="saveGraphEdge">대표 노드 연결 저장</button>
       <button class="secondary-action compact" id="autoConnectGraph">가까운 연결 후보 만들기</button>
+      <div class="graph-actions">
+        <button class="secondary-action compact" id="exportGraph">노드 그래프 내보내기</button>
+        <button class="secondary-action compact" id="importGraph">노드 그래프 불러오기</button>
+      </div>
+      <input id="importGraphFile" class="visually-hidden" type="file" accept="application/json,.json">
       <button class="secondary-action compact danger" id="clearGraph">노드 그래프 초기화</button>
     </section>
 
@@ -202,6 +207,6 @@
     </section>
   </main>
 
-  <script src="app.js?v=20260518-candidate-altitude"></script>
+  <script src="app.js?v=20260518-graph-transfer"></script>
 </body>
 </html>

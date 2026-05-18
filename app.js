@@ -89,6 +89,9 @@ const saveGraphNodeButton = document.querySelector("#saveGraphNode");
 const saveGraphEdgeButton = document.querySelector("#saveGraphEdge");
 const autoConnectGraphButton = document.querySelector("#autoConnectGraph");
 const clearGraphButton = document.querySelector("#clearGraph");
+const exportGraphButton = document.querySelector("#exportGraph");
+const importGraphButton = document.querySelector("#importGraph");
+const importGraphFileInput = document.querySelector("#importGraphFile");
 const graphDocument = document.querySelector("#graphDocument");
 const graphEdgeFromSelect = document.querySelector("#graphEdgeFrom");
 const graphEdgeToSelect = document.querySelector("#graphEdgeTo");
@@ -405,15 +408,18 @@ function setMapStatus(message) {
   }
 }
 
+function normalizeNodeGraph(data) {
+  return {
+    nodes: Array.isArray(data?.nodes) ? data.nodes : [],
+    edges: Array.isArray(data?.edges) ? data.edges : []
+  };
+}
+
 function loadNodeGraph() {
   try {
     const saved = localStorage.getItem(graphStorageKey);
     if (!saved) return { nodes: [], edges: [] };
-    const parsed = JSON.parse(saved);
-    return {
-      nodes: Array.isArray(parsed.nodes) ? parsed.nodes : [],
-      edges: Array.isArray(parsed.edges) ? parsed.edges : []
-    };
+    return normalizeNodeGraph(JSON.parse(saved));
   } catch {
     return { nodes: [], edges: [] };
   }
@@ -424,6 +430,63 @@ function saveNodeGraph() {
   renderGraphNodeSelects();
   renderGraphDocument();
   renderGraphOverlay();
+}
+
+function exportNodeGraph() {
+  const payload = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    ...nodeGraph
+  };
+  if (!payload.nodes.length && !payload.edges.length) {
+    setMapStatus("내보낼 대표 노드 그래프가 없습니다.");
+    return;
+  }
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "node_graph.json";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+  setMapStatus("노드 그래프를 node_graph.json 파일로 내보냈습니다. GitHub에 함께 올리거나 다른 페이지에서 불러올 수 있습니다.");
+}
+
+function importNodeGraphData(data, sourceLabel = "파일") {
+  const nextGraph = normalizeNodeGraph(data);
+  nodeGraph = nextGraph;
+  graphEdgeCandidates = [];
+  graphCandidateMessage = "";
+  saveNodeGraph();
+  setMapStatus(`${sourceLabel}에서 대표 노드 ${nodeGraph.nodes.length}개, 연결 구간 ${nodeGraph.edges.length}개를 불러왔습니다.`);
+}
+
+function importNodeGraphFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      importNodeGraphData(JSON.parse(String(reader.result || "")), file.name);
+    } catch {
+      setMapStatus("노드 그래프 JSON 파일을 읽지 못했습니다. 파일 형식을 확인해 주세요.");
+    }
+  };
+  reader.readAsText(file, "utf-8");
+}
+
+async function loadDefaultNodeGraphFile() {
+  if (nodeGraph.nodes.length || nodeGraph.edges.length) return;
+  try {
+    const response = await fetch("node_graph.json", { cache: "no-store" });
+    if (!response.ok) return;
+    const data = await response.json();
+    importNodeGraphData(data, "node_graph.json");
+  } catch {
+    // node_graph.json is optional. Ignore when the file is not present on GitHub Pages.
+  }
 }
 
 function nextGraphNodeId() {
@@ -1927,6 +1990,12 @@ saveGraphNodeButton?.addEventListener("click", saveSelectedGraphNode);
 saveGraphEdgeButton?.addEventListener("click", saveSelectedGraphEdges);
 autoConnectGraphButton?.addEventListener("click", autoConnectGraphNodes);
 clearGraphButton?.addEventListener("click", clearNodeGraph);
+exportGraphButton?.addEventListener("click", exportNodeGraph);
+importGraphButton?.addEventListener("click", () => importGraphFileInput?.click());
+importGraphFileInput?.addEventListener("change", () => {
+  importNodeGraphFile(importGraphFileInput.files?.[0]);
+  importGraphFileInput.value = "";
+});
 
 loadMeasuredNodesButton.addEventListener("click", loadMeasuredNodes);
 loadNaverMapButton.addEventListener("click", initNaverMap);
@@ -1975,3 +2044,4 @@ updateNodeStats("대기");
 renderGraphNodeSelects();
 renderGraphDocument();
 renderGraphOverlay();
+loadDefaultNodeGraphFile();
