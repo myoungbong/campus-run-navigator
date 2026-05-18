@@ -12,7 +12,10 @@
       <p class="eyebrow">ZED-F9P 실측 로그 시각화</p>
       <h1>충북대 GNSS 이동 경로</h1>
     </div>
-    <div class="status-pill"><span class="dot"></span>gnss_log_2.csv</div>
+    <div class="status-pill">
+      <span class="dot"></span>
+      gnss_log_2.csv
+    </div>
   </header>
 
   <nav class="quick-links" aria-label="페이지 이동">
@@ -29,11 +32,18 @@
         </div>
         <div class="route-badge" id="walkBadge">CSV 분석</div>
       </div>
+
       <div class="naver-config">
+        <select id="walkMeasuredLog" aria-label="실측 로그 선택">
+          <option value="all" selected>전체 실측 경로</option>
+          <option value="gnss_log_2.csv">실측 경로 1</option>
+          <option value="gnss_log_3.csv">실측 경로 2</option>
+        </select>
         <input id="walkNaverClientId" type="password" placeholder="네이버 지도 Client ID 입력">
         <button id="loadWalkNaverMap">네이버 지도에 표시</button>
         <a href="index.html">추천 경로 화면</a>
       </div>
+
       <div class="walk-map-wrap">
         <div id="walkNaverMap" class="naver-map" aria-label="네이버 지도 기반 실측 이동 경로"></div>
         <svg id="walkSvg" class="walk-svg" viewBox="0 0 900 560" role="img" aria-label="GNSS 실측 이동 경로">
@@ -42,6 +52,7 @@
           <path d="M82 450 C210 378 332 394 462 338 C586 286 704 290 828 232" class="terrain-line"></path>
           <path d="M82 120 C204 188 318 244 448 306 C586 372 704 422 830 470" class="road"></path>
           <path d="M118 488 C210 384 318 316 438 248 C564 176 690 126 820 92" class="road"></path>
+          <path d="M132 264 C252 226 370 220 498 198 C628 174 728 164 832 144" class="road"></path>
           <path id="walkTrack" class="measured-track" d=""></path>
           <g id="walkPoints"></g>
         </svg>
@@ -49,12 +60,30 @@
     </section>
 
     <section class="walk-summary-panel">
-      <div class="metric"><span>유효 좌표</span><strong id="pointCount">-</strong></div>
-      <div class="metric"><span>이동 거리</span><strong id="walkDistance">-</strong></div>
-      <div class="metric"><span>측정 시간</span><strong id="walkDuration">-</strong></div>
-      <div class="metric"><span>평균 위성 수</span><strong id="avgSatellites">-</strong></div>
-      <div class="metric"><span>고도</span><strong id="altRange">이번 버전 미사용</strong></div>
-      <div class="metric"><span>시작 / 종료</span><strong id="startEnd">-</strong></div>
+      <div class="metric">
+        <span>유효 좌표</span>
+        <strong id="pointCount">-</strong>
+      </div>
+      <div class="metric">
+        <span>이동 거리</span>
+        <strong id="walkDistance">-</strong>
+      </div>
+      <div class="metric">
+        <span>측정 시간</span>
+        <strong id="walkDuration">-</strong>
+      </div>
+      <div class="metric">
+        <span>평균 위성 수</span>
+        <strong id="avgSatellites">-</strong>
+      </div>
+      <div class="metric">
+        <span>고도</span>
+        <strong id="altRange">-</strong>
+      </div>
+      <div class="metric">
+        <span>시작 / 종료</span>
+        <strong id="startEnd">-</strong>
+      </div>
     </section>
   </main>
 

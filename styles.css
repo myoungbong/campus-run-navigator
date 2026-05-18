@@ -115,6 +115,7 @@ h2 {
 .control-panel,
 .map-panel,
 .summary-panel,
+.graph-panel,
 .candidate-panel {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -123,7 +124,8 @@ h2 {
 }
 
 .control-panel,
-.candidate-panel {
+.candidate-panel,
+.graph-panel {
   padding: 20px;
 }
 
@@ -170,6 +172,16 @@ select {
   background: #fbfdfc;
 }
 
+.graph-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: #fbfdfc;
+}
+
 .segmented {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -183,6 +195,23 @@ select {
   border-radius: 8px;
   cursor: pointer;
   font-weight: 800;
+}
+
+.secondary-action.compact {
+  height: 42px;
+  margin-top: 0;
+}
+
+.secondary-action.danger {
+  color: #b5392d;
+  border-color: #f0c7c0;
+}
+
+.graph-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .segmented button {
@@ -563,8 +592,53 @@ select {
   cursor: pointer;
 }
 
+.measured-node.candidate {
+  fill: #ffffff;
+  stroke: #e96754;
+  stroke-width: 3;
+}
+
+.measured-node.candidate.chosen {
+  fill: #dff7eb;
+  stroke: #17a673;
+}
+
 .measured-node.selected {
   fill: #17a673;
+}
+
+.graph-edge {
+  fill: none;
+  stroke: #f1a638;
+  stroke-width: 14;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-opacity: 1;
+}
+
+.graph-edge-candidate {
+  fill: none;
+  stroke: #ffd166;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 5 8;
+  stroke-opacity: .9;
+}
+
+.graph-node {
+  fill: #2f80ed;
+  stroke: #ffffff;
+  stroke-width: 5;
+  filter: drop-shadow(0 6px 8px rgba(34, 74, 132, .24));
+}
+
+.graph-node-label {
+  fill: #ffffff;
+  font-size: 10px;
+  font-weight: 900;
+  text-anchor: middle;
+  dominant-baseline: central;
 }
 
 .node-tooltip rect {
@@ -639,6 +713,104 @@ select {
   background: var(--line);
 }
 
+.graph-panel {
+  grid-column: 1 / -1;
+}
+
+.graph-document {
+  display: grid;
+  gap: 16px;
+  color: #31413b;
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-x: auto;
+}
+
+.graph-document h3 {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.graph-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.graph-table th,
+.graph-table td {
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.graph-table th {
+  color: var(--muted);
+  background: #f2faf6;
+  font-size: 12px;
+}
+
+.graph-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.graph-note {
+  margin: 0 0 8px;
+  padding: 10px 12px;
+  border: 1px solid #f3d88e;
+  border-radius: 8px;
+  color: #5e4800;
+  background: #fff8de;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.graph-manage {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.graph-delete {
+  min-height: 28px;
+  padding: 0 9px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.graph-delete {
+  border: 1px solid #f0c7c0;
+  color: #b5392d;
+  background: #fff7f5;
+}
+
+.graph-approve {
+  min-height: 28px;
+  padding: 0 9px;
+  border: 1px solid #b8e5d1;
+  border-radius: 8px;
+  color: #0e7a52;
+  background: #effaf5;
+  font-size: 12px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.graph-empty {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  background: #fbfdfc;
+  font-weight: 800;
+}
+
 .metric {
   min-height: 112px;
   padding: 20px;
@@ -656,10 +828,6 @@ select {
   display: block;
   margin-top: 10px;
   font-size: 24px;
-}
-
-.candidate-panel {
-  grid-column: 3;
 }
 
 .walk-shell {
@@ -760,6 +928,7 @@ select {
 
   .summary-panel,
   .candidate-panel,
+  .graph-panel,
   .walk-map-panel,
   .walk-summary-panel {
     grid-column: 1 / -1;
@@ -813,6 +982,10 @@ select {
   .segment-override-panel {
     grid-template-columns: 1fr;
     padding: 10px 18px 0;
+  }
+
+  .graph-actions {
+    grid-template-columns: 1fr;
   }
 
   .campus-map svg {

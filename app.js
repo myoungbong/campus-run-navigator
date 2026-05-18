@@ -1,3 +1,55 @@
+const baseCampusNodes = {
+  main: {
+    name: "충북대 정문",
+    xy: [92, 116],
+    latlng: [36.62595, 127.45445],
+    elevation: 60,
+    type: "대표 노드"
+  },
+  library: {
+    name: "도서관",
+    xy: [370, 128],
+    latlng: [36.62895, 127.45555],
+    elevation: 64,
+    type: "대표 노드"
+  },
+  culture: {
+    name: "개신문화관",
+    xy: [569, 114],
+    latlng: [36.63005, 127.45715],
+    elevation: 70,
+    type: "대표 노드"
+  },
+  engineering: {
+    name: "공과대학",
+    xy: [627, 227],
+    latlng: [36.62935, 127.45865],
+    elevation: 67,
+    type: "대표 노드"
+  },
+  dorm: {
+    name: "학생생활관",
+    xy: [213, 362],
+    latlng: [36.62745, 127.45435],
+    elevation: 82,
+    type: "대표 노드"
+  },
+  sports: {
+    name: "CBNU스포츠센터",
+    xy: [489, 428],
+    latlng: [36.62735, 127.45745],
+    elevation: 62,
+    type: "대표 노드"
+  },
+  stadium: {
+    name: "종합운동장",
+    xy: [642, 410],
+    latlng: [36.62805, 127.45905],
+    elevation: 60,
+    type: "대표 노드"
+  }
+};
+
 const campusLandmarks = [
   { name: "공과대학본관 E8-1동 근처", lat: 36.6259, lng: 127.4580 },
   { name: "합동강의동 E8-2동 근처", lat: 36.6255, lng: 127.4573 },
@@ -6,47 +58,64 @@ const campusLandmarks = [
   { name: "자연대4호관 S1-4동 근처", lat: 36.6257, lng: 127.4565 },
   { name: "충북Pro메이커센터 S1-7동 근처", lat: 36.6261, lng: 127.4567 },
   { name: "의과대학 2본관 근처", lat: 36.6251, lng: 127.4592 },
-  { name: "종합운동장 서측 근처", lat: 36.6262, lng: 127.4596 }
+  { name: "종합운동장 서측 근처", lat: 36.6262, lng: 127.4596 },
+  { name: "박물관 근처", lat: 36.6272, lng: 127.4556 },
+  { name: "자연과학대학 1호관 근처", lat: 36.6274, lng: 127.4566 }
 ];
-
-const routes = {
-  2: { name: "2 km 샘플 코스", distance: 2.1, level: "쉬움", desc: "짧은 회복 러닝 후보입니다." },
-  3: { name: "3 km 샘플 코스", distance: 3.0, level: "보통", desc: "기본 러닝 후보입니다." },
-  5: { name: "5 km 샘플 코스", distance: 5.2, level: "높음", desc: "장거리 훈련 후보입니다." }
-};
 
 const paceInput = document.querySelector("#pace");
 const paceValue = document.querySelector("#paceValue");
+const distanceButtons = document.querySelectorAll(".distance-btn");
+const routePath = document.querySelector("#routePath");
+const measuredBasePath = document.querySelector("#measuredBasePath");
+const routePoints = document.querySelector("#routePoints");
+const measuredNodeLayer = document.querySelector("#measuredNodeLayer");
+const nodeTooltipLayer = document.querySelector("#nodeTooltipLayer");
+const graphLayer = document.querySelector("#graphLayer");
+const mapPanel = document.querySelector(".map-panel");
 const naverClientId = document.querySelector("#naverClientId");
 const loadNaverMapButton = document.querySelector("#loadNaverMap");
-const loadMeasuredNodesButton = document.querySelector("#loadMeasuredNodes");
-const mapPanel = document.querySelector(".map-panel");
 const mapStatus = document.querySelector("#mapStatus");
 const nodePicker = document.querySelector("#nodePicker");
 const nodeOrder = document.querySelector("#nodeOrder");
-const nodeLimit = document.querySelector("#nodeLimit");
 const segmentList = document.querySelector("#segmentList");
+const loadMeasuredNodesButton = document.querySelector("#loadMeasuredNodes");
 const mapSegmentSummary = document.querySelector("#mapSegmentSummary");
-const routeList = document.querySelector("#routeList");
+const nodeLimit = document.querySelector("#nodeLimit");
+const measuredLogSelect = document.querySelector("#measuredLog");
+const slopeMode = document.querySelector("#slopeMode");
+const graphNodeNameInput = document.querySelector("#graphNodeName");
+const saveGraphNodeButton = document.querySelector("#saveGraphNode");
+const saveGraphEdgeButton = document.querySelector("#saveGraphEdge");
+const autoConnectGraphButton = document.querySelector("#autoConnectGraph");
+const clearGraphButton = document.querySelector("#clearGraph");
+const graphDocument = document.querySelector("#graphDocument");
+const graphEdgeFromSelect = document.querySelector("#graphEdgeFrom");
+const graphEdgeToSelect = document.querySelector("#graphEdgeTo");
 
+const graphStorageKey = "campusRunNodeGraph";
+
+let campusNodes = { ...baseCampusNodes };
 let measuredTrack = [];
-let selectedNodes = [];
+let selectableMeasuredNodes = [];
+let selectedNodeIds = [];
+let targetDistance = null;
+let nodeGraph = loadNodeGraph();
+let graphEdgeCandidates = [];
+let graphCandidateMessage = "";
 let naverMap = null;
-let measuredPolyline = null;
-let measuredDots = [];
-let selectedMarkers = [];
-let routePolyline = null;
-let infoWindow = null;
-let infoTimer = null;
-
-function setText(selector, text) {
-  const el = document.querySelector(selector);
-  if (el) el.textContent = text;
-}
-
-function setMapStatus(text) {
-  if (mapStatus) mapStatus.textContent = text;
-}
+let naverPolyline = null;
+let naverMarkers = [];
+let naverMeasuredMarkers = [];
+let naverMeasuredPolyline = null;
+let naverMeasuredPolylines = [];
+let naverMeasuredDots = [];
+let naverGraphMarkers = [];
+let naverGraphPolylines = [];
+let naverGraphEdgeDots = [];
+let naverInfoWindow = null;
+let naverInfoTimer = null;
+let svgMeasuredPoints = [];
 
 function formatPace(value) {
   const minutes = Math.floor(Number(value));
@@ -54,8 +123,8 @@ function formatPace(value) {
   return `${minutes}:${String(seconds).padStart(2, "0")}`;
 }
 
-function formatTime(distanceKm, pace) {
-  const totalSeconds = Math.round(distanceKm * Number(pace) * 60);
+function formatTime(distance, pace) {
+  const totalSeconds = Math.round(distance * Number(pace || 6) * 60);
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
   return `${minutes}분 ${String(seconds).padStart(2, "0")}초`;
@@ -63,10 +132,10 @@ function formatTime(distanceKm, pace) {
 
 function parseCsv(text) {
   const lines = text.trim().split(/\r?\n/);
-  const headers = lines.shift().split(",");
-  return lines.map((line) => {
+  const headers = lines[0].split(",");
+  return lines.slice(1).map((line) => {
     const values = line.split(",");
-    return Object.fromEntries(headers.map((header, index) => [header, values[index]]));
+    return Object.fromEntries(values.map((value, index) => [headers[index], value]));
   });
 }
 
@@ -81,202 +150,1536 @@ function nmeaToDecimal(value, direction) {
   return decimal;
 }
 
+function normalizeAltitudes(points, targetStartAltitude = 60) {
+  const stableIndex = Math.min(15, Math.max(0, points.length - 1));
+  const stableAltitude = points[stableIndex]?.altitude;
+  if (!Number.isFinite(stableAltitude)) return points;
+  const offset = targetStartAltitude - stableAltitude;
+  const corrected = points.map((point, index) => ({
+    ...point,
+    altitude: Number.isFinite(point.altitude)
+      ? index < stableIndex ? targetStartAltitude : point.altitude + offset
+      : point.altitude
+  }));
+
+  return corrected.map((point, index) => {
+    const window = corrected
+      .slice(Math.max(0, index - 2), Math.min(corrected.length, index + 3))
+      .map((sample) => sample.altitude)
+      .filter(Number.isFinite);
+    const altitude = window.length
+      ? window.reduce((sum, value) => sum + value, 0) / window.length
+      : point.altitude;
+    return { ...point, altitude: Math.max(55, altitude) };
+  });
+}
+
+async function loadMeasuredTrack() {
+  if (measuredTrack.length) return measuredTrack;
+
+  const selectedLog = measuredLogSelect?.value || "all";
+  const logFiles = selectedLog === "all"
+    ? ["gnss_log_2.csv", "gnss_log_3.csv", "gnss_log_4.csv"]
+    : [selectedLog];
+  const tracks = await Promise.all(logFiles.map(async (logFile, logOrder) => {
+    const response = await fetch(logFile);
+    const csv = await response.text();
+    const rawPoints = parseCsv(csv)
+      .map((row) => ({
+        time: row.PC_Time,
+        lat: nmeaToDecimal(row.Latitude_NMEA, row.Lat_Direction),
+        lng: nmeaToDecimal(row.Longitude_NMEA, row.Lon_Direction),
+        fix: Number(row.Fix || 0),
+        satellites: Number(row.Satellites || 0),
+        altitude: Number(row.Altitude_m),
+        source: logFile,
+        sourceOrder: logOrder
+      }))
+      .filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng));
+
+    return rawPoints;
+  }));
+
+  measuredTrack = tracks.flat().map((point, index) => ({ ...point, index }));
+  return measuredTrack;
+}
+
 function distanceKm(a, b) {
   const radius = 6371;
   const dLat = (b.lat - a.lat) * Math.PI / 180;
   const dLng = (b.lng - a.lng) * Math.PI / 180;
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * Math.PI / 180) * Math.cos(b.lat * Math.PI / 180) * Math.sin(dLng / 2) ** 2;
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(a.lat * Math.PI / 180) *
+    Math.cos(b.lat * Math.PI / 180) *
+    Math.sin(dLng / 2) ** 2;
   return 2 * radius * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
 }
 
-function describePoint(point) {
-  const nearest = campusLandmarks
-    .map((landmark) => ({ ...landmark, distance: distanceKm(point, landmark) }))
-    .sort((a, b) => a.distance - b.distance)[0];
-  if (!nearest || nearest.distance > 0.18) return "실측 경로 지점";
-  return `${nearest.name} · 약 ${Math.round(nearest.distance * 1000)}m`;
+function distanceLatLngKm(latlng, point) {
+  return distanceKm(
+    { lat: latlng[0], lng: latlng[1] },
+    { lat: point.lat, lng: point.lng }
+  );
 }
 
-function getTrackDistance(fromIndex, toIndex) {
-  if (fromIndex === toIndex) return 0;
-  const step = fromIndex < toIndex ? 1 : -1;
-  let total = 0;
-  for (let i = fromIndex; i !== toIndex; i += step) {
-    total += distanceKm(measuredTrack[i], measuredTrack[i + step]);
-  }
-  return total;
-}
-
-function getSelectedDistance() {
-  if (selectedNodes.length < 2) return null;
-  return getTrackDistance(selectedNodes[0].index, selectedNodes[selectedNodes.length - 1].index);
-}
-
-function updateSummary() {
-  const limit = Number(nodeLimit.value || 2);
-  const distance = getSelectedDistance();
-
-  if (selectedNodes.length === 0) {
-    nodeOrder.textContent = "선택 순서: 아직 선택된 노드가 없습니다.";
-    segmentList.textContent = `노드를 ${limit}개까지 선택할 수 있습니다. 거리는 첫 노드와 마지막 노드 사이로 계산됩니다.`;
-    mapSegmentSummary.textContent = `네이버 지도에서 실측 경로 위 노드를 선택하세요. 0/${limit}개 선택됨.`;
-    setText("#metricDistance", "-");
-    setText("#metricTime", "-");
-    setText("#metricClimb", "-");
-    setText("#metricLevel", "-");
-    setText("#routeName", "네이버 지도 위 실측 경로를 불러온 뒤 경로 위를 클릭해 주세요.");
-    setText("#routeBadge", "대기 중");
-    return;
+function getElevationStats(path) {
+  const altitudes = path
+    .map((point) => point.altitude)
+    .filter(Number.isFinite);
+  if (altitudes.length < 2) {
+    return { climb: 0, descent: 0, minAltitude: null, maxAltitude: null };
   }
 
-  nodeOrder.textContent = `선택 순서: ${selectedNodes.map((node, index) => `${index + 1}. ${node.name}`).join(" → ")}`;
-
-  if (distance === null) {
-    segmentList.textContent = "노드를 1개 더 선택하면 첫 노드와 마지막 노드 사이 거리가 표시됩니다.";
-    mapSegmentSummary.textContent = `네이버 지도에서 실측 경로 위 노드를 선택하세요. ${selectedNodes.length}/${limit}개 선택됨.`;
-    setText("#metricDistance", "-");
-    setText("#metricTime", "-");
-    setText("#metricClimb", "GNSS 로그");
-    setText("#metricLevel", "노드 1개 선택됨");
-    return;
+  let climb = 0;
+  let descent = 0;
+  const noiseThreshold = 0.5;
+  for (let index = 1; index < path.length; index += 1) {
+    const previous = path[index - 1].altitude;
+    const current = path[index].altitude;
+    if (!Number.isFinite(previous) || !Number.isFinite(current)) continue;
+    const diff = current - previous;
+    if (diff > noiseThreshold) climb += diff;
+    if (diff < -noiseThreshold) descent += Math.abs(diff);
   }
 
-  const first = selectedNodes[0];
-  const last = selectedNodes[selectedNodes.length - 1];
-  segmentList.innerHTML = `<div class="segment-item"><span>첫 노드 → 마지막 노드<em>${first.name} → ${last.name}</em><em>GNSS 로그 구간 기준</em></span><strong>${distance.toFixed(2)} km</strong></div>`;
-  mapSegmentSummary.textContent = `첫 노드부터 마지막 노드까지 실측 거리: ${distance.toFixed(2)} km (${selectedNodes.length}/${limit}개 선택됨)`;
-  setText("#metricDistance", `${distance.toFixed(2)} km`);
-  setText("#metricTime", formatTime(distance, paceInput.value));
-  setText("#metricClimb", "GNSS 로그");
-  setText("#metricLevel", "거리 계산 완료");
-  setText("#routeName", `${first.name} → ${last.name} 실측 기반 코스`);
-  setText("#routeBadge", "실측 기반");
-  drawSelectedRoute();
-}
-
-function renderNodePicker() {
-  if (!selectedNodes.length) {
-    nodePicker.innerHTML = `<div class="node-order">네이버 지도 위 빨간 실측 경로를 클릭하면 노드가 여기에 추가됩니다.</div>`;
-    return;
-  }
-  nodePicker.innerHTML = `<div class="node-group-title">선택한 노드</div>${selectedNodes.map((node, index) => `
-    <button class="node-option selected-node-button" data-node-id="${node.id}">
-      <span>${index + 1}. ${node.name}</span>
-      <b class="delete-node" data-node-id="${node.id}">삭제</b>
-    </button>`).join("")}`;
-
-  nodePicker.querySelectorAll(".delete-node").forEach((button) => {
-    button.addEventListener("click", (event) => {
-      event.stopPropagation();
-      selectedNodes = selectedNodes.filter((node) => node.id !== button.dataset.nodeId);
-      renderSelectedMarkers();
-      renderNodePicker();
-      updateSummary();
-    });
-  });
-
-  nodePicker.querySelectorAll(".selected-node-button").forEach((button) => {
-    button.addEventListener("click", () => showNodeInfo(selectedNodes.find((node) => node.id === button.dataset.nodeId)));
-  });
-}
-
-function showNodeInfo(node) {
-  if (!node || !naverMap || !window.naver?.maps) return;
-  const content = `<div style="padding:10px 12px;font-weight:800;line-height:1.45;min-width:220px"><div>${node.place}</div><div style="font-size:12px;color:#60706a">${node.time?.slice(11, 19) || "실측"} · ${node.lat.toFixed(6)}, ${node.lng.toFixed(6)}</div></div>`;
-  if (!infoWindow) infoWindow = new naver.maps.InfoWindow({ content });
-  else infoWindow.setContent(content);
-  infoWindow.open(naverMap, new naver.maps.LatLng(node.lat, node.lng));
-  clearTimeout(infoTimer);
-  infoTimer = setTimeout(() => infoWindow?.close(), 3500);
-}
-
-function addNode(point) {
-  const limit = Number(nodeLimit.value || 2);
-  const id = `node_${point.index}`;
-  const existing = selectedNodes.find((node) => node.id === id);
-  if (existing) {
-    showNodeInfo(existing);
-    return;
-  }
-  if (selectedNodes.length >= limit) {
-    setMapStatus(`노드는 최대 ${limit}개까지 선택할 수 있습니다. 삭제하거나 개수를 바꿔 주세요.`);
-    return;
-  }
-  const place = describePoint(point);
-  const node = {
-    ...point,
-    id,
-    place,
-    name: selectedNodes.length === 0 ? `시작점 (${place})` : `경유지 ${selectedNodes.length} (${place})`
+  return {
+    climb,
+    descent,
+    minAltitude: Math.min(...altitudes),
+    maxAltitude: Math.max(...altitudes)
   };
-  selectedNodes.push(node);
-  renderSelectedMarkers();
-  renderNodePicker();
-  updateSummary();
-  showNodeInfo(node);
 }
 
-function nearestMeasuredPoint(latlng) {
-  return measuredTrack.reduce((best, point) => {
-    const distance = distanceKm({ lat: latlng[0], lng: latlng[1] }, point);
+function formatElevationChange(climb, descent) {
+  return `+${Math.round(climb)} m / -${Math.round(descent)} m`;
+}
+
+function formatAltitudeRange(minAltitude, maxAltitude) {
+  if (!Number.isFinite(minAltitude) || !Number.isFinite(maxAltitude)) return "-";
+  return `${Math.round(minAltitude)}-${Math.round(maxAltitude)} m`;
+}
+
+function describeMeasuredPoint(point) {
+  const nearest = campusLandmarks
+    .map((landmark) => ({
+      ...landmark,
+      distance: distanceLatLngKm([point.lat, point.lng], landmark)
+    }))
+    .sort((a, b) => a.distance - b.distance)[0];
+
+  if (!nearest || nearest.distance > 0.18) {
+    return "실측 경로 지점";
+  }
+
+  return `${nearest.name} · 랜드마크까지 약 ${Math.round(nearest.distance * 1000)}m`;
+}
+
+function getBounds(points) {
+  return points.reduce((bounds, point) => ({
+    minLat: Math.min(bounds.minLat, point.lat),
+    maxLat: Math.max(bounds.maxLat, point.lat),
+    minLng: Math.min(bounds.minLng, point.lng),
+    maxLng: Math.max(bounds.maxLng, point.lng)
+  }), {
+    minLat: Infinity,
+    maxLat: -Infinity,
+    minLng: Infinity,
+    maxLng: -Infinity
+  });
+}
+
+function latlngToSvgXY(point) {
+  const bounds = measuredTrack.length ? getBounds(measuredTrack) : {
+    minLat: 36.6243,
+    maxLat: 36.6304,
+    minLng: 127.4539,
+    maxLng: 127.4598
+  };
+  const x = 60 + ((point.lng - bounds.minLng) / ((bounds.maxLng - bounds.minLng) || 1)) * 720;
+  const y = 470 - ((point.lat - bounds.minLat) / ((bounds.maxLat - bounds.minLat) || 1)) * 380;
+  return [Math.max(40, Math.min(800, x)), Math.max(40, Math.min(500, y))];
+}
+
+function svgPointFromEvent(event) {
+  const svg = event.currentTarget.ownerSVGElement || event.currentTarget;
+  const point = svg.createSVGPoint();
+  point.x = event.clientX;
+  point.y = event.clientY;
+  const transformed = point.matrixTransform(svg.getScreenCTM().inverse());
+  return [transformed.x, transformed.y];
+}
+
+function nearestMeasuredPointBySvg(x, y) {
+  return svgMeasuredPoints.reduce((best, point) => {
+    const distance = Math.hypot(point.x - x, point.y - y);
     return distance < best.distance ? { point, distance } : best;
   }, { point: null, distance: Infinity });
 }
 
-function clearSelectedMarkers() {
-  selectedMarkers.forEach((marker) => marker.setMap(null));
-  selectedMarkers = [];
-  if (routePolyline) {
-    routePolyline.setMap(null);
-    routePolyline = null;
+function createMeasuredNodes(track) {
+  if (!track.length) return {};
+
+  const nodes = {};
+  const sampleIndexes = [0];
+  let lastPoint = track[0];
+  let accumulated = 0;
+
+  for (let index = 1; index < track.length; index += 1) {
+    accumulated += distanceKm(lastPoint, track[index]);
+    lastPoint = track[index];
+    if (accumulated >= 0.08) {
+      sampleIndexes.push(index);
+      accumulated = 0;
+    }
+  }
+
+  const lastIndex = track.length - 1;
+  if (sampleIndexes[sampleIndexes.length - 1] !== lastIndex) {
+    sampleIndexes.push(lastIndex);
+  }
+
+  sampleIndexes.forEach((trackIndex, order) => {
+    const point = track[trackIndex];
+    nodes[`measured_${trackIndex}`] = {
+      name: order === 0 ? "실측 시작점" : order === sampleIndexes.length - 1 ? "실측 종료점" : `실측 지점 ${order}`,
+      xy: latlngToSvgXY(point),
+      latlng: [point.lat, point.lng],
+      elevation: null,
+      type: "실측 노드",
+      trackIndex
+    };
+  });
+
+  return nodes;
+}
+
+function buildSelectableMeasuredNodes(track, intervalKm = 0.025) {
+  if (!track.length) return [];
+
+  const groupedTracks = [...track.reduce((groups, point) => {
+    const key = point.source || "measured";
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(point);
+    return groups;
+  }, new Map()).values()];
+
+  return groupedTracks.flatMap((group) => {
+    if (!group.length) return [];
+    const nodes = [group[0]];
+    let previous = group[0];
+    let accumulated = 0;
+
+    for (let index = 1; index < group.length; index += 1) {
+      const current = group[index];
+      accumulated += distanceKm(previous, current);
+      previous = current;
+      if (accumulated >= intervalKm) {
+        nodes.push(current);
+        accumulated = 0;
+      }
+    }
+
+    const last = group[group.length - 1];
+    if (nodes[nodes.length - 1]?.index !== last.index) nodes.push(last);
+    return nodes;
+  });
+}
+
+function renderMeasuredBasePath() {
+  if (!measuredTrack.length) return;
+
+  svgMeasuredPoints = measuredTrack.map((point) => {
+    const [x, y] = latlngToSvgXY(point);
+    return { ...point, x, y };
+  });
+
+  measuredBasePath.setAttribute("d", svgMeasuredPoints.map((point, index) => {
+    return `${index === 0 ? "M" : "L"}${point.x.toFixed(1)} ${point.y.toFixed(1)}`;
+  }).join(" "));
+}
+
+function setMapStatus(message) {
+  if (mapStatus) {
+    mapStatus.textContent = message;
   }
 }
 
-function renderSelectedMarkers() {
+function loadNodeGraph() {
+  try {
+    const saved = localStorage.getItem(graphStorageKey);
+    if (!saved) return { nodes: [], edges: [] };
+    const parsed = JSON.parse(saved);
+    return {
+      nodes: Array.isArray(parsed.nodes) ? parsed.nodes : [],
+      edges: Array.isArray(parsed.edges) ? parsed.edges : []
+    };
+  } catch {
+    return { nodes: [], edges: [] };
+  }
+}
+
+function saveNodeGraph() {
+  localStorage.setItem(graphStorageKey, JSON.stringify(nodeGraph, null, 2));
+  renderGraphNodeSelects();
+  renderGraphDocument();
+  renderGraphOverlay();
+}
+
+function nextGraphNodeId() {
+  const maxId = nodeGraph.nodes.reduce((max, node) => {
+    const number = Number(String(node.id || "").replace("N", ""));
+    return Number.isFinite(number) ? Math.max(max, number) : max;
+  }, 0);
+  return `N${String(maxId + 1).padStart(3, "0")}`;
+}
+
+function getGraphSourceKey(node) {
+  if (Number.isInteger(node.trackIndex)) return `track:${node.trackIndex}`;
+  return `latlng:${node.latlng[0].toFixed(6)},${node.latlng[1].toFixed(6)}`;
+}
+
+function ensureGraphNodeFromCampusNode(campusNode, preferredName = "") {
+  const sourceKey = getGraphSourceKey(campusNode);
+  const existing = nodeGraph.nodes.find((node) => node.sourceKey === sourceKey);
+  if (existing) {
+    if (preferredName) existing.name = preferredName;
+    return existing;
+  }
+
+  const graphNode = {
+    id: nextGraphNodeId(),
+    name: preferredName || campusNode.placeLabel || campusNode.name,
+    lat: Number(campusNode.latlng[0].toFixed(7)),
+    lng: Number(campusNode.latlng[1].toFixed(7)),
+    altitude: Number.isFinite(campusNode.elevation) ? Number(campusNode.elevation.toFixed(2)) : null,
+    sourceKey,
+    sourceIndex: Number.isInteger(campusNode.trackIndex) ? campusNode.trackIndex : null,
+    sourceLog: Number.isInteger(campusNode.trackIndex) ? measuredTrack[campusNode.trackIndex]?.source || null : null
+  };
+  nodeGraph.nodes.push(graphNode);
+  return graphNode;
+}
+
+function saveSelectedGraphNode() {
+  if (!selectedNodeIds.length) {
+    setMapStatus("먼저 지도 위에서 저장할 노드를 선택해 주세요.");
+    return;
+  }
+  const selectedId = selectedNodeIds[selectedNodeIds.length - 1];
+  const campusNode = campusNodes[selectedId];
+  if (!campusNode) return;
+
+  const preferredName = graphNodeNameInput.value.trim();
+  const graphNode = ensureGraphNodeFromCampusNode(campusNode, preferredName);
+  saveNodeGraph();
+  graphNodeNameInput.value = "";
+  setMapStatus(`${graphNode.id} ${graphNode.name} 노드를 저장했습니다.`);
+}
+
+function makeEdgeKey(from, to) {
+  return [from, to].sort().join("--");
+}
+
+function graphNodeToRouteNode(graphNode) {
+  return {
+    name: graphNode.name,
+    latlng: [graphNode.lat, graphNode.lng],
+    elevation: graphNode.altitude,
+    trackIndex: Number.isInteger(graphNode.sourceIndex) ? graphNode.sourceIndex : null
+  };
+}
+
+function upsertGraphEdge(fromGraphNode, toGraphNode, segment) {
+  const path = (segment.path || [])
+    .filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng))
+    .map((point) => ({
+      lat: Number(point.lat.toFixed(7)),
+      lng: Number(point.lng.toFixed(7)),
+      altitude: Number.isFinite(point.altitude) ? Number(point.altitude.toFixed(2)) : null
+    }));
+  const edgeKey = makeEdgeKey(fromGraphNode.id, toGraphNode.id);
+  const edgeData = {
+    id: `E${edgeKey.replace("--", "-")}`,
+    from: fromGraphNode.id,
+    to: toGraphNode.id,
+    distanceKm: Number(segment.distance.toFixed(3)),
+    climbM: Math.round(segment.climb || 0),
+    descentM: Math.round(segment.descent || 0),
+    altitudeRange: Number.isFinite(segment.minAltitude) && Number.isFinite(segment.maxAltitude)
+      ? `${Math.round(segment.minAltitude)}-${Math.round(segment.maxAltitude)} m`
+      : "-",
+    method: segment.auxiliary ? "GNSS 보조 노드 최단 경로" : segment.direct ? "직선 연결" : "GNSS 실측 구간",
+    path
+  };
+
+  const existingIndex = nodeGraph.edges.findIndex((edge) => makeEdgeKey(edge.from, edge.to) === edgeKey);
+  if (existingIndex >= 0) {
+    nodeGraph.edges[existingIndex] = { ...nodeGraph.edges[existingIndex], ...edgeData };
+    return false;
+  }
+
+  nodeGraph.edges.push(edgeData);
+  return true;
+}
+
+function saveGraphEdgeFromSelects() {
+  const fromId = graphEdgeFromSelect?.value;
+  const toId = graphEdgeToSelect?.value;
+  if (!fromId || !toId) {
+    setMapStatus("연결할 대표 노드 2개를 선택해 주세요.");
+    return;
+  }
+  if (fromId === toId) {
+    setMapStatus("서로 다른 대표 노드 2개를 선택해 주세요.");
+    return;
+  }
+
+  const fromGraphNode = nodeGraph.nodes.find((node) => node.id === fromId);
+  const toGraphNode = nodeGraph.nodes.find((node) => node.id === toId);
+  if (!fromGraphNode || !toGraphNode) return;
+
+  const fromRouteNode = graphNodeToRouteNode(fromGraphNode);
+  const toRouteNode = graphNodeToRouteNode(toGraphNode);
+  const segment = findShortestAuxiliaryPath(fromRouteNode, toRouteNode) || getSegmentSummary(
+    fromRouteNode,
+    toRouteNode,
+    {
+      maxSnapDistance: 0.09,
+      allowLongMeasuredPath: true
+    }
+  );
+
+  const added = upsertGraphEdge(fromGraphNode, toGraphNode, segment);
+  saveNodeGraph();
+  const pathText = segment.auxiliary
+    ? `GNSS 보조 노드 최단 경로 ${segment.path.length}개 좌표`
+    : segment.direct ? "직선 연결" : `GNSS 실측 경로 ${segment.path.length}개 좌표`;
+  setMapStatus(`${fromGraphNode.id} → ${toGraphNode.id} 연결 구간을 ${pathText}로 ${added ? "저장" : "갱신"}했습니다.`);
+}
+
+function saveSelectedGraphEdges() {
+  if (graphEdgeFromSelect?.value && graphEdgeToSelect?.value) {
+    saveGraphEdgeFromSelects();
+    return;
+  }
+
+  const segments = getSelectedSegments();
+  if (!segments.length) {
+    setMapStatus("연결 구간을 저장하려면 노드를 2개 이상 선택해 주세요.");
+    return;
+  }
+
+  let savedCount = 0;
+  segments.forEach((segment, index) => {
+    const fromCampusNode = campusNodes[selectedNodeIds[index]];
+    const toCampusNode = campusNodes[selectedNodeIds[index + 1]];
+    const fromGraphNode = ensureGraphNodeFromCampusNode(fromCampusNode);
+    const toGraphNode = ensureGraphNodeFromCampusNode(toCampusNode);
+    const added = upsertGraphEdge(fromGraphNode, toGraphNode, segment);
+    if (added) savedCount += 1;
+  });
+
+  saveNodeGraph();
+  setMapStatus(`선택한 경로에서 연결 구간 ${segments.length}개를 저장했습니다. 새 구간 ${savedCount}개가 추가됐습니다.`);
+}
+
+function autoConnectGraphNodes() {
+  if (nodeGraph.nodes.length < 2) {
+    graphEdgeCandidates = [];
+    graphCandidateMessage = "대표 노드가 2개 이상 있어야 가까운 연결 후보를 만들 수 있습니다.";
+    renderGraphDocument();
+    renderGraphOverlay();
+    setMapStatus("연결 후보를 만들려면 대표 노드가 2개 이상 필요합니다.");
+    return;
+  }
+  if (!measuredTrack.length) {
+    graphEdgeCandidates = [];
+    graphCandidateMessage = "실측 GNSS 경로를 먼저 불러와야 후보 경로를 계산할 수 있습니다.";
+    renderGraphDocument();
+    renderGraphOverlay();
+    setMapStatus("먼저 실측 GNSS 경로를 불러와 주세요. GNSS 보조 노드망을 기준으로 연결 후보를 만듭니다.");
+    return;
+  }
+
+  const maxDirectDistance = 0.25;
+  const maxRouteDistance = 0.8;
+  const candidates = [];
+  for (let i = 0; i < nodeGraph.nodes.length; i += 1) {
+    for (let j = i + 1; j < nodeGraph.nodes.length; j += 1) {
+      const from = nodeGraph.nodes[i];
+      const to = nodeGraph.nodes[j];
+      if (nodeGraph.edges.some((edge) => makeEdgeKey(edge.from, edge.to) === makeEdgeKey(from.id, to.id))) continue;
+
+      const directDistance = distanceKm(
+        { lat: from.lat, lng: from.lng },
+        { lat: to.lat, lng: to.lng }
+      );
+      if (directDistance > maxDirectDistance) continue;
+
+      const segment = findShortestAuxiliaryPath(
+        graphNodeToRouteNode(from),
+        graphNodeToRouteNode(to)
+      );
+      if (!segment || segment.distance > maxRouteDistance) continue;
+      candidates.push({
+        id: `C${String(candidates.length + 1).padStart(3, "0")}`,
+        fromId: from.id,
+        toId: to.id,
+        fromName: from.name,
+        toName: to.name,
+        distanceKm: Number(segment.distance.toFixed(3)),
+        climbM: Math.round(segment.climb || 0),
+        descentM: Math.round(segment.descent || 0),
+        altitudeRange: formatAltitudeRange(segment.minAltitude, segment.maxAltitude),
+        pointCount: segment.path.length,
+        directDistance,
+        segment
+      });
+    }
+  }
+
+  candidates.sort((a, b) => a.segment.distance - b.segment.distance || a.directDistance - b.directDistance);
+  graphEdgeCandidates = candidates.slice(0, 80);
+  graphCandidateMessage = graphEdgeCandidates.length
+    ? "아래 후보는 GNSS 경로를 따라 계산한 연결 후보입니다. '노드 간 거리'는 후보를 고를 때 참고한 두 대표 노드 사이의 가까운 정도입니다."
+    : "조건에 맞는 가까운 연결 후보가 없습니다. 이미 저장된 연결이 많거나, 대표 노드 사이가 너무 멀거나, GNSS 보조 노드망에서 이어지는 길을 찾지 못한 상태입니다.";
+  renderGraphDocument();
+  renderGraphOverlay();
+  setMapStatus(`가까운 대표 노드 연결 후보 ${graphEdgeCandidates.length}개를 만들었습니다. 표에서 확인 후 승인해 주세요.`);
+}
+
+function approveGraphCandidate(candidateId) {
+  const candidate = graphEdgeCandidates.find((item) => item.id === candidateId);
+  if (!candidate) return;
+  const from = nodeGraph.nodes.find((node) => node.id === candidate.fromId);
+  const to = nodeGraph.nodes.find((node) => node.id === candidate.toId);
+  if (!from || !to) return;
+
+  const added = upsertGraphEdge(from, to, candidate.segment);
+  graphEdgeCandidates = graphEdgeCandidates.filter((item) => item.id !== candidateId);
+  graphCandidateMessage = graphEdgeCandidates.length ? graphCandidateMessage : "남은 연결 후보가 없습니다.";
+  saveNodeGraph();
+  setMapStatus(`${from.id} → ${to.id} 후보를 ${added ? "연결 구간으로 저장" : "기존 연결 구간으로 갱신"}했습니다.`);
+}
+
+function rejectGraphCandidate(candidateId) {
+  graphEdgeCandidates = graphEdgeCandidates.filter((item) => item.id !== candidateId);
+  graphCandidateMessage = graphEdgeCandidates.length ? graphCandidateMessage : "남은 연결 후보가 없습니다.";
+  renderGraphDocument();
+  renderGraphOverlay();
+  setMapStatus("선택한 연결 후보를 제외했습니다.");
+}
+
+function renderGraphNodeSelects() {
+  if (!graphEdgeFromSelect || !graphEdgeToSelect) return;
+  const options = nodeGraph.nodes.map((node) => (
+    `<option value="${node.id}">${node.id} · ${node.name}</option>`
+  )).join("");
+  const emptyOption = `<option value="">대표 노드 선택</option>`;
+  const previousFrom = graphEdgeFromSelect.value;
+  const previousTo = graphEdgeToSelect.value;
+  graphEdgeFromSelect.innerHTML = emptyOption + options;
+  graphEdgeToSelect.innerHTML = emptyOption + options;
+  if (nodeGraph.nodes.some((node) => node.id === previousFrom)) graphEdgeFromSelect.value = previousFrom;
+  if (nodeGraph.nodes.some((node) => node.id === previousTo)) graphEdgeToSelect.value = previousTo;
+}
+
+function graphNodeToPoint(node) {
+  return { lat: node.lat, lng: node.lng, altitude: node.altitude };
+}
+
+function graphNodeToSvgXY(node) {
+  return latlngToSvgXY(graphNodeToPoint(node));
+}
+
+function getEdgePath(edge, from, to) {
+  if (Array.isArray(edge.path) && edge.path.length >= 2) {
+    return edge.path.filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng));
+  }
+
+  if (from && to && measuredTrack.length) {
+    const segment = getSegmentSummary(graphNodeToRouteNode(from), graphNodeToRouteNode(to));
+    if (segment?.path?.length >= 2) {
+      return segment.path.filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng));
+    }
+  }
+
+  return from && to ? [graphNodeToPoint(from), graphNodeToPoint(to)] : [];
+}
+
+function clearNaverGraphOverlay() {
+  naverGraphMarkers.forEach((marker) => marker.setMap(null));
+  naverGraphMarkers = [];
+  naverGraphPolylines.forEach((polyline) => polyline.setMap(null));
+  naverGraphPolylines = [];
+  naverGraphEdgeDots.forEach((dot) => dot.setMap(null));
+  naverGraphEdgeDots = [];
+}
+
+function sampleEdgeDotPoints(path, spacingMeters = 10) {
+  if (!Array.isArray(path) || path.length < 2) return [];
+
+  const samples = [];
+  for (let index = 1; index < path.length; index += 1) {
+    const from = path[index - 1];
+    const to = path[index];
+    const segmentMeters = distanceKm(from, to) * 1000;
+    const count = Math.max(1, Math.floor(segmentMeters / spacingMeters));
+
+    for (let step = 1; step <= count; step += 1) {
+      const ratio = step / (count + 1);
+      samples.push({
+        lat: from.lat + (to.lat - from.lat) * ratio,
+        lng: from.lng + (to.lng - from.lng) * ratio
+      });
+    }
+  }
+
+  const maxDots = 120;
+  if (samples.length <= maxDots) return samples;
+  const stride = Math.ceil(samples.length / maxDots);
+  return samples.filter((_, index) => index % stride === 0);
+}
+
+function renderSvgGraphOverlay() {
+  if (!graphLayer) return;
+  const edgeMarkup = nodeGraph.edges.map((edge) => {
+    const from = nodeGraph.nodes.find((node) => node.id === edge.from);
+    const to = nodeGraph.nodes.find((node) => node.id === edge.to);
+    if (!from || !to) return "";
+    const path = getEdgePath(edge, from, to).map(latlngToSvgXY);
+    if (path.length < 2) return "";
+    const d = path.map(([x, y], index) => `${index === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
+    return `<path class="graph-edge" d="${d}"></path>`;
+  }).join("");
+
+  const candidateMarkup = graphEdgeCandidates.map((candidate) => {
+    const path = candidate.segment?.path?.filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng)) || [];
+    const svgPath = path.map(latlngToSvgXY);
+    if (svgPath.length < 2) return "";
+    const d = svgPath.map(([x, y], index) => `${index === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
+    return `<path class="graph-edge-candidate" d="${d}"></path>`;
+  }).join("");
+
+  const nodeMarkup = nodeGraph.nodes.map((node) => {
+    const [x, y] = graphNodeToSvgXY(node);
+    return `
+      <circle class="graph-node" cx="${x}" cy="${y}" r="13"></circle>
+      <text class="graph-node-label" x="${x}" y="${y}">${node.id.replace("N", "")}</text>
+    `;
+  }).join("");
+
+  graphLayer.innerHTML = candidateMarkup + edgeMarkup + nodeMarkup;
+}
+
+function renderNaverGraphOverlay() {
   if (!naverMap || !window.naver?.maps) return;
-  clearSelectedMarkers();
-  selectedNodes.forEach((node, index) => {
+  clearNaverGraphOverlay();
+
+  let renderedEdgeCount = 0;
+  nodeGraph.edges.forEach((edge) => {
+    const from = nodeGraph.nodes.find((node) => node.id === edge.from);
+    const to = nodeGraph.nodes.find((node) => node.id === edge.to);
+    if (!from || !to) return;
+    const edgePath = getEdgePath(edge, from, to);
+    if (edgePath.length < 2) return;
+    renderedEdgeCount += 1;
+    const polyline = new naver.maps.Polyline({
+      map: null,
+      path: edgePath.map((point) => new naver.maps.LatLng(point.lat, point.lng)),
+      strokeColor: "#f1a638",
+      strokeOpacity: 0,
+      strokeWeight: 0,
+      strokeLineCap: "round",
+      strokeLineJoin: "round",
+      zIndex: 1000
+    });
+    naverGraphPolylines.push(polyline);
+
+    sampleEdgeDotPoints(edgePath).forEach((point) => {
+      const dot = new naver.maps.Marker({
+        map: naverMap,
+        position: new naver.maps.LatLng(point.lat, point.lng),
+        icon: {
+          content: `
+            <div style="
+              width:14px;height:14px;border-radius:50%;
+              background:#f1a638;border:3px solid #ffffff;
+              box-shadow:0 3px 8px rgba(97,64,0,.42);"></div>
+          `,
+          anchor: new naver.maps.Point(7, 7)
+        },
+        zIndex: 20000
+      });
+      naverGraphEdgeDots.push(dot);
+    });
+
+    const midPoint = edgePath[Math.floor(edgePath.length / 2)];
+    const label = new naver.maps.Marker({
+      map: naverMap,
+      position: new naver.maps.LatLng(midPoint.lat, midPoint.lng),
+      icon: {
+        content: `
+          <div style="
+            padding:4px 7px;border-radius:999px;
+            background:#f1a638;color:#17211d;border:2px solid #ffffff;
+            box-shadow:0 4px 10px rgba(97,64,0,.28);
+            font-size:11px;font-weight:900;white-space:nowrap;">
+            ${edge.from}-${edge.to} · ${edge.distanceKm.toFixed(3)}km
+          </div>
+        `,
+        anchor: new naver.maps.Point(46, 14)
+      },
+      zIndex: 21000
+    });
+    naverGraphEdgeDots.push(label);
+  });
+
+  graphEdgeCandidates.forEach((candidate) => {
+    const edgePath = candidate.segment?.path?.filter((point) => (
+      Number.isFinite(point.lat) && Number.isFinite(point.lng)
+    )) || [];
+    if (edgePath.length < 2) return;
+
+    sampleEdgeDotPoints(edgePath, 12).forEach((point) => {
+      const dot = new naver.maps.Marker({
+        map: naverMap,
+        position: new naver.maps.LatLng(point.lat, point.lng),
+        icon: {
+          content: `
+            <div style="
+              width:11px;height:11px;border-radius:50%;
+              background:#ffd166;border:2px solid #ffffff;
+              box-shadow:0 2px 6px rgba(97,64,0,.28);opacity:.9;"></div>
+          `,
+          anchor: new naver.maps.Point(6, 6)
+        },
+        zIndex: 18000
+      });
+      naverGraphEdgeDots.push(dot);
+    });
+
+    const midPoint = edgePath[Math.floor(edgePath.length / 2)];
+    const label = new naver.maps.Marker({
+      map: naverMap,
+      position: new naver.maps.LatLng(midPoint.lat, midPoint.lng),
+      icon: {
+        content: `
+          <div style="
+            padding:3px 7px;border-radius:999px;
+            background:#fff2bf;color:#765100;border:2px solid #f1a638;
+            box-shadow:0 3px 9px rgba(97,64,0,.18);
+            font-size:10px;font-weight:900;white-space:nowrap;">
+            후보 ${candidate.id} · ${candidate.distanceKm.toFixed(3)}km
+          </div>
+        `,
+        anchor: new naver.maps.Point(46, 14)
+      },
+      zIndex: 18500
+    });
+    naverGraphEdgeDots.push(label);
+  });
+
+  nodeGraph.nodes.forEach((node) => {
     const marker = new naver.maps.Marker({
       map: naverMap,
       position: new naver.maps.LatLng(node.lat, node.lng),
+      title: `${node.id} ${node.name}`,
       icon: {
-        content: `<div style="width:28px;height:28px;border-radius:50%;background:#17a673;color:white;border:3px solid white;box-shadow:0 4px 10px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;">${index + 1}</div>`,
+        content: `
+          <div style="
+            width:28px;height:28px;border-radius:50%;
+            background:#2f80ed;color:white;border:3px solid white;
+            box-shadow:0 4px 10px rgba(34,74,132,.3);
+            display:flex;align-items:center;justify-content:center;
+            font-weight:900;font-size:11px;">${node.id.replace("N", "")}</div>
+        `,
         anchor: new naver.maps.Point(14, 14)
       }
     });
-    naver.maps.Event.addListener(marker, "click", () => showNodeInfo(node));
-    selectedMarkers.push(marker);
+    naver.maps.Event.addListener(marker, "click", () => {
+      if (!naverInfoWindow) {
+        naverInfoWindow = new naver.maps.InfoWindow();
+      }
+      naverInfoWindow.setContent(`
+        <div style="padding:10px 12px;font-weight:800;line-height:1.45;min-width:200px">
+          <div>${node.id} · ${node.name}</div>
+          <div style="font-size:12px;color:#60706a">${node.lat.toFixed(6)}, ${node.lng.toFixed(6)}${Number.isFinite(node.altitude) ? ` · 고도 ${node.altitude.toFixed(1)} m` : ""}</div>
+        </div>
+      `);
+      naverInfoWindow.open(naverMap, new naver.maps.LatLng(node.lat, node.lng));
+    });
+    naverGraphMarkers.push(marker);
   });
-  drawSelectedRoute();
+
+  setTimeout(() => {
+    naverGraphEdgeDots.forEach((dot) => {
+      dot.setMap(naverMap);
+    });
+  }, 50);
+
+  if (renderedEdgeCount) {
+    setMapStatus(`저장된 연결 구간 ${renderedEdgeCount}개를 노란 점과 라벨로 표시했습니다.`);
+  }
 }
 
-function drawSelectedRoute() {
-  if (!naverMap || !window.naver?.maps || selectedNodes.length < 2) return;
-  if (routePolyline) routePolyline.setMap(null);
-  const from = selectedNodes[0].index;
-  const to = selectedNodes[selectedNodes.length - 1].index;
-  const start = Math.min(from, to);
-  const end = Math.max(from, to);
-  const slice = measuredTrack.slice(start, end + 1);
-  const path = (from <= to ? slice : slice.reverse()).map((point) => new naver.maps.LatLng(point.lat, point.lng));
-  routePolyline = new naver.maps.Polyline({
-    map: naverMap,
-    path,
-    strokeColor: "#17a673",
-    strokeOpacity: 0.95,
-    strokeWeight: 7,
-    strokeLineCap: "round",
-    strokeLineJoin: "round"
+function renderGraphOverlay() {
+  renderSvgGraphOverlay();
+  renderNaverGraphOverlay();
+}
+
+function clearNodeGraph() {
+  if (!confirm("저장된 노드 그래프를 모두 삭제할까요?")) return;
+  nodeGraph = { nodes: [], edges: [] };
+  saveNodeGraph();
+  setMapStatus("저장된 노드 그래프를 초기화했습니다.");
+}
+
+function deleteGraphNode(nodeId) {
+  const node = nodeGraph.nodes.find((item) => item.id === nodeId);
+  if (!node) return;
+  if (!confirm(`${node.id} ${node.name} 노드를 삭제할까요? 연결된 구간도 함께 삭제됩니다.`)) return;
+  nodeGraph.nodes = nodeGraph.nodes.filter((item) => item.id !== nodeId);
+  nodeGraph.edges = nodeGraph.edges.filter((edge) => edge.from !== nodeId && edge.to !== nodeId);
+  saveNodeGraph();
+  setMapStatus(`${node.id} 노드와 연결 구간을 삭제했습니다.`);
+}
+
+function deleteGraphEdge(edgeId) {
+  const edge = nodeGraph.edges.find((item) => item.id === edgeId);
+  if (!edge) return;
+  if (!confirm(`${edge.id} 연결 구간을 삭제할까요?`)) return;
+  nodeGraph.edges = nodeGraph.edges.filter((item) => item.id !== edgeId);
+  saveNodeGraph();
+  setMapStatus(`${edge.id} 연결 구간을 삭제했습니다.`);
+}
+
+function renderGraphDocument() {
+  if (!graphDocument) return;
+  if (!nodeGraph.nodes.length && !nodeGraph.edges.length) {
+    graphDocument.innerHTML = `<div class="graph-empty">아직 저장된 대표 노드나 연결 구간이 없습니다.</div>`;
+    return;
+  }
+
+  const nodeRows = nodeGraph.nodes.map((node) => `
+    <tr>
+      <td>${node.id}</td>
+      <td>${node.name}</td>
+      <td>${node.lat.toFixed(6)}, ${node.lng.toFixed(6)}</td>
+      <td>${Number.isFinite(node.altitude) ? `${node.altitude.toFixed(1)} m` : "-"}</td>
+      <td><button class="graph-delete" data-delete-node="${node.id}">삭제</button></td>
+    </tr>
+  `).join("");
+
+  const edgeRows = nodeGraph.edges.map((edge) => {
+    const from = nodeGraph.nodes.find((node) => node.id === edge.from);
+    const to = nodeGraph.nodes.find((node) => node.id === edge.to);
+    const pathCount = Array.isArray(edge.path) ? edge.path.length : 0;
+    const methodText = pathCount >= 3 ? `${edge.method || "GNSS 실측 구간"} · ${pathCount}점` : "직선 연결";
+    return `
+      <tr>
+        <td>${edge.id}</td>
+        <td>${from?.name || edge.from} → ${to?.name || edge.to}</td>
+        <td>${edge.distanceKm.toFixed(3)} km</td>
+        <td>+${edge.climbM} m / -${edge.descentM} m</td>
+        <td>${methodText}</td>
+        <td class="graph-manage">
+          <button class="graph-delete" data-delete-edge="${edge.id}">삭제</button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+
+  const candidateRows = graphEdgeCandidates.map((candidate) => `
+    <tr>
+      <td>${candidate.id}</td>
+      <td>${candidate.fromName} → ${candidate.toName}</td>
+      <td>${candidate.distanceKm.toFixed(3)} km</td>
+      <td>+${candidate.climbM} m / -${candidate.descentM} m</td>
+      <td>${candidate.altitudeRange || "-"}</td>
+      <td>${Math.round(candidate.directDistance * 1000)} m</td>
+      <td>${candidate.pointCount}점</td>
+      <td>GNSS 후보</td>
+      <td class="graph-manage">
+        <button class="graph-approve" data-approve-candidate="${candidate.id}">승인</button>
+        <button class="graph-delete" data-reject-candidate="${candidate.id}">제외</button>
+      </td>
+    </tr>
+  `).join("");
+
+  const candidateSection = (graphEdgeCandidates.length || graphCandidateMessage) ? `
+    <div>
+      <h3>가까운 연결 후보 (${graphEdgeCandidates.length}개)</h3>
+      ${graphCandidateMessage ? `<div class="graph-note">${graphCandidateMessage}</div>` : ""}
+      <table class="graph-table">
+        <thead><tr><th>ID</th><th>후보 연결</th><th>실측 거리</th><th>고도 변화</th><th>고도 범위</th><th>노드 간 거리</th><th>GNSS 점</th><th>계산 방식</th><th>관리</th></tr></thead>
+        <tbody>${candidateRows || `<tr><td colspan="9">표시할 후보가 없습니다.</td></tr>`}</tbody>
+      </table>
+    </div>
+  ` : "";
+
+  graphDocument.innerHTML = `
+    ${candidateSection}
+    <div>
+      <h3>대표 노드 (${nodeGraph.nodes.length}개)</h3>
+      <table class="graph-table">
+        <thead><tr><th>ID</th><th>이름</th><th>좌표</th><th>고도</th><th>관리</th></tr></thead>
+        <tbody>${nodeRows || `<tr><td colspan="5">저장된 노드가 없습니다.</td></tr>`}</tbody>
+      </table>
+    </div>
+    <div>
+      <h3>연결 구간 (${nodeGraph.edges.length}개)</h3>
+      <table class="graph-table">
+        <thead><tr><th>ID</th><th>연결</th><th>거리</th><th>고도 변화</th><th>계산 방식</th><th>관리</th></tr></thead>
+        <tbody>${edgeRows || `<tr><td colspan="6">저장된 연결 구간이 없습니다.</td></tr>`}</tbody>
+      </table>
+    </div>
+  `;
+
+  graphDocument.querySelectorAll("[data-delete-node]").forEach((button) => {
+    button.addEventListener("click", () => deleteGraphNode(button.dataset.deleteNode));
   });
+
+  graphDocument.querySelectorAll("[data-delete-edge]").forEach((button) => {
+    button.addEventListener("click", () => deleteGraphEdge(button.dataset.deleteEdge));
+  });
+
+  graphDocument.querySelectorAll("[data-approve-candidate]").forEach((button) => {
+    button.addEventListener("click", () => approveGraphCandidate(button.dataset.approveCandidate));
+  });
+
+  graphDocument.querySelectorAll("[data-reject-candidate]").forEach((button) => {
+    button.addEventListener("click", () => rejectGraphCandidate(button.dataset.rejectCandidate));
+  });
+}
+
+function updateNodeStats(status = "대기") {
+  if (selectedNodeIds.length >= 2) return;
+  document.querySelector("#metricDistance").textContent = "-";
+  document.querySelector("#metricTime").textContent = "-";
+  document.querySelector("#metricClimb").textContent = "-";
+  document.querySelector("#metricLevel").textContent = "-";
+}
+
+function addMeasuredNodeFromPoint(point) {
+  const existingId = `measured_${point.index}`;
+  const limit = Number(nodeLimit.value || 2);
+  if (!campusNodes[existingId]) {
+    const placeLabel = describeMeasuredPoint(point);
+    campusNodes[existingId] = {
+      name: selectedNodeIds.length === 0 ? `시작점 (${placeLabel})` : `경유지 ${selectedNodeIds.length} (${placeLabel})`,
+      xy: [point.x, point.y],
+      latlng: [point.lat, point.lng],
+      elevation: point.altitude,
+      type: "실측 노드",
+      trackIndex: point.index,
+      time: point.time,
+      placeLabel
+    };
+  }
+
+  if (selectedNodeIds.includes(existingId)) {
+    if (graphNodeNameInput) graphNodeNameInput.value = campusNodes[existingId]?.placeLabel || campusNodes[existingId]?.name || "";
+    showNodeTooltip(existingId);
+    showNaverNodeInfo(existingId);
+    updateNodeOrder();
+    updateCustomRoute();
+    renderNaverMeasuredNodes();
+    updateMapSegmentSummary();
+    updateNodeStats("선택됨");
+    return;
+  }
+
+  if (selectedNodeIds.length >= limit) {
+    setMapStatus(`노드는 최대 ${limit}개까지 선택할 수 있습니다. 개수를 바꾸거나 다시 불러와 주세요.`);
+    updateNodeStats("개수 초과");
+    return;
+  }
+
+  selectedNodeIds.push(existingId);
+
+  renderNodePicker();
+  renderMeasuredNodes();
+  updateNodeOrder();
+  updateCustomRoute();
+  renderNaverMeasuredNodes();
+  updateMapSegmentSummary();
+  updateNodeStats("선택됨");
+  graphNodeNameInput.value = campusNodes[existingId]?.placeLabel || campusNodes[existingId]?.name || "";
+  showNodeTooltip(existingId);
+  showNaverNodeInfo(existingId);
+}
+
+function removeSelectedNode(id) {
+  selectedNodeIds = selectedNodeIds.filter((nodeId) => nodeId !== id);
+  renderNodePicker();
+  renderMeasuredNodes();
+  renderNaverMeasuredNodes();
+  updateNodeOrder();
+  routePath.setAttribute("d", "");
+  routePoints.innerHTML = "";
+
+  if (selectedNodeIds.length >= 2) {
+    updateCustomRoute();
+    updateMapSegmentSummary();
+  } else {
+    updateMapSegmentSummary();
+  }
+  updateNodeStats("삭제됨");
+}
+
+function renderMeasuredNodes() {
+  const candidateMarkup = selectableMeasuredNodes
+    .map((point) => {
+      const [x, y] = latlngToSvgXY(point);
+      const isSelected = selectedNodeIds.includes(`measured_${point.index}`);
+      return `<circle class="measured-node candidate${isSelected ? " chosen" : ""}" data-track-index="${point.index}" cx="${x}" cy="${y}" r="5"></circle>`;
+    })
+    .join("");
+
+  const selectedMarkup = selectedNodeIds
+    .filter((id) => campusNodes[id]?.type === "실측 노드")
+    .map((id) => {
+      const node = campusNodes[id];
+      const [x, y] = node.xy;
+      return `
+        <circle class="measured-node selected" data-node-id="${id}" cx="${x}" cy="${y}" r="12"></circle>
+        <text class="walk-label" x="${x + 15}" y="${y - 12}">${selectedNodeIds.indexOf(id) + 1}</text>
+      `;
+    })
+    .join("");
+
+  measuredNodeLayer.innerHTML = candidateMarkup + selectedMarkup;
+
+  measuredNodeLayer.querySelectorAll(".measured-node.candidate").forEach((nodeEl) => {
+    nodeEl.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const point = selectableMeasuredNodes.find((candidate) => candidate.index === Number(nodeEl.dataset.trackIndex));
+      if (!point) return;
+      const [x, y] = latlngToSvgXY(point);
+      addMeasuredNodeFromPoint({ ...point, x, y });
+    });
+  });
+
+  measuredNodeLayer.querySelectorAll(".measured-node").forEach((nodeEl) => {
+    nodeEl.addEventListener("click", (event) => {
+      event.stopPropagation();
+      if (nodeEl.dataset.nodeId) showNodeTooltip(nodeEl.dataset.nodeId);
+    });
+  });
+}
+
+function showNodeTooltip(id) {
+  const node = campusNodes[id];
+  if (!node) return;
+
+  const [x, y] = node.xy;
+  const label = node.placeLabel || node.name;
+  const altitudeText = Number.isFinite(node.elevation) ? ` · 고도 ${node.elevation.toFixed(1)} m` : "";
+  const subLabel = `${node.time?.slice(11, 19) || "실측"} · ${node.latlng[0].toFixed(6)}, ${node.latlng[1].toFixed(6)}${altitudeText}`;
+  const width = Math.max(260, Math.max(label.length, subLabel.length) * 9);
+  const tx = Math.min(820 - width, Math.max(20, x + 18));
+  const ty = Math.max(20, y - 72);
+
+  nodeTooltipLayer.innerHTML = `
+    <g class="node-tooltip">
+      <rect x="${tx}" y="${ty}" width="${width}" height="58" rx="8"></rect>
+      <text x="${tx + 12}" y="${ty + 24}">${label}</text>
+      <text class="node-tooltip-sub" x="${tx + 12}" y="${ty + 45}">${subLabel}</text>
+    </g>
+  `;
+}
+
+function showNaverNodeInfo(id) {
+  if (!naverMap || !window.naver?.maps) return;
+  const node = campusNodes[id];
+  if (!node) return;
+
+  const content = `
+    <div style="padding:10px 12px;font-weight:800;line-height:1.45;min-width:220px">
+      <div>${node.placeLabel || node.name}</div>
+      <div style="font-size:12px;color:#60706a">${node.time?.slice(11, 19) || "실측"} · ${node.latlng[0].toFixed(6)}, ${node.latlng[1].toFixed(6)}${Number.isFinite(node.elevation) ? ` · 고도 ${node.elevation.toFixed(1)} m` : ""}</div>
+    </div>
+  `;
+
+  if (!naverInfoWindow) {
+    naverInfoWindow = new naver.maps.InfoWindow({ content });
+  } else {
+    naverInfoWindow.setContent(content);
+  }
+
+  naverInfoWindow.open(naverMap, new naver.maps.LatLng(node.latlng[0], node.latlng[1]));
+  clearTimeout(naverInfoTimer);
+  naverInfoTimer = setTimeout(() => {
+    if (naverInfoWindow) {
+      naverInfoWindow.close();
+    }
+  }, 3500);
+}
+
+function summarizeTrackSlice(fromIndex, toIndex) {
+  if (!measuredTrack.length) return { distance: 0, climb: 0, path: [] };
+  const safeFrom = Math.max(0, Math.min(measuredTrack.length - 1, fromIndex));
+  const safeTo = Math.max(0, Math.min(measuredTrack.length - 1, toIndex));
+  const step = safeFrom <= safeTo ? 1 : -1;
+  const path = [measuredTrack[safeFrom]];
+  let distance = 0;
+  let previous = measuredTrack[safeFrom];
+
+  for (let index = safeFrom + step; step > 0 ? index <= safeTo : index >= safeTo; index += step) {
+    const current = measuredTrack[index];
+    distance += distanceKm(previous, current);
+    path.push(current);
+    previous = current;
+  }
+
+  return { distance, path, ...getElevationStats(path) };
+}
+
+function summarizePointSlice(points, fromIndex, toIndex) {
+  if (!points.length) return { distance: 0, climb: 0, path: [] };
+  const safeFrom = Math.max(0, Math.min(points.length - 1, fromIndex));
+  const safeTo = Math.max(0, Math.min(points.length - 1, toIndex));
+  const step = safeFrom <= safeTo ? 1 : -1;
+  const path = [points[safeFrom]];
+  let distance = 0;
+  let previous = points[safeFrom];
+
+  for (let index = safeFrom + step; step > 0 ? index <= safeTo : index >= safeTo; index += step) {
+    const current = points[index];
+    distance += distanceKm(previous, current);
+    path.push(current);
+    previous = current;
+  }
+
+  return { distance, path, ...getElevationStats(path) };
+}
+
+function nearestPointIndex(points, target) {
+  return points.reduce((best, point, index) => {
+    const distance = distanceKm(point, target);
+    return distance < best.distance ? { index, distance } : best;
+  }, { index: -1, distance: Infinity });
+}
+
+function getGroupedMeasuredTracks() {
+  return [...measuredTrack.reduce((groups, point) => {
+    const key = point.source || "measured";
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(point);
+    return groups;
+  }, new Map()).values()];
+}
+
+function buildAuxiliaryGraph() {
+  const auxNodes = selectableMeasuredNodes.length
+    ? selectableMeasuredNodes
+    : buildSelectableMeasuredNodes(measuredTrack);
+  const adjacency = auxNodes.map(() => []);
+  const indexByTrackIndex = new Map(auxNodes.map((point, index) => [point.index, index]));
+
+  getGroupedMeasuredTracks().forEach((track) => {
+    const sampled = track
+      .map((point) => indexByTrackIndex.get(point.index))
+      .filter((index) => Number.isInteger(index));
+
+    for (let index = 1; index < sampled.length; index += 1) {
+      const from = sampled[index - 1];
+      const to = sampled[index];
+      const distance = distanceKm(auxNodes[from], auxNodes[to]);
+      adjacency[from].push({ to, distance });
+      adjacency[to].push({ to: from, distance });
+    }
+  });
+
+  const crossConnectDistance = 0.018;
+  for (let i = 0; i < auxNodes.length; i += 1) {
+    for (let j = i + 1; j < auxNodes.length; j += 1) {
+      if (auxNodes[i].source === auxNodes[j].source) continue;
+      const distance = distanceKm(auxNodes[i], auxNodes[j]);
+      if (distance <= crossConnectDistance) {
+        adjacency[i].push({ to: j, distance });
+        adjacency[j].push({ to: i, distance });
+      }
+    }
+  }
+
+  return { auxNodes, adjacency };
+}
+
+function nearestAuxNodeIndexes(auxNodes, target, maxDistance = 0.09, limit = 4) {
+  return auxNodes
+    .map((point, index) => ({
+      index,
+      distance: distanceKm(point, target)
+    }))
+    .filter((item) => item.distance <= maxDistance)
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, limit);
+}
+
+function findShortestAuxiliaryPath(fromNode, toNode) {
+  if (!measuredTrack.length) return null;
+  const { auxNodes, adjacency } = buildAuxiliaryGraph();
+  if (!auxNodes.length) return null;
+
+  const fromTarget = { lat: fromNode.latlng[0], lng: fromNode.latlng[1] };
+  const toTarget = { lat: toNode.latlng[0], lng: toNode.latlng[1] };
+  const starts = nearestAuxNodeIndexes(auxNodes, fromTarget);
+  const goals = nearestAuxNodeIndexes(auxNodes, toTarget);
+  if (!starts.length || !goals.length) return null;
+
+  const goalSet = new Set(goals.map((item) => item.index));
+  const distances = Array(auxNodes.length).fill(Infinity);
+  const previous = Array(auxNodes.length).fill(null);
+  const visited = new Set();
+
+  starts.forEach((start) => {
+    distances[start.index] = start.distance;
+  });
+
+  while (visited.size < auxNodes.length) {
+    let current = -1;
+    let currentDistance = Infinity;
+    for (let index = 0; index < distances.length; index += 1) {
+      if (!visited.has(index) && distances[index] < currentDistance) {
+        current = index;
+        currentDistance = distances[index];
+      }
+    }
+
+    if (current === -1) break;
+    if (goalSet.has(current)) break;
+    visited.add(current);
+
+    adjacency[current].forEach((edge) => {
+      const nextDistance = currentDistance + edge.distance;
+      if (nextDistance < distances[edge.to]) {
+        distances[edge.to] = nextDistance;
+        previous[edge.to] = current;
+      }
+    });
+  }
+
+  const bestGoal = goals
+    .map((goal) => ({
+      ...goal,
+      totalDistance: distances[goal.index] + goal.distance
+    }))
+    .sort((a, b) => a.totalDistance - b.totalDistance)[0];
+  if (!bestGoal || !Number.isFinite(bestGoal.totalDistance)) return null;
+
+  const indexes = [];
+  for (let cursor = bestGoal.index; cursor !== null; cursor = previous[cursor]) {
+    indexes.push(cursor);
+  }
+  indexes.reverse();
+
+  const path = [
+    { lat: fromTarget.lat, lng: fromTarget.lng, altitude: fromNode.elevation },
+    ...indexes.map((index) => auxNodes[index]),
+    { lat: toTarget.lat, lng: toTarget.lng, altitude: toNode.elevation }
+  ];
+  let distance = 0;
+  for (let index = 1; index < path.length; index += 1) {
+    distance += distanceKm(path[index - 1], path[index]);
+  }
+
+  return {
+    distance,
+    path,
+    ...getElevationStats(path),
+    direct: false,
+    auxiliary: true
+  };
+}
+
+function getBestMeasuredSegment(fromNode, toNode, options = {}) {
+  if (!measuredTrack.length) return null;
+
+  const fromTarget = { lat: fromNode.latlng[0], lng: fromNode.latlng[1] };
+  const toTarget = { lat: toNode.latlng[0], lng: toNode.latlng[1] };
+  const directDistance = distanceKm(fromTarget, toTarget);
+  const maxSnapDistance = options.maxSnapDistance ?? 0.09;
+  const allowLongMeasuredPath = options.allowLongMeasuredPath ?? false;
+
+  const candidates = getGroupedMeasuredTracks()
+    .map((track) => {
+      const fromNearest = nearestPointIndex(track, fromTarget);
+      const toNearest = nearestPointIndex(track, toTarget);
+      if (fromNearest.index < 0 || toNearest.index < 0) return null;
+      if (fromNearest.distance > maxSnapDistance || toNearest.distance > maxSnapDistance) return null;
+      const summary = summarizePointSlice(track, fromNearest.index, toNearest.index);
+      return {
+        ...summary,
+        snapDistance: fromNearest.distance + toNearest.distance
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.distance - b.distance || a.snapDistance - b.snapDistance);
+
+  const best = candidates[0];
+  if (!best) return null;
+
+  const suspiciouslyLong = best.distance > Math.max(directDistance * 3, directDistance + 0.3);
+  return suspiciouslyLong && !allowLongMeasuredPath ? null : best;
+}
+
+function getSegmentSummary(fromNode, toNode, options = {}) {
+  const bestMeasuredSegment = getBestMeasuredSegment(fromNode, toNode, options);
+  if (bestMeasuredSegment) return bestMeasuredSegment;
+
+  const path = [
+    { lat: fromNode.latlng[0], lng: fromNode.latlng[1], altitude: fromNode.elevation },
+    { lat: toNode.latlng[0], lng: toNode.latlng[1], altitude: toNode.elevation }
+  ];
+  return {
+    distance: distanceKm(
+      { lat: fromNode.latlng[0], lng: fromNode.latlng[1] },
+      { lat: toNode.latlng[0], lng: toNode.latlng[1] }
+    ),
+    path,
+    ...getElevationStats(path),
+    direct: true
+  };
+}
+
+function getSelectedSegments() {
+  if (selectedNodeIds.length < 2) return [];
+  return selectedNodeIds.slice(1).map((id, index) => {
+    const fromNode = campusNodes[selectedNodeIds[index]];
+    const toNode = campusNodes[id];
+    const summary = getSegmentSummary(fromNode, toNode);
+
+    return {
+      from: fromNode.name,
+      to: toNode.name,
+      distance: summary.distance,
+      climb: summary.climb,
+      descent: summary.descent,
+      minAltitude: summary.minAltitude,
+      maxAltitude: summary.maxAltitude,
+      path: summary.path,
+      direct: summary.direct
+    };
+  });
+}
+
+function getCustomRoute() {
+  const segments = getSelectedSegments();
+  if (!segments.length) return null;
+
+  const fullPath = [];
+  segments.forEach((segment, segmentIndex) => {
+    segment.path.forEach((point, pointIndex) => {
+      if (segmentIndex > 0 && pointIndex === 0) return;
+      fullPath.push(point);
+    });
+  });
+
+  const distance = segments.reduce((sum, segment) => sum + segment.distance, 0);
+  const climb = segments.reduce((sum, segment) => sum + (segment.climb || 0), 0);
+  const descent = segments.reduce((sum, segment) => sum + (segment.descent || 0), 0);
+  const altitudes = segments
+    .flatMap((segment) => [segment.minAltitude, segment.maxAltitude])
+    .filter(Number.isFinite);
+  const minAltitude = altitudes.length ? Math.min(...altitudes) : null;
+  const maxAltitude = altitudes.length ? Math.max(...altitudes) : null;
+  const level = formatAltitudeRange(minAltitude, maxAltitude);
+  const firstNode = campusNodes[selectedNodeIds[0]];
+  const lastNode = campusNodes[selectedNodeIds[selectedNodeIds.length - 1]];
+  const svgPoints = fullPath.map(latlngToSvgXY);
+
+  return {
+    name: `${firstNode.name} → ${lastNode.name} 실측 기반 코스`,
+    distance,
+    climb,
+    descent,
+    minAltitude,
+    maxAltitude,
+    level,
+    path: svgPoints.map(([x, y], index) => `${index === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" "),
+    points: selectedNodeIds.map((id) => campusNodes[id].xy),
+    latlng: fullPath.map((point) => [point.lat, point.lng]),
+    description: selectedNodeIds.map((id) => campusNodes[id].name).join(" → ")
+  };
+}
+
+function drawPoints(points) {
+  routePoints.innerHTML = points
+    .map(([x, y], index) => {
+      const endClass = index === points.length - 1 ? " end" : "";
+      return `<circle class="route-point${endClass}" cx="${x}" cy="${y}" r="13"></circle>`;
+    })
+    .join("");
+}
+
+function clearNaverRoute() {
+  naverMarkers.forEach((marker) => marker.setMap(null));
+  naverMarkers = [];
+  if (naverPolyline) {
+    naverPolyline.setMap(null);
+    naverPolyline = null;
+  }
+}
+
+function clearRoute(message = "노드를 선택하면 경로가 표시됩니다.") {
+  routePath.setAttribute("d", "");
+  routePoints.innerHTML = "";
+  document.querySelector("#routeName").textContent = message;
+  document.querySelector("#routeBadge").textContent = "대기 중";
+  updateNodeStats(measuredTrack.length ? "노드 확인" : "대기");
+  clearNaverRoute();
+}
+
+function renderRoute(route) {
+  if (!route) {
+    clearRoute();
+    return;
+  }
+
+  routePath.setAttribute("d", route.path);
+  drawPoints(route.points);
+  document.querySelector("#routeName").textContent = route.name;
+  document.querySelector("#routeBadge").textContent = "실측 기반";
+  document.querySelector("#metricDistance").textContent = `${route.distance.toFixed(3)} km`;
+  document.querySelector("#metricTime").textContent = formatTime(route.distance, paceInput?.value || 6);
+  document.querySelector("#metricClimb").textContent = formatElevationChange(route.climb || 0, route.descent || 0);
+  document.querySelector("#metricLevel").textContent = formatAltitudeRange(route.minAltitude, route.maxAltitude);
+
+  updateNaverRoute(route);
+}
+
+function updateCustomRoute() {
+  renderRoute(getCustomRoute(), { custom: true });
+}
+
+function setTargetDistance(distance) {
+  targetDistance = Number(distance);
+  distanceButtons.forEach((button) => {
+    button.classList.toggle("active", Number(button.dataset.distance) === targetDistance);
+  });
+  if (selectedNodeIds.length < 2) {
+    document.querySelector("#routeBadge").textContent = `${targetDistance} km 기준`;
+  }
+}
+
+function renderNodePicker() {
+  if (!selectedNodeIds.length) {
+    nodePicker.innerHTML = `<div class="node-order">네이버 지도 위 빨간 실측 경로를 클릭하면 노드가 여기에 추가됩니다.</div>`;
+    return;
+  }
+
+  nodePicker.innerHTML = `
+    <div class="node-group-title">선택한 노드</div>
+    ${selectedNodeIds.map((id, index) => {
+      const node = campusNodes[id];
+      return `
+        <button class="node-option selected-node-button" data-node-id="${id}">
+          <span>${index + 1}. ${node.name}</span>
+          <b class="delete-node" data-node-id="${id}" aria-label="노드 삭제">삭제</b>
+        </button>
+      `;
+    }).join("")}
+  `;
+
+  nodePicker.querySelectorAll(".delete-node").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.stopPropagation();
+      removeSelectedNode(button.dataset.nodeId);
+    });
+  });
+
+  nodePicker.querySelectorAll(".selected-node-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      showNodeTooltip(button.dataset.nodeId);
+      showNaverNodeInfo(button.dataset.nodeId);
+    });
+  });
+}
+
+function updateNodeOrder() {
+  if (!selectedNodeIds.length) {
+    document.querySelector("#routeName").textContent = measuredTrack.length
+      ? `실측 경로 위에서 노드 ${nodeLimit.value}개를 선택해 주세요.`
+      : "실측 경로 위 노드를 선택해 주세요.";
+    document.querySelector("#routeBadge").textContent = targetDistance ? `${targetDistance} km 기준` : measuredTrack.length ? "노드 표시" : "대기 중";
+    nodeOrder.textContent = "선택 순서: 아직 선택된 노드가 없습니다.";
+    segmentList.textContent = `노드를 ${nodeLimit.value}개까지 선택할 수 있습니다. 첫 노드는 출발점, 마지막 노드는 도착점입니다.`;
+    updateMapSegmentSummary();
+    return;
+  }
+
+  document.querySelector("#routeName").textContent = `실측 노드 ${selectedNodeIds.length}개 선택됨`;
+  document.querySelector("#routeBadge").textContent = selectedNodeIds.length >= 2 ? "실측 기반" : "노드 확인";
+  nodeOrder.textContent = `선택 순서: ${selectedNodeIds.map((id, index) => `${index + 1}. ${campusNodes[id].name}`).join(" → ")}`;
+  const segments = getSelectedSegments();
+  if (!segments.length) {
+    segmentList.textContent = "노드를 1개 더 선택하면 선택한 두 노드 사이의 실측 거리가 표시됩니다.";
+    updateMapSegmentSummary();
+    return;
+  }
+
+  segmentList.innerHTML = segments.map((segment) => `
+    <div class="segment-item">
+      <span>${segment.direct ? "경로 간 연결" : "실측 구간"}<em>${segment.from} → ${segment.to}</em><em>${segment.direct ? "서로 다른 로그라 직선 거리 기준" : "GNSS 로그 구간 기준"}</em></span>
+      <strong>${segment.distance.toFixed(3)} km<br>${formatElevationChange(segment.climb || 0, segment.descent || 0)}</strong>
+    </div>
+  `).join("");
+  updateMapSegmentSummary();
+}
+
+function updateMapSegmentSummary() {
+  if (!mapSegmentSummary) return;
+  if (!measuredTrack.length) {
+    mapSegmentSummary.textContent = "실측 GNSS 경로를 불러오면 선택 가능한 노드가 지도 위에 표시됩니다.";
+    return;
+  }
+  const segments = getSelectedSegments();
+  if (!segments.length) {
+    mapSegmentSummary.textContent = `불러온 좌표 ${measuredTrack.length}개 중 선택 가능한 노드 ${selectableMeasuredNodes.length}개를 표시했습니다. 현재 ${selectedNodeIds.length}/${nodeLimit.value}개 선택됨.`;
+    return;
+  }
+  const total = segments.reduce((sum, segment) => sum + segment.distance, 0);
+  const climb = segments.reduce((sum, segment) => sum + (segment.climb || 0), 0);
+  const descent = segments.reduce((sum, segment) => sum + (segment.descent || 0), 0);
+  const directCount = segments.filter((segment) => segment.direct).length;
+  const altitudes = segments
+    .flatMap((segment) => [segment.minAltitude, segment.maxAltitude])
+    .filter(Number.isFinite);
+  const altitudeText = altitudes.length
+    ? `, 고도 ${formatAltitudeRange(Math.min(...altitudes), Math.max(...altitudes))}`
+    : "";
+  mapSegmentSummary.textContent = `선택한 노드 순서 기준 총 거리: ${total.toFixed(3)} km, 누적 상승/하강 ${formatElevationChange(climb, descent)}${altitudeText} (${selectedNodeIds.length}/${nodeLimit.value}개 선택됨${directCount ? `, 직선 연결 ${directCount}개 포함` : ""})`;
+}
+
+async function loadMeasuredNodes() {
+  loadMeasuredNodesButton.textContent = "불러오는 중";
+  setMapStatus("GNSS CSV를 불러오는 중입니다.");
+  measuredTrack = [];
+  svgMeasuredPoints = [];
+  selectableMeasuredNodes = [];
+  const track = await loadMeasuredTrack();
+  selectableMeasuredNodes = buildSelectableMeasuredNodes(track);
+  renderMeasuredBasePath();
+  renderNaverMeasuredTrack();
+  renderGraphOverlay();
+  campusNodes = { ...baseCampusNodes };
+  selectedNodeIds = [];
+  renderNodePicker();
+  renderMeasuredNodes();
+  clearRoute(`실측 경로 위에서 노드 ${nodeLimit.value}개를 선택해 주세요.`);
+  updateNodeOrder();
+  loadMeasuredNodesButton.textContent = "실측 경로 클릭 가능";
+  updateNodeStats("노드 표시");
+  setMapStatus(`GNSS 로그 ${track.length}개 좌표를 불러왔고, 선택 가능한 노드 ${selectableMeasuredNodes.length}개를 표시했습니다.`);
 }
 
 function loadNaverScript(clientId) {
   return new Promise((resolve, reject) => {
-    if (window.naver?.maps) return resolve();
-    const existing = document.querySelector("script[data-naver-map]");
-    if (existing) {
-      existing.addEventListener("load", resolve, { once: true });
-      existing.addEventListener("error", reject, { once: true });
+    if (window.naver?.maps) {
+      resolve();
       return;
     }
     const script = document.createElement("script");
@@ -289,15 +1692,184 @@ function loadNaverScript(clientId) {
   });
 }
 
+function updateNaverRoute(route) {
+  if (!naverMap || !window.naver?.maps || !route.latlng.length) return;
+
+  clearNaverRoute();
+  const path = route.latlng.map(([lat, lng]) => new naver.maps.LatLng(lat, lng));
+  naverPolyline = new naver.maps.Polyline({
+    map: naverMap,
+    path,
+    strokeColor: "#17a673",
+    strokeOpacity: 0.95,
+    strokeWeight: 7,
+    strokeLineCap: "round",
+    strokeLineJoin: "round"
+  });
+
+  const bounds = new naver.maps.LatLngBounds(path[0], path[0]);
+  path.forEach((position) => bounds.extend(position));
+  naverMap.fitBounds(bounds, { top: 72, right: 72, bottom: 72, left: 72 });
+}
+
+function nearestMeasuredPointByLatLng(latlng) {
+  if (!measuredTrack.length) return { point: null, distance: Infinity };
+  return measuredTrack.reduce((best, point) => {
+    const distance = distanceKm(
+      { lat: latlng[0], lng: latlng[1] },
+      { lat: point.lat, lng: point.lng }
+    );
+    return distance < best.distance ? { point, distance } : best;
+  }, { point: null, distance: Infinity });
+}
+
+function renderNaverMeasuredTrack() {
+  if (!window.naver?.maps) {
+    setMapStatus("네이버 지도 API가 아직 로드되지 않았습니다.");
+    return;
+  }
+  if (!naverMap) {
+    setMapStatus("네이버 지도를 먼저 불러와 주세요.");
+    return;
+  }
+  if (!measuredTrack.length) {
+    setMapStatus("GNSS 로그를 먼저 불러와 주세요.");
+    return;
+  }
+
+  if (naverMeasuredPolyline) {
+    naverMeasuredPolyline.setMap(null);
+    naverMeasuredPolyline = null;
+  }
+  naverMeasuredPolylines.forEach((polyline) => polyline.setMap(null));
+  naverMeasuredPolylines = [];
+  naverMeasuredDots.forEach((dot) => dot.setMap(null));
+  naverMeasuredDots = [];
+
+  const groupedTracks = [...measuredTrack.reduce((groups, point) => {
+    const key = point.source || "measured";
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(point);
+    return groups;
+  }, new Map()).values()];
+
+  groupedTracks.forEach((track) => {
+    const path = track.map((point) => new naver.maps.LatLng(point.lat, point.lng));
+    const polyline = new naver.maps.Polyline({
+      map: naverMap,
+      path,
+      strokeColor: "#ff3b30",
+      strokeOpacity: 1,
+      strokeWeight: 10,
+      strokeLineCap: "round",
+      strokeLineJoin: "round",
+      clickable: true
+    });
+    naver.maps.Event.addListener(polyline, "click", (event) => {
+      const latlng = [event.coord.lat(), event.coord.lng()];
+      const nearest = nearestMeasuredPointByLatLng(latlng);
+      if (nearest.point) {
+        const [x, y] = latlngToSvgXY(nearest.point);
+        addMeasuredNodeFromPoint({
+          ...nearest.point,
+          x,
+          y
+        });
+      }
+    });
+    naverMeasuredPolylines.push(polyline);
+  });
+
+  // 일부 환경에서 Polyline이 지도 타일 위에서 눈에 잘 안 띄는 경우가 있어,
+  // GNSS 궤적을 작은 빨간 점으로도 함께 표시한다.
+  selectableMeasuredNodes.forEach((point) => {
+    const dot = new naver.maps.Marker({
+      map: naverMap,
+      position: new naver.maps.LatLng(point.lat, point.lng),
+      icon: {
+        content: `
+          <div style="
+            width:12px;height:12px;border-radius:50%;
+            background:#ffffff;border:3px solid #ff3b30;
+            box-shadow:0 0 0 2px rgba(255,59,48,.18);"></div>
+        `,
+        anchor: new naver.maps.Point(6, 6)
+      }
+    });
+    naver.maps.Event.addListener(dot, "click", () => {
+      const [x, y] = latlngToSvgXY(point);
+      addMeasuredNodeFromPoint({ ...point, x, y });
+    });
+    naverMeasuredDots.push(dot);
+  });
+
+  const path = measuredTrack.map((point) => new naver.maps.LatLng(point.lat, point.lng));
+  const bounds = new naver.maps.LatLngBounds(path[0], path[0]);
+  path.forEach((position) => bounds.extend(position));
+  naverMap.fitBounds(bounds);
+  naverMap.setZoom(Math.max(naverMap.getZoom(), 17));
+  setTimeout(() => {
+    naverMeasuredPolylines.forEach((polyline) => {
+      polyline.setMap(naverMap);
+      polyline.setOptions({
+        strokeColor: "#ff3b30",
+        strokeOpacity: 1,
+        strokeWeight: 10
+      });
+    });
+    renderNaverGraphOverlay();
+  }, 300);
+  setMapStatus(`네이버 지도 위에 실측 경로 ${groupedTracks.length}개와 선택 가능한 노드 ${selectableMeasuredNodes.length}개를 표시했습니다.`);
+  updateNodeStats("노드 표시");
+}
+
+function renderNaverMeasuredNodes() {
+  if (!naverMap || !window.naver?.maps) return;
+
+  naverMeasuredMarkers.forEach((marker) => marker.setMap(null));
+  naverMeasuredMarkers = [];
+
+  selectedNodeIds
+    .filter((id) => campusNodes[id]?.type === "실측 노드")
+    .forEach((id, index) => {
+      const node = campusNodes[id];
+      const marker = new naver.maps.Marker({
+        map: naverMap,
+        position: new naver.maps.LatLng(node.latlng[0], node.latlng[1]),
+        title: node.placeLabel || node.name,
+        icon: {
+          content: `
+            <div style="
+              width:28px;height:28px;border-radius:50%;
+              background:#17a673;color:white;border:3px solid white;
+              box-shadow:0 4px 10px rgba(0,0,0,.25);
+              display:flex;align-items:center;justify-content:center;
+              font-weight:900;font-size:14px;">${index + 1}</div>
+          `,
+          anchor: new naver.maps.Point(14, 14)
+        }
+      });
+      naver.maps.Event.addListener(marker, "click", () => {
+        showNaverNodeInfo(id);
+        updateNodeOrder();
+        updateMapSegmentSummary();
+        updateNodeStats("선택됨");
+      });
+      naverMeasuredMarkers.push(marker);
+    });
+}
+
 async function initNaverMap() {
   const clientId = naverClientId.value.trim() || localStorage.getItem("naverMapClientId");
   if (!clientId) {
     naverClientId.focus();
     return;
   }
+
   localStorage.setItem("naverMapClientId", clientId);
   loadNaverMapButton.textContent = "불러오는 중";
   loadNaverMapButton.disabled = true;
+
   try {
     await loadNaverScript(clientId);
     mapPanel.classList.add("naver-ready");
@@ -310,137 +1882,96 @@ async function initNaverMap() {
       zoomControl: true
     });
     naver.maps.Event.addListener(naverMap, "click", (event) => {
-      infoWindow?.close();
+      if (naverInfoWindow) naverInfoWindow.close();
       if (!measuredTrack.length) return;
-      const nearest = nearestMeasuredPoint([event.coord.lat(), event.coord.lng()]);
-      if (nearest.point && nearest.distance <= 0.035) addNode(nearest.point);
+      const nearest = nearestMeasuredPointByLatLng([event.coord.lat(), event.coord.lng()]);
+      if (!nearest.point || nearest.distance > 0.035) return;
+      const [x, y] = latlngToSvgXY(nearest.point);
+      addMeasuredNodeFromPoint({ ...nearest.point, x, y });
     });
     naver.maps.Event.trigger(naverMap, "resize");
+    setTimeout(() => naver.maps.Event.trigger(naverMap, "resize"), 200);
+    if (measuredTrack.length) {
+      renderNaverMeasuredTrack();
+      renderNaverMeasuredNodes();
+    }
+    renderGraphOverlay();
+    updateNodeStats(measuredTrack.length ? "노드 표시" : "지도 연결");
     loadNaverMapButton.textContent = "지도 연결됨";
-    setMapStatus("지도 연결됨. 이제 실측 GNSS 노드 불러오기를 눌러 주세요.");
-    if (measuredTrack.length) renderMeasuredTrack();
+    setMapStatus(measuredTrack.length ? "지도 연결됨. 실측 경로를 다시 표시했습니다." : "지도 연결됨. 이제 실측 GNSS 노드 불러오기를 눌러 주세요.");
   } catch {
     loadNaverMapButton.textContent = "키 확인 필요";
     loadNaverMapButton.disabled = false;
   }
 }
 
-async function loadMeasuredTrack() {
-  const response = await fetch("gnss_log_2.csv");
-  const csv = await response.text();
-  measuredTrack = parseCsv(csv)
-    .map((row) => ({
-      time: row.PC_Time,
-      lat: nmeaToDecimal(row.Latitude_NMEA, row.Lat_Direction),
-      lng: nmeaToDecimal(row.Longitude_NMEA, row.Lon_Direction),
-      fix: Number(row.Fix || 0),
-      satellites: Number(row.Satellites || 0)
-    }))
-    .filter((point) => Number.isFinite(point.lat) && Number.isFinite(point.lng))
-    .map((point, index) => ({ ...point, index }));
-  return measuredTrack;
-}
-
-function renderMeasuredTrack() {
-  if (!naverMap || !window.naver?.maps || !measuredTrack.length) return;
-  if (measuredPolyline) measuredPolyline.setMap(null);
-  measuredDots.forEach((dot) => dot.setMap(null));
-  measuredDots = [];
-
-  const path = measuredTrack.map((point) => new naver.maps.LatLng(point.lat, point.lng));
-  measuredPolyline = new naver.maps.Polyline({
-    map: naverMap,
-    path,
-    strokeColor: "#ff3b30",
-    strokeOpacity: 1,
-    strokeWeight: 10,
-    strokeLineCap: "round",
-    strokeLineJoin: "round",
-    clickable: true
-  });
-  naver.maps.Event.addListener(measuredPolyline, "click", (event) => {
-    const nearest = nearestMeasuredPoint([event.coord.lat(), event.coord.lng()]);
-    if (nearest.point) addNode(nearest.point);
-  });
-
-  measuredTrack.forEach((point, index) => {
-    if (index % 2 !== 0 && index !== measuredTrack.length - 1) return;
-    const dot = new naver.maps.Marker({
-      map: naverMap,
-      position: new naver.maps.LatLng(point.lat, point.lng),
-      icon: {
-        content: `<div style="width:8px;height:8px;border-radius:50%;background:#ff3b30;border:1px solid #fff;box-shadow:0 0 0 2px rgba(255,59,48,.25);"></div>`,
-        anchor: new naver.maps.Point(4, 4)
-      }
-    });
-    naver.maps.Event.addListener(dot, "click", () => addNode(point));
-    measuredDots.push(dot);
-  });
-
-  const bounds = new naver.maps.LatLngBounds(path[0], path[0]);
-  path.forEach((position) => bounds.extend(position));
-  naverMap.fitBounds(bounds);
-  setMapStatus(`GNSS 로그 ${measuredTrack.length}개 좌표를 불러왔습니다. 빨간 실측 경로 위를 클릭해 노드를 선택하세요.`);
-}
-
-async function loadMeasuredNodes() {
-  loadMeasuredNodesButton.textContent = "불러오는 중";
-  setMapStatus("GNSS CSV를 불러오는 중입니다.");
-  selectedNodes = [];
-  await loadMeasuredTrack();
-  renderNodePicker();
-  renderSelectedMarkers();
-  updateSummary();
-  renderMeasuredTrack();
-  loadMeasuredNodesButton.textContent = "실측 경로 클릭 가능";
-  if (!naverMap) setMapStatus("GNSS 로그를 불러왔습니다. 네이버 지도를 먼저 연결해 주세요.");
-}
-
-function renderCandidates() {
-  routeList.innerHTML = Object.entries(routes).map(([distance, route]) => `
-    <button class="route-card" data-distance="${distance}">
-      <h3>${distance} km 후보</h3>
-      <p>${route.desc}</p>
-      <div class="chip-row"><span class="chip">${route.distance.toFixed(1)} km</span><span class="chip">${route.level}</span></div>
-    </button>
-  `).join("");
-  routeList.querySelectorAll(".route-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      const route = routes[card.dataset.distance];
-      setText("#routeName", route.name);
-      setText("#routeBadge", "샘플 코스");
-      setText("#metricDistance", `${route.distance.toFixed(1)} km`);
-      setText("#metricTime", formatTime(route.distance, paceInput.value));
-      setText("#metricClimb", "샘플 코스");
-      setText("#metricLevel", route.level);
-    });
-  });
-}
-
-paceInput.addEventListener("input", () => {
-  paceValue.textContent = formatPace(paceInput.value);
-  const distance = getSelectedDistance();
-  if (distance !== null) setText("#metricTime", formatTime(distance, paceInput.value));
+paceInput?.addEventListener("input", () => {
+  if (paceValue) paceValue.textContent = formatPace(paceInput.value);
+  if (selectedNodeIds.length >= 2) updateCustomRoute();
 });
 
-nodeLimit.addEventListener("change", () => {
-  selectedNodes = [];
-  renderSelectedMarkers();
-  renderNodePicker();
-  updateSummary();
+distanceButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    setTargetDistance(button.dataset.distance);
+    if (selectedNodeIds.length >= 2) updateCustomRoute();
+  });
 });
 
-loadNaverMapButton.addEventListener("click", initNaverMap);
+slopeMode?.addEventListener("change", () => {
+  if (selectedNodeIds.length < 2) {
+    document.querySelector("#routeBadge").textContent = targetDistance ? `${targetDistance} km 기준` : "대기 중";
+  }
+});
+
+saveGraphNodeButton?.addEventListener("click", saveSelectedGraphNode);
+saveGraphEdgeButton?.addEventListener("click", saveSelectedGraphEdges);
+autoConnectGraphButton?.addEventListener("click", autoConnectGraphNodes);
+clearGraphButton?.addEventListener("click", clearNodeGraph);
+
 loadMeasuredNodesButton.addEventListener("click", loadMeasuredNodes);
-document.querySelector("#recommendBtn").addEventListener("click", updateSummary);
-
-document.querySelectorAll(".distance-btn").forEach((button) => {
-  button.addEventListener("click", () => routeList.querySelector(`[data-distance="${button.dataset.distance}"]`)?.click());
+loadNaverMapButton.addEventListener("click", initNaverMap);
+measuredLogSelect?.addEventListener("change", () => {
+  measuredTrack = [];
+  svgMeasuredPoints = [];
+  selectableMeasuredNodes = [];
+  campusNodes = { ...baseCampusNodes };
+  selectedNodeIds = [];
+  renderNodePicker();
+  renderMeasuredNodes();
+  renderNaverMeasuredNodes();
+  updateNodeOrder();
+  clearRoute("실측 로그를 바꿨습니다. 실측 GNSS 노드 불러오기를 다시 눌러 주세요.");
+  updateNodeStats("로그 변경");
+  setMapStatus("실측 로그를 바꿨습니다. 다시 불러오면 지도에 새 경로가 표시됩니다.");
+});
+nodeLimit.addEventListener("change", () => {
+  selectedNodeIds = [];
+  campusNodes = { ...baseCampusNodes };
+  renderNodePicker();
+  renderMeasuredNodes();
+  renderNaverMeasuredNodes();
+  updateNodeOrder();
+  clearRoute(`실측 경로 위에서 노드 ${nodeLimit.value}개를 선택해 주세요.`);
+  updateNodeStats("개수 변경");
+});
+measuredBasePath.addEventListener("click", (event) => {
+  if (!measuredTrack.length) return;
+  const [x, y] = svgPointFromEvent(event);
+  const nearest = nearestMeasuredPointBySvg(x, y);
+  if (nearest.point && nearest.distance < 45) {
+    addMeasuredNodeFromPoint(nearest.point);
+  }
 });
 
 const savedClientId = localStorage.getItem("naverMapClientId");
-if (savedClientId) naverClientId.value = savedClientId;
+if (savedClientId) {
+  naverClientId.value = savedClientId;
+}
 
-renderCandidates();
 renderNodePicker();
-updateSummary();
+updateNodeOrder();
+clearRoute("네이버 지도 위 실측 경로를 불러온 뒤 경로 위를 클릭해 주세요.");
+updateNodeStats("대기");
+renderGraphNodeSelects();
+renderGraphDocument();
+renderGraphOverlay();
