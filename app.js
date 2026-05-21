@@ -542,12 +542,18 @@ function importNodeGraphFile(file) {
 }
 
 async function loadDefaultNodeGraphFile() {
-  if (nodeGraph.nodes.length || nodeGraph.edges.length) return;
   try {
     const response = await fetch("node_graph.json", { cache: "no-store" });
     if (!response.ok) return;
     const data = await response.json();
-    importNodeGraphData(data, "node_graph.json");
+    const bundledGraph = normalizeNodeGraph(data);
+    const hasNoLocalGraph = !nodeGraph.nodes.length && !nodeGraph.edges.length;
+    const bundledIsNewer = bundledGraph.edges.length > nodeGraph.edges.length
+      || bundledGraph.nodes.length > nodeGraph.nodes.length;
+
+    if (hasNoLocalGraph || bundledIsNewer) {
+      importNodeGraphData(bundledGraph, "node_graph.json");
+    }
   } catch {
     // node_graph.json is optional. Ignore when the file is not present on GitHub Pages.
   }
