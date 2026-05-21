@@ -949,14 +949,14 @@ function samplePathPoints(path, maxPoints = 1200) {
 
 function shouldRenderGraphDots() {
   if (!naverMap?.getZoom) return false;
-  return naverMap.getZoom() >= 18 && nodeGraph.edges.length <= 20;
+  return naverMap.getZoom() >= 18 && nodeGraph.edges.length <= 45;
 }
 
 function getGraphDotBudget() {
-  if (!naverMap?.getZoom) return 8;
-  if (nodeGraph.edges.length <= 20 && naverMap.getZoom() >= 18) return 60;
-  if (nodeGraph.edges.length <= 60) return 18;
-  return 8;
+  if (!naverMap?.getZoom) return 0;
+  if (nodeGraph.edges.length <= 20 && naverMap.getZoom() >= 18) return 36;
+  if (nodeGraph.edges.length <= 45 && naverMap.getZoom() >= 18) return 12;
+  return 0;
 }
 
 function shouldRenderGraphLabels() {
@@ -1035,23 +1035,25 @@ function renderNaverGraphOverlay() {
     });
     naverGraphPolylines.push(polyline);
 
-    sampleEdgeDotPoints(edgePath, 18, dotBudget).forEach((point) => {
-      const dot = new naver.maps.Marker({
-        map: naverMap,
-        position: new naver.maps.LatLng(point.lat, point.lng),
-        icon: {
-          content: `
-            <div style="
-              width:11px;height:11px;border-radius:50%;
-              background:#f1a638;border:2px solid #ffffff;
-              box-shadow:0 2px 6px rgba(97,64,0,.32);"></div>
-          `,
-          anchor: new naver.maps.Point(6, 6)
-        },
-        zIndex: 20000
+    if (renderDots && dotBudget > 0) {
+      sampleEdgeDotPoints(edgePath, 22, dotBudget).forEach((point) => {
+        const dot = new naver.maps.Marker({
+          map: naverMap,
+          position: new naver.maps.LatLng(point.lat, point.lng),
+          icon: {
+            content: `
+              <div style="
+                width:10px;height:10px;border-radius:50%;
+                background:#f1a638;border:2px solid #ffffff;
+                box-shadow:0 2px 6px rgba(97,64,0,.32);"></div>
+            `,
+            anchor: new naver.maps.Point(5, 5)
+          },
+          zIndex: 20000
+        });
+        naverGraphEdgeDots.push(dot);
       });
-      naverGraphEdgeDots.push(dot);
-    });
+    }
 
     if (renderLabels) {
       const midPoint = edgePath[Math.floor(edgePath.length / 2)];
@@ -1094,23 +1096,25 @@ function renderNaverGraphOverlay() {
     });
     naverGraphPolylines.push(candidatePolyline);
 
-    sampleEdgeDotPoints(edgePath, 18, Math.min(10, dotBudget)).forEach((point) => {
-      const dot = new naver.maps.Marker({
-        map: naverMap,
-        position: new naver.maps.LatLng(point.lat, point.lng),
-        icon: {
-          content: `
-            <div style="
-              width:10px;height:10px;border-radius:50%;
-              background:#ffd166;border:2px solid #ffffff;
-              box-shadow:0 2px 6px rgba(97,64,0,.28);opacity:.95;"></div>
-          `,
-          anchor: new naver.maps.Point(5, 5)
-        },
-        zIndex: 18000
+    if (renderDots && dotBudget > 0) {
+      sampleEdgeDotPoints(edgePath, 22, Math.min(8, dotBudget)).forEach((point) => {
+        const dot = new naver.maps.Marker({
+          map: naverMap,
+          position: new naver.maps.LatLng(point.lat, point.lng),
+          icon: {
+            content: `
+              <div style="
+                width:10px;height:10px;border-radius:50%;
+                background:#ffd166;border:2px solid #ffffff;
+                box-shadow:0 2px 6px rgba(97,64,0,.28);opacity:.95;"></div>
+            `,
+            anchor: new naver.maps.Point(5, 5)
+          },
+          zIndex: 18000
+        });
+        naverGraphEdgeDots.push(dot);
       });
-      naverGraphEdgeDots.push(dot);
-    });
+    }
 
     if (renderLabels && graphEdgeCandidates.length <= 20) {
       const midPoint = edgePath[Math.floor(edgePath.length / 2)];
@@ -1892,8 +1896,9 @@ function findRecommendedGraphRoute() {
 
   const adjacency = buildGraphAdjacency();
   const maxDistance = Math.min(MAX_TARGET_DISTANCE + 0.45, Math.max(targetDistance + 0.55, targetDistance * 1.12));
-  const maxDepth = Math.max(24, Math.ceil(targetDistance / 0.2) + 6);
-  const beamLimit = 9000;
+  const maxDepth = Math.max(20, Math.ceil(targetDistance / 0.24) + 5);
+  const beamLimit = 2800;
+  const maxCandidateCount = 1600;
   const maxNodeVisits = targetDistance >= 4.5 ? 2 : 1;
   const maxEdgeUses = 1;
   let states = [{
@@ -1950,6 +1955,14 @@ function findRecommendedGraphRoute() {
 
         if (step.to === endId && nextState.edgeSteps.length >= 1) {
           candidates.push(nextState);
+          if (candidates.length > maxCandidateCount) {
+            candidates.sort((a, b) => {
+              const distanceCompare = Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
+              const spreadCompare = getRouteSpreadProfile(a).concentrationPenalty - getRouteSpreadProfile(b).concentrationPenalty;
+              return distanceCompare || spreadCompare;
+            });
+            candidates.length = Math.floor(maxCandidateCount * 0.75);
+          }
         }
         const shouldKeepExploring = step.to !== endId
           || endId === startId
