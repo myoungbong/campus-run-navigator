@@ -1790,6 +1790,43 @@ function scoreGraphRoute(candidate, difficulty) {
   return distanceError * 14 + Math.abs(climbDensity - targetClimbDensity) * 0.01;
 }
 
+function getRouteSpreadProfile(candidate) {
+  const nodesById = new Map(nodeGraph.nodes.map((node) => [node.id, node]));
+  const routeNodes = candidate.nodeIds
+    .map((id) => nodesById.get(id))
+    .filter((node) => Number.isFinite(node?.lat) && Number.isFinite(node?.lng));
+  const uniqueNodeCount = new Set(candidate.nodeIds).size;
+  const repeatedNodeCount = Math.max(0, candidate.nodeIds.length - uniqueNodeCount);
+  const repeatedEdgeCount = Object.values(candidate.edgeUses || {})
+    .reduce((sum, count) => sum + Math.max(0, count - 1), 0);
+
+  if (routeNodes.length < 2) {
+    return {
+      repeatedNodeCount,
+      repeatedEdgeCount,
+      uniqueNodeRatio: 1,
+      spreadKm: 0,
+      concentrationPenalty: repeatedNodeCount + repeatedEdgeCount
+    };
+  }
+
+  const lats = routeNodes.map((node) => node.lat);
+  const lngs = routeNodes.map((node) => node.lng);
+  const southWest = { lat: Math.min(...lats), lng: Math.min(...lngs) };
+  const northEast = { lat: Math.max(...lats), lng: Math.max(...lngs) };
+  const spreadKm = distanceKm(southWest, northEast);
+  const uniqueNodeRatio = uniqueNodeCount / Math.max(1, candidate.nodeIds.length);
+  const compactLoopPenalty = Math.max(0, targetDistance * 0.12 - spreadKm) * 1.8;
+
+  return {
+    repeatedNodeCount,
+    repeatedEdgeCount,
+    uniqueNodeRatio,
+    spreadKm,
+    concentrationPenalty: repeatedNodeCount * 0.9 + repeatedEdgeCount * 1.8 + compactLoopPenalty - uniqueNodeRatio
+  };
+}
+
 function selectRecommendedCandidate(candidates, difficulty) {
   const byDistance = [...candidates].sort((a, b) => {
     return Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
@@ -1801,10 +1838,12 @@ function selectRecommendedCandidate(candidates, difficulty) {
     ? nearTarget
     : byDistance.slice(0, Math.min(12, byDistance.length));
   const climbScore = (candidate) => (candidate.climb || 0) + (candidate.descent || 0) * 0.65;
+  const routeVarietyScore = (candidate) => getRouteSpreadProfile(candidate).concentrationPenalty;
   const distanceThenDifficulty = (a, b, difficultyCompare) => {
     const distanceCompare = Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
     if (!nearTarget.length && Math.abs(distanceCompare) > 0.35) return distanceCompare;
-    return difficultyCompare || distanceCompare;
+    const varietyCompare = routeVarietyScore(a) - routeVarietyScore(b);
+    return varietyCompare || difficultyCompare || distanceCompare;
   };
 
   if (difficulty === "easy") {
@@ -1922,6 +1961,7 @@ function findRecommendedGraphRoute() {
 
   const difficulty = slopeMode?.value || "medium";
   const best = selectRecommendedCandidate(candidates, difficulty);
+  const spreadProfile = getRouteSpreadProfile(best);
   const nodesById = new Map(nodeGraph.nodes.map((node) => [node.id, node]));
   const fullPath = [];
   best.edgeSteps.forEach((step, stepIndex) => {
@@ -1982,6 +2022,7 @@ function findRecommendedGraphRoute() {
     }),
     stops,
     guideSegments,
+    spreadProfile,
     latlng: fullPath.map((point) => [point.lat, point.lng]),
     description: best.nodeIds.map((id) => nodesById.get(id)?.name || id).join(" → ")
   };
@@ -1992,7 +2033,10 @@ function recommendGraphRoute() {
   if (!route) return;
   renderRoute(route);
   const match = route.targetMatch || getTargetMatchInfo(route.distance);
-  setMapStatus(`${route.level} 난이도 추천 경로를 만들었습니다. 목표 ${formatTargetDistance(route.targetDistance || targetDistance)} km / 실제 ${route.distance.toFixed(3)} km (${match.grade}), 누적 상승/하강 ${formatElevationChange(route.climb, route.descent)}, 고도 범위 ${formatAltitudeRange(route.minAltitude, route.maxAltitude)}.`);
+  const spreadText = route.spreadProfile
+    ? `, 동선 분산 약 ${route.spreadProfile.spreadKm.toFixed(2)} km, 반복 구간 ${route.spreadProfile.repeatedEdgeCount}개`
+    : "";
+  setMapStatus(`${route.level} 난이도 추천 경로를 만들었습니다. 목표 ${formatTargetDistance(route.targetDistance || targetDistance)} km / 실제 ${route.distance.toFixed(3)} km (${match.grade}), 누적 상승/하강 ${formatElevationChange(route.climb, route.descent)}, 고도 범위 ${formatAltitudeRange(route.minAltitude, route.maxAltitude)}${spreadText}.`);
 }
 
 function drawPoints(points) {
