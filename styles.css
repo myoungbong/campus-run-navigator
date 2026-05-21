@@ -715,6 +715,14 @@ select {
   fill: var(--coral);
 }
 
+.route-point.recommended {
+  fill: var(--mint);
+}
+
+.route-point.recommended.end {
+  fill: #17a673;
+}
+
 .summary-panel {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

@@ -21,6 +21,7 @@
   <nav class="quick-links" aria-label="페이지 이동">
     <a class="quick-link active" href="index.html">실측 경로 분석</a>
     <a class="quick-link" href="walked_path.html">실측 GNSS 경로 보기</a>
+    <a class="quick-link" href="graph_view.html">연결 노드 보기</a>
   </nav>
 
   <main class="app-shell">
@@ -30,11 +31,16 @@
         <h2>러닝 조건</h2>
       </div>
 
-      <label>목표 거리</label>
-      <div class="segmented" role="group" aria-label="목표 거리 선택">
-        <button class="distance-btn" data-distance="2">2 km</button>
-        <button class="distance-btn" data-distance="3">3 km</button>
-        <button class="distance-btn" data-distance="5">5 km</button>
+      <label for="routeStartNode">출발점</label>
+      <select id="routeStartNode"></select>
+
+      <label for="routeEndNode">도착점</label>
+      <select id="routeEndNode"></select>
+
+      <label for="targetDistance">목표 거리</label>
+      <div class="pace-row distance-row">
+        <input id="targetDistance" type="range" min="1" max="10" step="0.5" value="5">
+        <strong><span id="targetDistanceValue">5.0</span> km</strong>
       </div>
 
       <label for="pace">러닝 페이스</label>
@@ -45,8 +51,12 @@
 
       <label for="slopeMode">경사도 반영</label>
       <select id="slopeMode">
-        <option value="off">현재 미사용</option>
+        <option value="easy">쉬움</option>
+        <option value="medium" selected>중간</option>
+        <option value="hard">어려움</option>
       </select>
+
+      <button class="primary-action" id="recommendGraphRoute">추천 경로 만들기</button>
 
       <label for="measuredLog">실측 로그 선택</label>
       <select id="measuredLog">
@@ -56,7 +66,8 @@
         <option value="gnss_log_4.csv">실측 경로 3</option>
       </select>
 
-      <button class="secondary-action" id="loadMeasuredNodes">실측 GNSS 경로 불러오기</button>
+      <button class="secondary-action" id="loadMeasuredNodes">GNSS: OFF</button>
+      <button class="secondary-action" id="showGraphOverlay">연결 노드: OFF</button>
 
       <label for="nodeLimit">선택할 노드 개수</label>
       <select id="nodeLimit">
@@ -111,6 +122,7 @@
         <input id="naverClientId" type="password" placeholder="네이버 지도 Client ID 입력">
         <button id="loadNaverMap">지도 불러오기</button>
         <a href="https://map.naver.com/p/search/%EC%B6%A9%EB%B6%81%EB%8C%80%ED%95%99%EA%B5%90" target="_blank" rel="noreferrer">네이버 지도에서 보기</a>
+        <a href="graph_view.html">연결 노드 보기</a>
       </div>
       <div class="fallback-notice" id="mapStatus">네이버 지도와 GNSS 로그 상태가 여기에 표시됩니다.</div>
 
@@ -163,9 +175,9 @@
             <text x="642" y="417">종합운동장</text>
           </g>
 
-          <path id="routePath" d="" class="route-path" filter="url(#softShadow)"/>
           <path id="measuredBasePath" class="measured-base-path" d=""></path>
           <g id="graphLayer"></g>
+          <path id="routePath" d="" class="route-path" filter="url(#softShadow)"/>
           <g id="routePoints"></g>
           <g id="measuredNodeLayer"></g>
           <g id="nodeTooltipLayer"></g>
@@ -207,6 +219,6 @@
     </section>
   </main>
 
-  <script src="app.js?v=20260518-graph-transfer"></script>
+  <script src="app.js?v=20260521-difficulty-repeat-order"></script>
 </body>
 </html>

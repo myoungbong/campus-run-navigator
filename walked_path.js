@@ -144,7 +144,19 @@ function renderSvgTrack(points) {
 
   const start = projected[0];
   const end = projected[projected.length - 1];
+  const measuredDots = projected.map((point) => `
+    <circle
+      cx="${point.x.toFixed(1)}"
+      cy="${point.y.toFixed(1)}"
+      r="3.6"
+      fill="#ffffff"
+      stroke="#ff3b30"
+      stroke-width="2.4"
+      opacity="0.96"></circle>
+  `).join("");
+
   walkPoints.innerHTML = `
+    ${measuredDots}
     <circle class="route-point" cx="${start.x}" cy="${start.y}" r="13"></circle>
     <text class="walk-label" x="${start.x + 18}" y="${start.y - 14}">Start</text>
     <circle class="route-point end" cx="${end.x}" cy="${end.y}" r="13"></circle>
@@ -191,12 +203,31 @@ function renderNaverTrack(points) {
     walkPolylines.push(new naver.maps.Polyline({
       map: walkMap,
       path,
-      strokeColor: "#e96754",
-      strokeOpacity: 0.95,
-      strokeWeight: 6,
+      strokeColor: "#ff3b30",
+      strokeOpacity: 0.58,
+      strokeWeight: 5,
       strokeLineCap: "round",
       strokeLineJoin: "round"
     }));
+  });
+
+  points.forEach((point) => {
+    const marker = new naver.maps.Marker({
+      map: walkMap,
+      position: new naver.maps.LatLng(point.lat, point.lng),
+      icon: {
+        content: `
+          <div style="
+            width:9px;height:9px;border-radius:50%;
+            background:#ff3b30;border:2px solid #ffffff;
+            box-shadow:0 0 0 2px rgba(255,59,48,.22);
+            box-sizing:border-box;"></div>
+        `,
+        anchor: new naver.maps.Point(4, 4)
+      },
+      zIndex: 15000
+    });
+    walkMarkers.push(marker);
   });
 
   const path = points.map((point) => new naver.maps.LatLng(point.lat, point.lng));
@@ -241,7 +272,7 @@ async function initNaverMap() {
 
 async function loadTrack() {
   const selectedLog = walkMeasuredLog?.value || "all";
-  const logFiles = selectedLog === "all" ? ["gnss_log_2.csv", "gnss_log_3.csv"] : [selectedLog];
+  const logFiles = selectedLog === "all" ? ["gnss_log_2.csv", "gnss_log_3.csv", "gnss_log_4.csv"] : [selectedLog];
   const groups = await Promise.all(logFiles.map(async (logFile) => {
     const response = await fetch(logFile);
     const csv = await response.text();

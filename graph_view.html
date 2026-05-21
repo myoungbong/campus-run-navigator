@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>연결 노드 보기</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">대표 노드 그래프 시각화</p>
+      <h1>충북대 연결 노드 보기</h1>
+    </div>
+    <div class="status-pill">
+      <span class="dot"></span>
+      node_graph.json
+    </div>
+  </header>
+
+  <nav class="quick-links" aria-label="페이지 이동">
+    <a class="quick-link" href="index.html">추천 경로 설계</a>
+    <a class="quick-link" href="walked_path.html">실측 GNSS 경로 보기</a>
+    <a class="quick-link active" href="graph_view.html">연결 노드 보기</a>
+  </nav>
+
+  <main class="walk-shell">
+    <section class="walk-map-panel" id="graphMapPanel">
+      <div class="map-toolbar">
+        <div>
+          <p class="eyebrow">Node Graph</p>
+          <h2 id="graphViewTitle">연결 노드 그래프를 불러오는 중</h2>
+        </div>
+        <div class="route-badge" id="graphViewBadge">JSON 분석</div>
+      </div>
+
+      <div class="naver-config">
+        <input id="graphNaverClientId" type="password" placeholder="네이버 지도 Client ID 입력">
+        <button id="loadGraphNaverMap">네이버 지도에 표시</button>
+        <a href="index.html">추천 경로 화면</a>
+      </div>
+
+      <div class="walk-map-wrap">
+        <div id="graphNaverMap" class="naver-map" aria-label="네이버 지도 기반 연결 노드 그래프"></div>
+        <svg id="graphSvg" class="walk-svg" viewBox="0 0 900 560" role="img" aria-label="연결 노드 그래프">
+          <rect x="0" y="0" width="900" height="560" rx="28" fill="#eef4ef"></rect>
+          <path d="M68 135 C192 96 306 110 438 82 C570 52 702 70 836 122" class="terrain-line"></path>
+          <path d="M82 450 C210 378 332 394 462 338 C586 286 704 290 828 232" class="terrain-line"></path>
+          <path d="M82 120 C204 188 318 244 448 306 C586 372 704 422 830 470" class="road"></path>
+          <path d="M118 488 C210 384 318 316 438 248 C564 176 690 126 820 92" class="road"></path>
+          <path id="graphViewEdges" class="graph-edge" d=""></path>
+          <g id="graphViewDots"></g>
+          <g id="graphViewNodes"></g>
+        </svg>
+      </div>
+    </section>
+
+    <section class="walk-summary-panel">
+      <div class="metric">
+        <span>대표 노드</span>
+        <strong id="graphNodeCount">-</strong>
+      </div>
+      <div class="metric">
+        <span>연결 구간</span>
+        <strong id="graphEdgeCount">-</strong>
+      </div>
+      <div class="metric">
+        <span>총 연결 거리</span>
+        <strong id="graphTotalDistance">-</strong>
+      </div>
+      <div class="metric">
+        <span>고도 범위</span>
+        <strong id="graphAltitudeRange">-</strong>
+      </div>
+    </section>
+  </main>
+
+  <script src="graph_view.js?v=20260520-graph-view"></script>
+</body>
+</html>

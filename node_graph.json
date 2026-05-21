@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exportedAt": "2026-05-18T13:53:42.299Z",
+  "exportedAt": "2026-05-20T12:34:26.852Z",
   "nodes": [
     {
       "id": "N001",
@@ -193,16 +193,6 @@
       "sourceLog": "gnss_log_3.csv"
     },
     {
-      "id": "N027",
-      "name": "기숙사 본관",
-      "lat": 36.6311258,
-      "lng": 127.4574242,
-      "altitude": 72,
-      "sourceKey": "track:984",
-      "sourceIndex": 984,
-      "sourceLog": "gnss_log_3.csv"
-    },
-    {
       "id": "N028",
       "name": "자연대3호관 S1-3동",
       "lat": 36.6265535,
@@ -331,31 +321,109 @@
       "sourceKey": "track:4752",
       "sourceIndex": 4752,
       "sourceLog": "gnss_log_4.csv"
+    },
+    {
+      "id": "N041",
+      "name": "공동실습실험관 N11동",
+      "lat": 36.6289762,
+      "lng": 127.4551222,
+      "altitude": 66.3,
+      "sourceKey": "track:7570",
+      "sourceIndex": 7570,
+      "sourceLog": "gnss_log_4.csv"
+    },
+    {
+      "id": "N042",
+      "name": "솔못",
+      "lat": 36.6284923,
+      "lng": 127.4557065,
+      "altitude": 65.5,
+      "sourceKey": "track:7889",
+      "sourceIndex": 7889,
+      "sourceLog": "gnss_log_4.csv"
+    },
+    {
+      "id": "N043",
+      "name": "도서관 및 자연과학대학1호관 S1-1동",
+      "lat": 36.6280622,
+      "lng": 127.4567167,
+      "altitude": 61.8,
+      "sourceKey": "track:4521",
+      "sourceIndex": 4521,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N044",
+      "name": "박물관",
+      "lat": 36.627501,
+      "lng": 127.4552958,
+      "altitude": 74.2,
+      "sourceKey": "track:6462",
+      "sourceIndex": 6462,
+      "sourceLog": "gnss_log_4.csv"
+    },
+    {
+      "id": "N045",
+      "name": "충북대 병원",
+      "lat": 36.6248073,
+      "lng": 127.462424,
+      "altitude": 65.9,
+      "sourceKey": "track:5235",
+      "sourceIndex": 5235,
+      "sourceLog": "gnss_log_4.csv"
+    },
+    {
+      "id": "N046",
+      "name": "사회과학대학 N15동",
+      "lat": 36.6293965,
+      "lng": 127.4573498,
+      "altitude": 60.5,
+      "sourceKey": "track:887",
+      "sourceIndex": 887,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N047",
+      "name": "기숙사 본관",
+      "lat": 36.6312325,
+      "lng": 127.4573875,
+      "altitude": 65.4,
+      "sourceKey": "track:991",
+      "sourceIndex": 991,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N048",
+      "name": "제2학생회관 S14동",
+      "lat": 36.6274783,
+      "lng": 127.4544482,
+      "altitude": 67.9,
+      "sourceKey": "track:1721",
+      "sourceIndex": 1721,
+      "sourceLog": "gnss_log_3.csv"
+    },
+    {
+      "id": "N049",
+      "name": "자연대 올라가는 길 및 사거리",
+      "lat": 36.627498,
+      "lng": 127.4576782,
+      "altitude": 62.6,
+      "sourceKey": "track:6041",
+      "sourceIndex": 6041,
+      "sourceLog": "gnss_log_4.csv"
+    },
+    {
+      "id": "N050",
+      "name": "미술관 N16-2동",
+      "lat": 36.6306738,
+      "lng": 127.4574433,
+      "altitude": 68.1,
+      "sourceKey": "track:960",
+      "sourceIndex": 960,
+      "sourceLog": "gnss_log_3.csv"
     }
   ],
   "edges": [
-    {
-      "id": "EN001-N002",
-      "from": "N001",
-      "to": "N002",
-      "distanceKm": 0.666,
-      "climbM": 8,
-      "descentM": 0,
-      "altitudeRange": "64-72 m",
-      "method": "직선 연결",
-      "path": [
-        {
-          "lat": 36.6249365,
-          "lng": 127.4634122,
-          "altitude": 64.3
-        },
-        {
-          "lat": 36.6307095,
-          "lng": 127.4614343,
-          "altitude": 71.8
-        }
-      ]
-    },
     {
       "id": "EN003-N040",
       "from": "N003",
@@ -435,6 +503,6388 @@
           "lat": 36.6253408,
           "lng": 127.462458,
           "altitude": 57.1
+        }
+      ]
+    },
+    {
+      "id": "EN022-N024",
+      "from": "N022",
+      "to": "N024",
+      "distanceKm": 0.023,
+      "climbM": 1,
+      "descentM": 0,
+      "altitudeRange": "57-58 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6304813,
+          "lng": 127.4551013,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6304813,
+          "lng": 127.4551013,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6305587,
+          "lng": 127.4553453,
+          "altitude": 57.9
+        }
+      ]
+    },
+    {
+      "id": "EN014-N029",
+      "from": "N014",
+      "to": "N029",
+      "distanceKm": 0.024,
+      "climbM": 0,
+      "descentM": 2,
+      "altitudeRange": "62-64 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.627927,
+          "lng": 127.4581892,
+          "altitude": 63.7
+        },
+        {
+          "lat": 36.6281212,
+          "lng": 127.4583168,
+          "altitude": 62
+        },
+        {
+          "lat": 36.6281212,
+          "lng": 127.4583168,
+          "altitude": 62
+        }
+      ]
+    },
+    {
+      "id": "EN011-N028",
+      "from": "N011",
+      "to": "N028",
+      "distanceKm": 0.042,
+      "climbM": 0,
+      "descentM": 2,
+      "altitudeRange": "69-71 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.62621,
+          "lng": 127.457197,
+          "altitude": 71.4
+        },
+        {
+          "lat": 36.62621,
+          "lng": 127.457197,
+          "altitude": 71.4
+        },
+        {
+          "lat": 36.6264392,
+          "lng": 127.4572418,
+          "altitude": 69.4
+        },
+        {
+          "lat": 36.6265535,
+          "lng": 127.4573627,
+          "altitude": 69.8
+        }
+      ]
+    },
+    {
+      "id": "EN003-N004",
+      "from": "N003",
+      "to": "N004",
+      "distanceKm": 0.052,
+      "climbM": 1,
+      "descentM": 1,
+      "altitudeRange": "65-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6262592,
+          "lng": 127.4600645,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6262592,
+          "lng": 127.4600645,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6264068,
+          "lng": 127.459838,
+          "altitude": 64.7
+        },
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        }
+      ]
+    },
+    {
+      "id": "EN030-N031",
+      "from": "N030",
+      "to": "N031",
+      "distanceKm": 0.057,
+      "climbM": 5,
+      "descentM": 3,
+      "altitudeRange": "66-71 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6250955,
+          "lng": 127.4583877,
+          "altitude": 69.6
+        },
+        {
+          "lat": 36.6250057,
+          "lng": 127.4581692,
+          "altitude": 66.3
+        },
+        {
+          "lat": 36.6247928,
+          "lng": 127.4580638,
+          "altitude": 65.8
+        },
+        {
+          "lat": 36.6248067,
+          "lng": 127.4579527,
+          "altitude": 71.2
+        }
+      ]
+    },
+    {
+      "id": "EN008-N031",
+      "from": "N008",
+      "to": "N031",
+      "distanceKm": 0.067,
+      "climbM": 5,
+      "descentM": 9,
+      "altitudeRange": "66-75 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6243007,
+          "lng": 127.4580227,
+          "altitude": 75.1
+        },
+        {
+          "lat": 36.6244258,
+          "lng": 127.4579883,
+          "altitude": 67.7
+        },
+        {
+          "lat": 36.6245838,
+          "lng": 127.4577948,
+          "altitude": 65.8
+        },
+        {
+          "lat": 36.6248067,
+          "lng": 127.4579527,
+          "altitude": 71.2
+        }
+      ]
+    },
+    {
+      "id": "EN025-N026",
+      "from": "N025",
+      "to": "N026",
+      "distanceKm": 0.073,
+      "climbM": 5,
+      "descentM": 1,
+      "altitudeRange": "58-62 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.630313,
+          "lng": 127.4564483,
+          "altitude": 58
+        },
+        {
+          "lat": 36.6304827,
+          "lng": 127.4565793,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.6306685,
+          "lng": 127.456747,
+          "altitude": 61
+        },
+        {
+          "lat": 36.6308607,
+          "lng": 127.4569035,
+          "altitude": 62.3
+        }
+      ]
+    },
+    {
+      "id": "EN034-N035",
+      "from": "N034",
+      "to": "N035",
+      "distanceKm": 0.074,
+      "climbM": 0,
+      "descentM": 2,
+      "altitudeRange": "71-73 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6305323,
+          "lng": 127.459433,
+          "altitude": 72.8
+        },
+        {
+          "lat": 36.6306047,
+          "lng": 127.4591072,
+          "altitude": 71.1
+        },
+        {
+          "lat": 36.6306443,
+          "lng": 127.4586208,
+          "altitude": 71.2
+        }
+      ]
+    },
+    {
+      "id": "EN021-N033",
+      "from": "N021",
+      "to": "N033",
+      "distanceKm": 0.075,
+      "climbM": 2,
+      "descentM": 1,
+      "altitudeRange": "61-63 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6297257,
+          "lng": 127.4542595,
+          "altitude": 61.4
+        },
+        {
+          "lat": 36.6297393,
+          "lng": 127.454189,
+          "altitude": 60.7
+        },
+        {
+          "lat": 36.6296608,
+          "lng": 127.4539595,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.6294622,
+          "lng": 127.4538133,
+          "altitude": 62.8
+        },
+        {
+          "lat": 36.629385,
+          "lng": 127.4535985,
+          "altitude": 63.4
+        }
+      ]
+    },
+    {
+      "id": "EN036-N037",
+      "from": "N036",
+      "to": "N037",
+      "distanceKm": 0.098,
+      "climbM": 2,
+      "descentM": 5,
+      "altitudeRange": "71-75 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6304318,
+          "lng": 127.4603467,
+          "altitude": 73.7
+        },
+        {
+          "lat": 36.6302262,
+          "lng": 127.4599155,
+          "altitude": 75.4
+        },
+        {
+          "lat": 36.6299962,
+          "lng": 127.4598877,
+          "altitude": 74.1
+        },
+        {
+          "lat": 36.6297767,
+          "lng": 127.4598292,
+          "altitude": 72.8
+        },
+        {
+          "lat": 36.6297947,
+          "lng": 127.4598053,
+          "altitude": 70.7
+        }
+      ]
+    },
+    {
+      "id": "EN034-N036",
+      "from": "N034",
+      "to": "N036",
+      "distanceKm": 0.1,
+      "climbM": 3,
+      "descentM": 2,
+      "altitudeRange": "73-75 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6305323,
+          "lng": 127.459433,
+          "altitude": 72.8
+        },
+        {
+          "lat": 36.6302885,
+          "lng": 127.4598275,
+          "altitude": 74.2
+        },
+        {
+          "lat": 36.6302262,
+          "lng": 127.4599155,
+          "altitude": 75.4
+        },
+        {
+          "lat": 36.6304318,
+          "lng": 127.4603467,
+          "altitude": 73.7
+        }
+      ]
+    },
+    {
+      "id": "EN034-N037",
+      "from": "N034",
+      "to": "N037",
+      "distanceKm": 0.101,
+      "climbM": 3,
+      "descentM": 6,
+      "altitudeRange": "69-74 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6305323,
+          "lng": 127.459433,
+          "altitude": 72.8
+        },
+        {
+          "lat": 36.6302885,
+          "lng": 127.4598275,
+          "altitude": 74.2
+        },
+        {
+          "lat": 36.630066,
+          "lng": 127.4598308,
+          "altitude": 71.5
+        },
+        {
+          "lat": 36.6298398,
+          "lng": 127.4597717,
+          "altitude": 68.7
+        },
+        {
+          "lat": 36.6297947,
+          "lng": 127.4598053,
+          "altitude": 70.7
+        }
+      ]
+    },
+    {
+      "id": "EN019-N033",
+      "from": "N019",
+      "to": "N033",
+      "distanceKm": 0.104,
+      "climbM": 0,
+      "descentM": 9,
+      "altitudeRange": "63-72 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6285367,
+          "lng": 127.4530983,
+          "altitude": 72.3
+        },
+        {
+          "lat": 36.6285367,
+          "lng": 127.4530983,
+          "altitude": 72.3
+        },
+        {
+          "lat": 36.6287573,
+          "lng": 127.4532147,
+          "altitude": 67.3
+        },
+        {
+          "lat": 36.628969,
+          "lng": 127.453348,
+          "altitude": 65.1
+        },
+        {
+          "lat": 36.6291682,
+          "lng": 127.4534713,
+          "altitude": 64.7
+        },
+        {
+          "lat": 36.629385,
+          "lng": 127.4535985,
+          "altitude": 63.4
+        },
+        {
+          "lat": 36.629385,
+          "lng": 127.4535985,
+          "altitude": 63.4
+        }
+      ]
+    },
+    {
+      "id": "EN015-N016",
+      "from": "N015",
+      "to": "N016",
+      "distanceKm": 0.11,
+      "climbM": 1,
+      "descentM": 2,
+      "altitudeRange": "64-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6261402,
+          "lng": 127.45465,
+          "altitude": 66.3
+        },
+        {
+          "lat": 36.6262168,
+          "lng": 127.4542818,
+          "altitude": 64.9
+        },
+        {
+          "lat": 36.6264287,
+          "lng": 127.4541848,
+          "altitude": 64.2
+        },
+        {
+          "lat": 36.6268733,
+          "lng": 127.4543158,
+          "altitude": 65
+        }
+      ]
+    },
+    {
+      "id": "EN010-N032",
+      "from": "N010",
+      "to": "N032",
+      "distanceKm": 0.114,
+      "climbM": 1,
+      "descentM": 3,
+      "altitudeRange": "66-68 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6244698,
+          "lng": 127.4560718,
+          "altitude": 68.2
+        },
+        {
+          "lat": 36.6243305,
+          "lng": 127.4558628,
+          "altitude": 67
+        },
+        {
+          "lat": 36.6241395,
+          "lng": 127.4557118,
+          "altitude": 67.8
+        },
+        {
+          "lat": 36.6239197,
+          "lng": 127.4556512,
+          "altitude": 67.6
+        },
+        {
+          "lat": 36.6237208,
+          "lng": 127.455491,
+          "altitude": 67.7
+        },
+        {
+          "lat": 36.6236235,
+          "lng": 127.4554033,
+          "altitude": 65.7
+        }
+      ]
+    },
+    {
+      "id": "EN002-N036",
+      "from": "N002",
+      "to": "N036",
+      "distanceKm": 0.117,
+      "climbM": 4,
+      "descentM": 2,
+      "altitudeRange": "72-75 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6307095,
+          "lng": 127.4614343,
+          "altitude": 71.8
+        },
+        {
+          "lat": 36.630763,
+          "lng": 127.4609693,
+          "altitude": 71.6
+        },
+        {
+          "lat": 36.630784,
+          "lng": 127.4606993,
+          "altitude": 71.8
+        },
+        {
+          "lat": 36.6306242,
+          "lng": 127.4605003,
+          "altitude": 75.4
+        },
+        {
+          "lat": 36.6304318,
+          "lng": 127.4603467,
+          "altitude": 73.7
+        }
+      ]
+    },
+    {
+      "id": "EN008-N030",
+      "from": "N008",
+      "to": "N030",
+      "distanceKm": 0.118,
+      "climbM": 3,
+      "descentM": 9,
+      "altitudeRange": "66-75 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6243007,
+          "lng": 127.4580227,
+          "altitude": 75.1
+        },
+        {
+          "lat": 36.6244445,
+          "lng": 127.45817,
+          "altitude": 69
+        },
+        {
+          "lat": 36.6246448,
+          "lng": 127.458282,
+          "altitude": 68.5
+        },
+        {
+          "lat": 36.6247928,
+          "lng": 127.4580638,
+          "altitude": 65.8
+        },
+        {
+          "lat": 36.6250057,
+          "lng": 127.4581692,
+          "altitude": 66.3
+        },
+        {
+          "lat": 36.6250955,
+          "lng": 127.4583877,
+          "altitude": 69.6
+        }
+      ]
+    },
+    {
+      "id": "EN001-N040",
+      "from": "N001",
+      "to": "N040",
+      "distanceKm": 0.123,
+      "climbM": 10,
+      "descentM": 17,
+      "altitudeRange": "57-74 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6249365,
+          "lng": 127.4634122,
+          "altitude": 64.3
+        },
+        {
+          "lat": 36.6248698,
+          "lng": 127.4633407,
+          "altitude": 73.8
+        },
+        {
+          "lat": 36.624863,
+          "lng": 127.4630882,
+          "altitude": 69.6
+        },
+        {
+          "lat": 36.6249103,
+          "lng": 127.4628108,
+          "altitude": 68.4
+        },
+        {
+          "lat": 36.6249807,
+          "lng": 127.4625455,
+          "altitude": 66.4
+        },
+        {
+          "lat": 36.6252017,
+          "lng": 127.4624828,
+          "altitude": 57.7
+        },
+        {
+          "lat": 36.6253408,
+          "lng": 127.462458,
+          "altitude": 57.1
+        }
+      ]
+    },
+    {
+      "id": "EN038-N039",
+      "from": "N038",
+      "to": "N039",
+      "distanceKm": 0.125,
+      "climbM": 2,
+      "descentM": 2,
+      "altitudeRange": "62-64 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6285982,
+          "lng": 127.4596103,
+          "altitude": 62.4
+        },
+        {
+          "lat": 36.6282627,
+          "lng": 127.4599937,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.628046,
+          "lng": 127.4600757,
+          "altitude": 63.8
+        },
+        {
+          "lat": 36.6276167,
+          "lng": 127.4599387,
+          "altitude": 62.2
+        }
+      ]
+    },
+    {
+      "id": "EN024-N025",
+      "from": "N024",
+      "to": "N025",
+      "distanceKm": 0.131,
+      "climbM": 3,
+      "descentM": 3,
+      "altitudeRange": "58-61 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6305587,
+          "lng": 127.4553453,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6305587,
+          "lng": 127.4553453,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6304185,
+          "lng": 127.455583,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6302928,
+          "lng": 127.4558152,
+          "altitude": 58.4
+        },
+        {
+          "lat": 36.6301538,
+          "lng": 127.4560377,
+          "altitude": 58.5
+        },
+        {
+          "lat": 36.6300678,
+          "lng": 127.4562803,
+          "altitude": 59.4
+        },
+        {
+          "lat": 36.6302768,
+          "lng": 127.4564197,
+          "altitude": 61
+        },
+        {
+          "lat": 36.630313,
+          "lng": 127.4564483,
+          "altitude": 58
+        }
+      ]
+    },
+    {
+      "id": "EN016-N017",
+      "from": "N016",
+      "to": "N017",
+      "distanceKm": 0.152,
+      "climbM": 5,
+      "descentM": 1,
+      "altitudeRange": "65-70 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6268733,
+          "lng": 127.4543158,
+          "altitude": 65
+        },
+        {
+          "lat": 36.6270837,
+          "lng": 127.4544473,
+          "altitude": 65.6
+        },
+        {
+          "lat": 36.6272857,
+          "lng": 127.4545733,
+          "altitude": 68
+        },
+        {
+          "lat": 36.6274783,
+          "lng": 127.4544482,
+          "altitude": 67.9
+        },
+        {
+          "lat": 36.6275527,
+          "lng": 127.4541893,
+          "altitude": 70
+        },
+        {
+          "lat": 36.6275072,
+          "lng": 127.4538955,
+          "altitude": 69.2
+        },
+        {
+          "lat": 36.6274023,
+          "lng": 127.4536468,
+          "altitude": 69
+        }
+      ]
+    },
+    {
+      "id": "EN022-N023",
+      "from": "N022",
+      "to": "N023",
+      "distanceKm": 0.153,
+      "climbM": 2,
+      "descentM": 1,
+      "altitudeRange": "57-58 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6304813,
+          "lng": 127.4551013,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6306985,
+          "lng": 127.4551182,
+          "altitude": 58.1
+        },
+        {
+          "lat": 36.6308275,
+          "lng": 127.454882,
+          "altitude": 57.3
+        },
+        {
+          "lat": 36.630967,
+          "lng": 127.4546595,
+          "altitude": 56.9
+        },
+        {
+          "lat": 36.6310983,
+          "lng": 127.454435,
+          "altitude": 56.6
+        },
+        {
+          "lat": 36.6312413,
+          "lng": 127.4541922,
+          "altitude": 57.1
+        },
+        {
+          "lat": 36.6313895,
+          "lng": 127.4539535,
+          "altitude": 56.7
+        }
+      ]
+    },
+    {
+      "id": "EN022-N025",
+      "from": "N022",
+      "to": "N025",
+      "distanceKm": 0.155,
+      "climbM": 4,
+      "descentM": 3,
+      "altitudeRange": "57-61 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6304813,
+          "lng": 127.4551013,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6305587,
+          "lng": 127.4553453,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6304185,
+          "lng": 127.455583,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6302928,
+          "lng": 127.4558152,
+          "altitude": 58.4
+        },
+        {
+          "lat": 36.6301538,
+          "lng": 127.4560377,
+          "altitude": 58.5
+        },
+        {
+          "lat": 36.6300678,
+          "lng": 127.4562803,
+          "altitude": 59.4
+        },
+        {
+          "lat": 36.6302768,
+          "lng": 127.4564197,
+          "altitude": 61
+        },
+        {
+          "lat": 36.630313,
+          "lng": 127.4564483,
+          "altitude": 58
+        }
+      ]
+    },
+    {
+      "id": "EN023-N024",
+      "from": "N023",
+      "to": "N024",
+      "distanceKm": 0.155,
+      "climbM": 1,
+      "descentM": 0,
+      "altitudeRange": "57-58 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6313895,
+          "lng": 127.4539535,
+          "altitude": 56.7
+        },
+        {
+          "lat": 36.6312413,
+          "lng": 127.4541922,
+          "altitude": 57.1
+        },
+        {
+          "lat": 36.6310983,
+          "lng": 127.454435,
+          "altitude": 56.6
+        },
+        {
+          "lat": 36.630967,
+          "lng": 127.4546595,
+          "altitude": 56.9
+        },
+        {
+          "lat": 36.6308275,
+          "lng": 127.454882,
+          "altitude": 57.3
+        },
+        {
+          "lat": 36.6306985,
+          "lng": 127.4551182,
+          "altitude": 58.1
+        },
+        {
+          "lat": 36.6305587,
+          "lng": 127.4553453,
+          "altitude": 57.9
+        }
+      ]
+    },
+    {
+      "id": "EN004-N039",
+      "from": "N004",
+      "to": "N039",
+      "distanceKm": 0.17,
+      "climbM": 3,
+      "descentM": 6,
+      "altitudeRange": "62-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6266727,
+          "lng": 127.459374,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6266457,
+          "lng": 127.4592113,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.62667,
+          "lng": 127.4591753,
+          "altitude": 62.1
+        },
+        {
+          "lat": 36.6268563,
+          "lng": 127.4592705,
+          "altitude": 63.6
+        },
+        {
+          "lat": 36.6270497,
+          "lng": 127.4594473,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.6272495,
+          "lng": 127.4596137,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.6274355,
+          "lng": 127.4597795,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.6276167,
+          "lng": 127.4599387,
+          "altitude": 62.2
+        }
+      ]
+    },
+    {
+      "id": "EN035-N036",
+      "from": "N035",
+      "to": "N036",
+      "distanceKm": 0.174,
+      "climbM": 4,
+      "descentM": 2,
+      "altitudeRange": "71-75 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6306443,
+          "lng": 127.4586208,
+          "altitude": 71.2
+        },
+        {
+          "lat": 36.6306047,
+          "lng": 127.4591072,
+          "altitude": 71.1
+        },
+        {
+          "lat": 36.6305445,
+          "lng": 127.4593898,
+          "altitude": 72.6
+        },
+        {
+          "lat": 36.630448,
+          "lng": 127.4596532,
+          "altitude": 73.8
+        },
+        {
+          "lat": 36.6302885,
+          "lng": 127.4598275,
+          "altitude": 74.2
+        },
+        {
+          "lat": 36.6302262,
+          "lng": 127.4599155,
+          "altitude": 75.4
+        },
+        {
+          "lat": 36.6304318,
+          "lng": 127.4603467,
+          "altitude": 73.7
+        }
+      ]
+    },
+    {
+      "id": "EN035-N037",
+      "from": "N035",
+      "to": "N037",
+      "distanceKm": 0.175,
+      "climbM": 5,
+      "descentM": 6,
+      "altitudeRange": "69-74 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6306443,
+          "lng": 127.4586208,
+          "altitude": 71.2
+        },
+        {
+          "lat": 36.6306047,
+          "lng": 127.4591072,
+          "altitude": 71.1
+        },
+        {
+          "lat": 36.6305445,
+          "lng": 127.4593898,
+          "altitude": 72.6
+        },
+        {
+          "lat": 36.630448,
+          "lng": 127.4596532,
+          "altitude": 73.8
+        },
+        {
+          "lat": 36.6302885,
+          "lng": 127.4598275,
+          "altitude": 74.2
+        },
+        {
+          "lat": 36.630066,
+          "lng": 127.4598308,
+          "altitude": 71.5
+        },
+        {
+          "lat": 36.6298398,
+          "lng": 127.4597717,
+          "altitude": 68.7
+        },
+        {
+          "lat": 36.6297947,
+          "lng": 127.4598053,
+          "altitude": 70.7
+        }
+      ]
+    },
+    {
+      "id": "EN017-N019",
+      "from": "N017",
+      "to": "N019",
+      "distanceKm": 0.178,
+      "climbM": 12,
+      "descentM": 8,
+      "altitudeRange": "61-72 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6274023,
+          "lng": 127.4536468,
+          "altitude": 69
+        },
+        {
+          "lat": 36.6275217,
+          "lng": 127.453114,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.627671,
+          "lng": 127.452897,
+          "altitude": 62.9
+        },
+        {
+          "lat": 36.6278958,
+          "lng": 127.4528025,
+          "altitude": 60.6
+        },
+        {
+          "lat": 36.6281205,
+          "lng": 127.4528697,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.6283323,
+          "lng": 127.4529817,
+          "altitude": 61.7
+        },
+        {
+          "lat": 36.6285367,
+          "lng": 127.4530983,
+          "altitude": 72.3
+        }
+      ]
+    },
+    {
+      "id": "EN019-N021",
+      "from": "N019",
+      "to": "N021",
+      "distanceKm": 0.181,
+      "climbM": 1,
+      "descentM": 11,
+      "altitudeRange": "61-72 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6285367,
+          "lng": 127.4530983,
+          "altitude": 72.3
+        },
+        {
+          "lat": 36.628631,
+          "lng": 127.453352,
+          "altitude": 66.4
+        },
+        {
+          "lat": 36.6288353,
+          "lng": 127.4534642,
+          "altitude": 65.5
+        },
+        {
+          "lat": 36.6290503,
+          "lng": 127.4535958,
+          "altitude": 64.8
+        },
+        {
+          "lat": 36.6292567,
+          "lng": 127.4537028,
+          "altitude": 63.8
+        },
+        {
+          "lat": 36.6294622,
+          "lng": 127.4538133,
+          "altitude": 62.8
+        },
+        {
+          "lat": 36.6296608,
+          "lng": 127.4539595,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.6297393,
+          "lng": 127.454189,
+          "altitude": 60.7
+        },
+        {
+          "lat": 36.6297257,
+          "lng": 127.4542595,
+          "altitude": 61.4
+        }
+      ]
+    },
+    {
+      "id": "EN007-N008",
+      "from": "N007",
+      "to": "N008",
+      "distanceKm": 0.181,
+      "climbM": 0,
+      "descentM": 9,
+      "altitudeRange": "75-83 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6241473,
+          "lng": 127.4596617,
+          "altitude": 83.2
+        },
+        {
+          "lat": 36.6239588,
+          "lng": 127.4594667,
+          "altitude": 83.4
+        },
+        {
+          "lat": 36.6237785,
+          "lng": 127.4592868,
+          "altitude": 81.5
+        },
+        {
+          "lat": 36.6238603,
+          "lng": 127.459036,
+          "altitude": 79.7
+        },
+        {
+          "lat": 36.6240012,
+          "lng": 127.4587975,
+          "altitude": 78.8
+        },
+        {
+          "lat": 36.6241187,
+          "lng": 127.4585503,
+          "altitude": 76.8
+        },
+        {
+          "lat": 36.6241807,
+          "lng": 127.4582638,
+          "altitude": 74.6
+        },
+        {
+          "lat": 36.6243007,
+          "lng": 127.4580227,
+          "altitude": 75.1
+        }
+      ]
+    },
+    {
+      "id": "EN037-N038",
+      "from": "N037",
+      "to": "N038",
+      "distanceKm": 0.198,
+      "climbM": 1,
+      "descentM": 10,
+      "altitudeRange": "62-72 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6297947,
+          "lng": 127.4598053,
+          "altitude": 70.7
+        },
+        {
+          "lat": 36.629767,
+          "lng": 127.4598092,
+          "altitude": 71.5
+        },
+        {
+          "lat": 36.6295458,
+          "lng": 127.4597847,
+          "altitude": 70.1
+        },
+        {
+          "lat": 36.6293942,
+          "lng": 127.4596337,
+          "altitude": 66.7
+        },
+        {
+          "lat": 36.6293253,
+          "lng": 127.4593587,
+          "altitude": 65.8
+        },
+        {
+          "lat": 36.6291842,
+          "lng": 127.4591417,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.6290063,
+          "lng": 127.4589757,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.6288568,
+          "lng": 127.4591397,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.6287377,
+          "lng": 127.4593753,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6285982,
+          "lng": 127.4596103,
+          "altitude": 62.4
+        }
+      ]
+    },
+    {
+      "id": "EN004-N030",
+      "from": "N004",
+      "to": "N030",
+      "distanceKm": 0.2,
+      "climbM": 8,
+      "descentM": 5,
+      "altitudeRange": "62-70 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6263315,
+          "lng": 127.4595712,
+          "altitude": 64.7
+        },
+        {
+          "lat": 36.6262842,
+          "lng": 127.4594177,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.6260875,
+          "lng": 127.4592518,
+          "altitude": 63.7
+        },
+        {
+          "lat": 36.6259037,
+          "lng": 127.4590808,
+          "altitude": 64.2
+        },
+        {
+          "lat": 36.62572,
+          "lng": 127.4589098,
+          "altitude": 63.2
+        },
+        {
+          "lat": 36.6255217,
+          "lng": 127.4587352,
+          "altitude": 64.3
+        },
+        {
+          "lat": 36.6253245,
+          "lng": 127.4585932,
+          "altitude": 66.6
+        },
+        {
+          "lat": 36.6251313,
+          "lng": 127.4584232,
+          "altitude": 69.2
+        },
+        {
+          "lat": 36.6250955,
+          "lng": 127.4583877,
+          "altitude": 69.6
+        }
+      ]
+    },
+    {
+      "id": "EN026-N035",
+      "from": "N026",
+      "to": "N035",
+      "distanceKm": 0.201,
+      "climbM": 14,
+      "descentM": 4,
+      "altitudeRange": "58-72 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6308607,
+          "lng": 127.4569035,
+          "altitude": 62.3
+        },
+        {
+          "lat": 36.6306717,
+          "lng": 127.4568025,
+          "altitude": 58.3
+        },
+        {
+          "lat": 36.6305518,
+          "lng": 127.457039,
+          "altitude": 58.4
+        },
+        {
+          "lat": 36.6304458,
+          "lng": 127.457283,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6305525,
+          "lng": 127.4574623,
+          "altitude": 63.5
+        },
+        {
+          "lat": 36.6306585,
+          "lng": 127.4576953,
+          "altitude": 66.4
+        },
+        {
+          "lat": 36.6307275,
+          "lng": 127.4579613,
+          "altitude": 66.5
+        },
+        {
+          "lat": 36.6306955,
+          "lng": 127.4582485,
+          "altitude": 71.7
+        },
+        {
+          "lat": 36.6306443,
+          "lng": 127.4586208,
+          "altitude": 71.2
+        }
+      ]
+    },
+    {
+      "id": "EN029-N038",
+      "from": "N029",
+      "to": "N038",
+      "distanceKm": 0.203,
+      "climbM": 6,
+      "descentM": 6,
+      "altitudeRange": "62-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6281212,
+          "lng": 127.4583168,
+          "altitude": 62
+        },
+        {
+          "lat": 36.6282767,
+          "lng": 127.4584417,
+          "altitude": 65.5
+        },
+        {
+          "lat": 36.6284988,
+          "lng": 127.458458,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6286995,
+          "lng": 127.458529,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6286497,
+          "lng": 127.4585867,
+          "altitude": 62.3
+        },
+        {
+          "lat": 36.6287722,
+          "lng": 127.4587977,
+          "altitude": 62.8
+        },
+        {
+          "lat": 36.6289643,
+          "lng": 127.4589597,
+          "altitude": 64.8
+        },
+        {
+          "lat": 36.6290063,
+          "lng": 127.4589757,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.6288568,
+          "lng": 127.4591397,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.6287377,
+          "lng": 127.4593753,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6285982,
+          "lng": 127.4596103,
+          "altitude": 62.4
+        }
+      ]
+    },
+    {
+      "id": "EN024-N026",
+      "from": "N024",
+      "to": "N026",
+      "distanceKm": 0.205,
+      "climbM": 4,
+      "descentM": 1,
+      "altitudeRange": "58-62 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6305587,
+          "lng": 127.4553453,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6305587,
+          "lng": 127.4553453,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6304185,
+          "lng": 127.455583,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6302928,
+          "lng": 127.4558152,
+          "altitude": 58.4
+        },
+        {
+          "lat": 36.6301538,
+          "lng": 127.4560377,
+          "altitude": 58.5
+        },
+        {
+          "lat": 36.6300678,
+          "lng": 127.4562803,
+          "altitude": 59.4
+        },
+        {
+          "lat": 36.6302768,
+          "lng": 127.4564197,
+          "altitude": 61
+        },
+        {
+          "lat": 36.6304827,
+          "lng": 127.4565793,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.6306685,
+          "lng": 127.456747,
+          "altitude": 61
+        },
+        {
+          "lat": 36.6308607,
+          "lng": 127.4569035,
+          "altitude": 62.3
+        }
+      ]
+    },
+    {
+      "id": "EN002-N037",
+      "from": "N002",
+      "to": "N037",
+      "distanceKm": 0.215,
+      "climbM": 6,
+      "descentM": 6,
+      "altitudeRange": "71-76 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6307095,
+          "lng": 127.4614343,
+          "altitude": 71.8
+        },
+        {
+          "lat": 36.630763,
+          "lng": 127.4609693,
+          "altitude": 71.6
+        },
+        {
+          "lat": 36.630784,
+          "lng": 127.4606993,
+          "altitude": 71.8
+        },
+        {
+          "lat": 36.6306242,
+          "lng": 127.4605003,
+          "altitude": 75.4
+        },
+        {
+          "lat": 36.6304318,
+          "lng": 127.4603467,
+          "altitude": 73.7
+        },
+        {
+          "lat": 36.6303543,
+          "lng": 127.4601118,
+          "altitude": 75.7
+        },
+        {
+          "lat": 36.6302262,
+          "lng": 127.4599155,
+          "altitude": 75.4
+        },
+        {
+          "lat": 36.6299962,
+          "lng": 127.4598877,
+          "altitude": 74.1
+        },
+        {
+          "lat": 36.6297767,
+          "lng": 127.4598292,
+          "altitude": 72.8
+        },
+        {
+          "lat": 36.6297947,
+          "lng": 127.4598053,
+          "altitude": 70.7
+        }
+      ]
+    },
+    {
+      "id": "EN014-N028",
+      "from": "N014",
+      "to": "N028",
+      "distanceKm": 0.216,
+      "climbM": 9,
+      "descentM": 3,
+      "altitudeRange": "61-70 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.627927,
+          "lng": 127.4581892,
+          "altitude": 63.7
+        },
+        {
+          "lat": 36.6277468,
+          "lng": 127.4580102,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6275162,
+          "lng": 127.457979,
+          "altitude": 60.9
+        },
+        {
+          "lat": 36.627368,
+          "lng": 127.4581993,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6273332,
+          "lng": 127.4580393,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.6273625,
+          "lng": 127.4577875,
+          "altitude": 63.1
+        },
+        {
+          "lat": 36.6271872,
+          "lng": 127.4576078,
+          "altitude": 64.6
+        },
+        {
+          "lat": 36.627004,
+          "lng": 127.4574495,
+          "altitude": 66.5
+        },
+        {
+          "lat": 36.626784,
+          "lng": 127.457377,
+          "altitude": 68.2
+        },
+        {
+          "lat": 36.6265535,
+          "lng": 127.4573627,
+          "altitude": 69.8
+        }
+      ]
+    },
+    {
+      "id": "EN011-N030",
+      "from": "N011",
+      "to": "N030",
+      "distanceKm": 0.216,
+      "climbM": 1,
+      "descentM": 5,
+      "altitudeRange": "69-73 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.62621,
+          "lng": 127.457197,
+          "altitude": 71.4
+        },
+        {
+          "lat": 36.6261022,
+          "lng": 127.457264,
+          "altitude": 71.7
+        },
+        {
+          "lat": 36.6258747,
+          "lng": 127.4572072,
+          "altitude": 72.7
+        },
+        {
+          "lat": 36.6256673,
+          "lng": 127.4570798,
+          "altitude": 73
+        },
+        {
+          "lat": 36.6254722,
+          "lng": 127.4571228,
+          "altitude": 72.9
+        },
+        {
+          "lat": 36.6253078,
+          "lng": 127.4573127,
+          "altitude": 73.2
+        },
+        {
+          "lat": 36.6251577,
+          "lng": 127.4575353,
+          "altitude": 72.5
+        },
+        {
+          "lat": 36.6251873,
+          "lng": 127.4578337,
+          "altitude": 72.9
+        },
+        {
+          "lat": 36.6251385,
+          "lng": 127.4580917,
+          "altitude": 69.9
+        },
+        {
+          "lat": 36.6250947,
+          "lng": 127.4582055,
+          "altitude": 69.1
+        },
+        {
+          "lat": 36.6250955,
+          "lng": 127.4583877,
+          "altitude": 69.6
+        }
+      ]
+    },
+    {
+      "id": "EN002-N034",
+      "from": "N002",
+      "to": "N034",
+      "distanceKm": 0.217,
+      "climbM": 6,
+      "descentM": 4,
+      "altitudeRange": "72-76 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6307095,
+          "lng": 127.4614343,
+          "altitude": 71.8
+        },
+        {
+          "lat": 36.630763,
+          "lng": 127.4609693,
+          "altitude": 71.6
+        },
+        {
+          "lat": 36.630784,
+          "lng": 127.4606993,
+          "altitude": 71.8
+        },
+        {
+          "lat": 36.6306242,
+          "lng": 127.4605003,
+          "altitude": 75.4
+        },
+        {
+          "lat": 36.6304318,
+          "lng": 127.4603467,
+          "altitude": 73.7
+        },
+        {
+          "lat": 36.6303543,
+          "lng": 127.4601118,
+          "altitude": 75.7
+        },
+        {
+          "lat": 36.6302262,
+          "lng": 127.4599155,
+          "altitude": 75.4
+        },
+        {
+          "lat": 36.6302885,
+          "lng": 127.4598275,
+          "altitude": 74.2
+        },
+        {
+          "lat": 36.6305323,
+          "lng": 127.459433,
+          "altitude": 72.8
+        }
+      ]
+    },
+    {
+      "id": "EN003-N039",
+      "from": "N003",
+      "to": "N039",
+      "distanceKm": 0.222,
+      "climbM": 3,
+      "descentM": 7,
+      "altitudeRange": "62-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6262592,
+          "lng": 127.4600645,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6262592,
+          "lng": 127.4600645,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6264068,
+          "lng": 127.459838,
+          "altitude": 64.7
+        },
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6266727,
+          "lng": 127.459374,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6266457,
+          "lng": 127.4592113,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.62667,
+          "lng": 127.4591753,
+          "altitude": 62.1
+        },
+        {
+          "lat": 36.6268563,
+          "lng": 127.4592705,
+          "altitude": 63.6
+        },
+        {
+          "lat": 36.6270497,
+          "lng": 127.4594473,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.6272495,
+          "lng": 127.4596137,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.6274355,
+          "lng": 127.4597795,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.6276167,
+          "lng": 127.4599387,
+          "altitude": 62.2
+        }
+      ]
+    },
+    {
+      "id": "EN003-N030",
+      "from": "N003",
+      "to": "N030",
+      "distanceKm": 0.226,
+      "climbM": 8,
+      "descentM": 5,
+      "altitudeRange": "62-70 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6262592,
+          "lng": 127.4600645,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6261857,
+          "lng": 127.4598353,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.626321,
+          "lng": 127.4596065,
+          "altitude": 64.9
+        },
+        {
+          "lat": 36.6262842,
+          "lng": 127.4594177,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.6260875,
+          "lng": 127.4592518,
+          "altitude": 63.7
+        },
+        {
+          "lat": 36.6259037,
+          "lng": 127.4590808,
+          "altitude": 64.2
+        },
+        {
+          "lat": 36.62572,
+          "lng": 127.4589098,
+          "altitude": 63.2
+        },
+        {
+          "lat": 36.6255217,
+          "lng": 127.4587352,
+          "altitude": 64.3
+        },
+        {
+          "lat": 36.6253245,
+          "lng": 127.4585932,
+          "altitude": 66.6
+        },
+        {
+          "lat": 36.6251313,
+          "lng": 127.4584232,
+          "altitude": 69.2
+        },
+        {
+          "lat": 36.6250955,
+          "lng": 127.4583877,
+          "altitude": 69.6
+        }
+      ]
+    },
+    {
+      "id": "EN022-N026",
+      "from": "N022",
+      "to": "N026",
+      "distanceKm": 0.228,
+      "climbM": 6,
+      "descentM": 1,
+      "altitudeRange": "57-62 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6304813,
+          "lng": 127.4551013,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6305587,
+          "lng": 127.4553453,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6304185,
+          "lng": 127.455583,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6302928,
+          "lng": 127.4558152,
+          "altitude": 58.4
+        },
+        {
+          "lat": 36.6301538,
+          "lng": 127.4560377,
+          "altitude": 58.5
+        },
+        {
+          "lat": 36.6300678,
+          "lng": 127.4562803,
+          "altitude": 59.4
+        },
+        {
+          "lat": 36.6302768,
+          "lng": 127.4564197,
+          "altitude": 61
+        },
+        {
+          "lat": 36.6304827,
+          "lng": 127.4565793,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.6306685,
+          "lng": 127.456747,
+          "altitude": 61
+        },
+        {
+          "lat": 36.6308607,
+          "lng": 127.4569035,
+          "altitude": 62.3
+        }
+      ]
+    },
+    {
+      "id": "EN008-N010",
+      "from": "N008",
+      "to": "N010",
+      "distanceKm": 0.228,
+      "climbM": 1,
+      "descentM": 7,
+      "altitudeRange": "68-76 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6243007,
+          "lng": 127.4580227,
+          "altitude": 75.1
+        },
+        {
+          "lat": 36.6243007,
+          "lng": 127.4580227,
+          "altitude": 75.1
+        },
+        {
+          "lat": 36.6244283,
+          "lng": 127.4577843,
+          "altitude": 74.7
+        },
+        {
+          "lat": 36.6245765,
+          "lng": 127.4575727,
+          "altitude": 75.6
+        },
+        {
+          "lat": 36.624713,
+          "lng": 127.4573388,
+          "altitude": 75.5
+        },
+        {
+          "lat": 36.6248263,
+          "lng": 127.4570963,
+          "altitude": 75.3
+        },
+        {
+          "lat": 36.6249512,
+          "lng": 127.4568492,
+          "altitude": 74.1
+        },
+        {
+          "lat": 36.625013,
+          "lng": 127.4565787,
+          "altitude": 69.8
+        },
+        {
+          "lat": 36.624842,
+          "lng": 127.4563755,
+          "altitude": 69.9
+        },
+        {
+          "lat": 36.6246528,
+          "lng": 127.456221,
+          "altitude": 68.6
+        },
+        {
+          "lat": 36.6244698,
+          "lng": 127.4560718,
+          "altitude": 68.2
+        }
+      ]
+    },
+    {
+      "id": "EN025-N035",
+      "from": "N025",
+      "to": "N035",
+      "distanceKm": 0.229,
+      "climbM": 15,
+      "descentM": 1,
+      "altitudeRange": "58-72 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.630313,
+          "lng": 127.4564483,
+          "altitude": 58
+        },
+        {
+          "lat": 36.630313,
+          "lng": 127.4564483,
+          "altitude": 58
+        },
+        {
+          "lat": 36.6305153,
+          "lng": 127.4566062,
+          "altitude": 59.2
+        },
+        {
+          "lat": 36.6306717,
+          "lng": 127.4568025,
+          "altitude": 58.3
+        },
+        {
+          "lat": 36.6305518,
+          "lng": 127.457039,
+          "altitude": 58.4
+        },
+        {
+          "lat": 36.6304458,
+          "lng": 127.457283,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6305525,
+          "lng": 127.4574623,
+          "altitude": 63.5
+        },
+        {
+          "lat": 36.6306585,
+          "lng": 127.4576953,
+          "altitude": 66.4
+        },
+        {
+          "lat": 36.6307275,
+          "lng": 127.4579613,
+          "altitude": 66.5
+        },
+        {
+          "lat": 36.6306955,
+          "lng": 127.4582485,
+          "altitude": 71.7
+        },
+        {
+          "lat": 36.6306443,
+          "lng": 127.4586208,
+          "altitude": 71.2
+        }
+      ]
+    },
+    {
+      "id": "EN014-N038",
+      "from": "N014",
+      "to": "N038",
+      "distanceKm": 0.232,
+      "climbM": 6,
+      "descentM": 9,
+      "altitudeRange": "61-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.627927,
+          "lng": 127.4581892,
+          "altitude": 63.7
+        },
+        {
+          "lat": 36.6279625,
+          "lng": 127.4581468,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.6281398,
+          "lng": 127.4583352,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.6282767,
+          "lng": 127.4584417,
+          "altitude": 65.5
+        },
+        {
+          "lat": 36.6284988,
+          "lng": 127.458458,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6286995,
+          "lng": 127.458529,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6286497,
+          "lng": 127.4585867,
+          "altitude": 62.3
+        },
+        {
+          "lat": 36.6287722,
+          "lng": 127.4587977,
+          "altitude": 62.8
+        },
+        {
+          "lat": 36.6289643,
+          "lng": 127.4589597,
+          "altitude": 64.8
+        },
+        {
+          "lat": 36.6290063,
+          "lng": 127.4589757,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.6288568,
+          "lng": 127.4591397,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.6287377,
+          "lng": 127.4593753,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6285982,
+          "lng": 127.4596103,
+          "altitude": 62.4
+        }
+      ]
+    },
+    {
+      "id": "EN004-N014",
+      "from": "N004",
+      "to": "N014",
+      "distanceKm": 0.233,
+      "climbM": 3,
+      "descentM": 4,
+      "altitudeRange": "61-65 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6266727,
+          "lng": 127.459374,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6268117,
+          "lng": 127.4591413,
+          "altitude": 63.8
+        },
+        {
+          "lat": 36.6269487,
+          "lng": 127.4589067,
+          "altitude": 63.4
+        },
+        {
+          "lat": 36.6271077,
+          "lng": 127.4586962,
+          "altitude": 63
+        },
+        {
+          "lat": 36.6272253,
+          "lng": 127.4584455,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.627368,
+          "lng": 127.4581993,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6275162,
+          "lng": 127.457979,
+          "altitude": 60.9
+        },
+        {
+          "lat": 36.6277468,
+          "lng": 127.4580102,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.627927,
+          "lng": 127.4581892,
+          "altitude": 63.7
+        }
+      ]
+    },
+    {
+      "id": "EN011-N031",
+      "from": "N011",
+      "to": "N031",
+      "distanceKm": 0.234,
+      "climbM": 29,
+      "descentM": 30,
+      "altitudeRange": "45-73 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.62621,
+          "lng": 127.457197,
+          "altitude": 71.4
+        },
+        {
+          "lat": 36.6261022,
+          "lng": 127.457264,
+          "altitude": 71.7
+        },
+        {
+          "lat": 36.6258747,
+          "lng": 127.4572072,
+          "altitude": 72.7
+        },
+        {
+          "lat": 36.6256673,
+          "lng": 127.4570798,
+          "altitude": 73
+        },
+        {
+          "lat": 36.6254722,
+          "lng": 127.4571228,
+          "altitude": 72.9
+        },
+        {
+          "lat": 36.6253078,
+          "lng": 127.4573127,
+          "altitude": 73.2
+        },
+        {
+          "lat": 36.6251577,
+          "lng": 127.4575353,
+          "altitude": 72.5
+        },
+        {
+          "lat": 36.6251873,
+          "lng": 127.4578337,
+          "altitude": 72.9
+        },
+        {
+          "lat": 36.6251385,
+          "lng": 127.4580917,
+          "altitude": 69.9
+        },
+        {
+          "lat": 36.6251212,
+          "lng": 127.4580282,
+          "altitude": 44.9
+        },
+        {
+          "lat": 36.6249522,
+          "lng": 127.4580883,
+          "altitude": 72.7
+        },
+        {
+          "lat": 36.6248067,
+          "lng": 127.4579527,
+          "altitude": 71.2
+        }
+      ]
+    },
+    {
+      "id": "EN021-N022",
+      "from": "N021",
+      "to": "N022",
+      "distanceKm": 0.238,
+      "climbM": 3,
+      "descentM": 9,
+      "altitudeRange": "57-61 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6297257,
+          "lng": 127.4542595,
+          "altitude": 61.4
+        },
+        {
+          "lat": 36.6297393,
+          "lng": 127.454189,
+          "altitude": 60.7
+        },
+        {
+          "lat": 36.6296608,
+          "lng": 127.4539595,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.6297865,
+          "lng": 127.453855,
+          "altitude": 58.2
+        },
+        {
+          "lat": 36.629992,
+          "lng": 127.4539782,
+          "altitude": 60.8
+        },
+        {
+          "lat": 36.6301903,
+          "lng": 127.4541128,
+          "altitude": 58.9
+        },
+        {
+          "lat": 36.6300638,
+          "lng": 127.4541992,
+          "altitude": 59.5
+        },
+        {
+          "lat": 36.6302702,
+          "lng": 127.454307,
+          "altitude": 59.9
+        },
+        {
+          "lat": 36.630478,
+          "lng": 127.4544293,
+          "altitude": 58.8
+        },
+        {
+          "lat": 36.630657,
+          "lng": 127.4545903,
+          "altitude": 58.5
+        },
+        {
+          "lat": 36.6306158,
+          "lng": 127.4548685,
+          "altitude": 57.4
+        },
+        {
+          "lat": 36.6304813,
+          "lng": 127.4551013,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6304813,
+          "lng": 127.4551013,
+          "altitude": 56.5
+        }
+      ]
+    },
+    {
+      "id": "EN010-N011",
+      "from": "N010",
+      "to": "N011",
+      "distanceKm": 0.239,
+      "climbM": 7,
+      "descentM": 3,
+      "altitudeRange": "67-74 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6244698,
+          "lng": 127.4560718,
+          "altitude": 68.2
+        },
+        {
+          "lat": 36.6245357,
+          "lng": 127.4560148,
+          "altitude": 66.7
+        },
+        {
+          "lat": 36.6247448,
+          "lng": 127.4561508,
+          "altitude": 68
+        },
+        {
+          "lat": 36.624918,
+          "lng": 127.4563295,
+          "altitude": 70.2
+        },
+        {
+          "lat": 36.625108,
+          "lng": 127.4564935,
+          "altitude": 72.6
+        },
+        {
+          "lat": 36.625307,
+          "lng": 127.456657,
+          "altitude": 72.4
+        },
+        {
+          "lat": 36.6255037,
+          "lng": 127.4568227,
+          "altitude": 73.9
+        },
+        {
+          "lat": 36.6256983,
+          "lng": 127.4569833,
+          "altitude": 73.7
+        },
+        {
+          "lat": 36.6256673,
+          "lng": 127.4570798,
+          "altitude": 73
+        },
+        {
+          "lat": 36.6258747,
+          "lng": 127.4572072,
+          "altitude": 72.7
+        },
+        {
+          "lat": 36.6261022,
+          "lng": 127.457264,
+          "altitude": 71.7
+        },
+        {
+          "lat": 36.62621,
+          "lng": 127.457197,
+          "altitude": 71.4
+        }
+      ]
+    },
+    {
+      "id": "EN022-N033",
+      "from": "N022",
+      "to": "N033",
+      "distanceKm": 0.243,
+      "climbM": 10,
+      "descentM": 3,
+      "altitudeRange": "57-63 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6304813,
+          "lng": 127.4551013,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6304813,
+          "lng": 127.4551013,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6306158,
+          "lng": 127.4548685,
+          "altitude": 57.4
+        },
+        {
+          "lat": 36.630657,
+          "lng": 127.4545903,
+          "altitude": 58.5
+        },
+        {
+          "lat": 36.630478,
+          "lng": 127.4544293,
+          "altitude": 58.8
+        },
+        {
+          "lat": 36.6302702,
+          "lng": 127.454307,
+          "altitude": 59.9
+        },
+        {
+          "lat": 36.6300638,
+          "lng": 127.4541992,
+          "altitude": 59.5
+        },
+        {
+          "lat": 36.6301903,
+          "lng": 127.4541128,
+          "altitude": 58.9
+        },
+        {
+          "lat": 36.629992,
+          "lng": 127.4539782,
+          "altitude": 60.8
+        },
+        {
+          "lat": 36.6297865,
+          "lng": 127.453855,
+          "altitude": 58.2
+        },
+        {
+          "lat": 36.6295948,
+          "lng": 127.4537237,
+          "altitude": 59.4
+        },
+        {
+          "lat": 36.629385,
+          "lng": 127.4535985,
+          "altitude": 63.4
+        }
+      ]
+    },
+    {
+      "id": "EN028-N029",
+      "from": "N028",
+      "to": "N029",
+      "distanceKm": 0.245,
+      "climbM": 1,
+      "descentM": 9,
+      "altitudeRange": "61-70 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6265535,
+          "lng": 127.4573627,
+          "altitude": 69.8
+        },
+        {
+          "lat": 36.626784,
+          "lng": 127.457377,
+          "altitude": 68.2
+        },
+        {
+          "lat": 36.627004,
+          "lng": 127.4574495,
+          "altitude": 66.5
+        },
+        {
+          "lat": 36.6271872,
+          "lng": 127.4576078,
+          "altitude": 64.6
+        },
+        {
+          "lat": 36.6273625,
+          "lng": 127.4577875,
+          "altitude": 63.1
+        },
+        {
+          "lat": 36.6273332,
+          "lng": 127.4580393,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.627368,
+          "lng": 127.4581993,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6275162,
+          "lng": 127.457979,
+          "altitude": 60.9
+        },
+        {
+          "lat": 36.6277468,
+          "lng": 127.4580102,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6279625,
+          "lng": 127.4581468,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.6281398,
+          "lng": 127.4583352,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.6281212,
+          "lng": 127.4583168,
+          "altitude": 62
+        }
+      ]
+    },
+    {
+      "id": "EN007-N031",
+      "from": "N007",
+      "to": "N031",
+      "distanceKm": 0.248,
+      "climbM": 5,
+      "descentM": 18,
+      "altitudeRange": "66-83 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6241473,
+          "lng": 127.4596617,
+          "altitude": 83.2
+        },
+        {
+          "lat": 36.6239588,
+          "lng": 127.4594667,
+          "altitude": 83.4
+        },
+        {
+          "lat": 36.6237785,
+          "lng": 127.4592868,
+          "altitude": 81.5
+        },
+        {
+          "lat": 36.6238603,
+          "lng": 127.459036,
+          "altitude": 79.7
+        },
+        {
+          "lat": 36.6240012,
+          "lng": 127.4587975,
+          "altitude": 78.8
+        },
+        {
+          "lat": 36.6241187,
+          "lng": 127.4585503,
+          "altitude": 76.8
+        },
+        {
+          "lat": 36.6241807,
+          "lng": 127.4582638,
+          "altitude": 74.6
+        },
+        {
+          "lat": 36.6243007,
+          "lng": 127.4580227,
+          "altitude": 75.1
+        },
+        {
+          "lat": 36.6244258,
+          "lng": 127.4579883,
+          "altitude": 67.7
+        },
+        {
+          "lat": 36.6245838,
+          "lng": 127.4577948,
+          "altitude": 65.8
+        },
+        {
+          "lat": 36.6248067,
+          "lng": 127.4579527,
+          "altitude": 71.2
+        }
+      ]
+    },
+    {
+      "id": "EN010-N031",
+      "from": "N010",
+      "to": "N031",
+      "distanceKm": 0.249,
+      "climbM": 12,
+      "descentM": 10,
+      "altitudeRange": "66-76 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6244698,
+          "lng": 127.4560718,
+          "altitude": 68.2
+        },
+        {
+          "lat": 36.6246528,
+          "lng": 127.456221,
+          "altitude": 68.6
+        },
+        {
+          "lat": 36.624842,
+          "lng": 127.4563755,
+          "altitude": 69.9
+        },
+        {
+          "lat": 36.625013,
+          "lng": 127.4565787,
+          "altitude": 69.8
+        },
+        {
+          "lat": 36.6249512,
+          "lng": 127.4568492,
+          "altitude": 74.1
+        },
+        {
+          "lat": 36.6248263,
+          "lng": 127.4570963,
+          "altitude": 75.3
+        },
+        {
+          "lat": 36.624713,
+          "lng": 127.4573388,
+          "altitude": 75.5
+        },
+        {
+          "lat": 36.6245765,
+          "lng": 127.4575727,
+          "altitude": 75.6
+        },
+        {
+          "lat": 36.6244283,
+          "lng": 127.4577843,
+          "altitude": 74.7
+        },
+        {
+          "lat": 36.6245838,
+          "lng": 127.4577948,
+          "altitude": 65.8
+        },
+        {
+          "lat": 36.6248067,
+          "lng": 127.4579527,
+          "altitude": 71.2
+        }
+      ]
+    },
+    {
+      "id": "EN029-N037",
+      "from": "N029",
+      "to": "N037",
+      "distanceKm": 0.253,
+      "climbM": 15,
+      "descentM": 7,
+      "altitudeRange": "62-73 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6281212,
+          "lng": 127.4583168,
+          "altitude": 62
+        },
+        {
+          "lat": 36.6282767,
+          "lng": 127.4584417,
+          "altitude": 65.5
+        },
+        {
+          "lat": 36.6284988,
+          "lng": 127.458458,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6286995,
+          "lng": 127.458529,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6286497,
+          "lng": 127.4585867,
+          "altitude": 62.3
+        },
+        {
+          "lat": 36.6287722,
+          "lng": 127.4587977,
+          "altitude": 62.8
+        },
+        {
+          "lat": 36.6289643,
+          "lng": 127.4589597,
+          "altitude": 64.8
+        },
+        {
+          "lat": 36.6291583,
+          "lng": 127.4591142,
+          "altitude": 66.6
+        },
+        {
+          "lat": 36.6293083,
+          "lng": 127.4593257,
+          "altitude": 69.2
+        },
+        {
+          "lat": 36.6293958,
+          "lng": 127.459585,
+          "altitude": 67.7
+        },
+        {
+          "lat": 36.6295537,
+          "lng": 127.4597652,
+          "altitude": 70.8
+        },
+        {
+          "lat": 36.6297767,
+          "lng": 127.4598292,
+          "altitude": 72.8
+        },
+        {
+          "lat": 36.6297947,
+          "lng": 127.4598053,
+          "altitude": 70.7
+        }
+      ]
+    },
+    {
+      "id": "EN028-N030",
+      "from": "N028",
+      "to": "N030",
+      "distanceKm": 0.254,
+      "climbM": 3,
+      "descentM": 5,
+      "altitudeRange": "69-73 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6265535,
+          "lng": 127.4573627,
+          "altitude": 69.8
+        },
+        {
+          "lat": 36.6265535,
+          "lng": 127.4573627,
+          "altitude": 69.8
+        },
+        {
+          "lat": 36.6263217,
+          "lng": 127.4573348,
+          "altitude": 69.8
+        },
+        {
+          "lat": 36.6261022,
+          "lng": 127.457264,
+          "altitude": 71.7
+        },
+        {
+          "lat": 36.6258747,
+          "lng": 127.4572072,
+          "altitude": 72.7
+        },
+        {
+          "lat": 36.6256673,
+          "lng": 127.4570798,
+          "altitude": 73
+        },
+        {
+          "lat": 36.6254722,
+          "lng": 127.4571228,
+          "altitude": 72.9
+        },
+        {
+          "lat": 36.6253078,
+          "lng": 127.4573127,
+          "altitude": 73.2
+        },
+        {
+          "lat": 36.6251577,
+          "lng": 127.4575353,
+          "altitude": 72.5
+        },
+        {
+          "lat": 36.6251873,
+          "lng": 127.4578337,
+          "altitude": 72.9
+        },
+        {
+          "lat": 36.6251385,
+          "lng": 127.4580917,
+          "altitude": 69.9
+        },
+        {
+          "lat": 36.6250947,
+          "lng": 127.4582055,
+          "altitude": 69.1
+        },
+        {
+          "lat": 36.6250955,
+          "lng": 127.4583877,
+          "altitude": 69.6
+        }
+      ]
+    },
+    {
+      "id": "EN021-N023",
+      "from": "N021",
+      "to": "N023",
+      "distanceKm": 0.258,
+      "climbM": 3,
+      "descentM": 8,
+      "altitudeRange": "56-61 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6297257,
+          "lng": 127.4542595,
+          "altitude": 61.4
+        },
+        {
+          "lat": 36.6297393,
+          "lng": 127.454189,
+          "altitude": 60.7
+        },
+        {
+          "lat": 36.6296608,
+          "lng": 127.4539595,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.6297865,
+          "lng": 127.453855,
+          "altitude": 58.2
+        },
+        {
+          "lat": 36.629992,
+          "lng": 127.4539782,
+          "altitude": 60.8
+        },
+        {
+          "lat": 36.6301903,
+          "lng": 127.4541128,
+          "altitude": 58.9
+        },
+        {
+          "lat": 36.6304088,
+          "lng": 127.4542303,
+          "altitude": 58.7
+        },
+        {
+          "lat": 36.6306142,
+          "lng": 127.454348,
+          "altitude": 56.2
+        },
+        {
+          "lat": 36.630834,
+          "lng": 127.4544067,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.631052,
+          "lng": 127.4544835,
+          "altitude": 56.6
+        },
+        {
+          "lat": 36.6311867,
+          "lng": 127.4542593,
+          "altitude": 56.7
+        },
+        {
+          "lat": 36.6313895,
+          "lng": 127.4539535,
+          "altitude": 56.7
+        }
+      ]
+    },
+    {
+      "id": "EN011-N014",
+      "from": "N011",
+      "to": "N014",
+      "distanceKm": 0.259,
+      "climbM": 3,
+      "descentM": 11,
+      "altitudeRange": "61-71 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.62621,
+          "lng": 127.457197,
+          "altitude": 71.4
+        },
+        {
+          "lat": 36.6263217,
+          "lng": 127.4573348,
+          "altitude": 69.8
+        },
+        {
+          "lat": 36.6265535,
+          "lng": 127.4573627,
+          "altitude": 69.8
+        },
+        {
+          "lat": 36.626784,
+          "lng": 127.457377,
+          "altitude": 68.2
+        },
+        {
+          "lat": 36.627004,
+          "lng": 127.4574495,
+          "altitude": 66.5
+        },
+        {
+          "lat": 36.6271872,
+          "lng": 127.4576078,
+          "altitude": 64.6
+        },
+        {
+          "lat": 36.6273625,
+          "lng": 127.4577875,
+          "altitude": 63.1
+        },
+        {
+          "lat": 36.6273332,
+          "lng": 127.4580393,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.627368,
+          "lng": 127.4581993,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6275162,
+          "lng": 127.457979,
+          "altitude": 60.9
+        },
+        {
+          "lat": 36.6277468,
+          "lng": 127.4580102,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.627927,
+          "lng": 127.4581892,
+          "altitude": 63.7
+        }
+      ]
+    },
+    {
+      "id": "EN021-N024",
+      "from": "N021",
+      "to": "N024",
+      "distanceKm": 0.261,
+      "climbM": 5,
+      "descentM": 9,
+      "altitudeRange": "57-61 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6297257,
+          "lng": 127.4542595,
+          "altitude": 61.4
+        },
+        {
+          "lat": 36.6297393,
+          "lng": 127.454189,
+          "altitude": 60.7
+        },
+        {
+          "lat": 36.6296608,
+          "lng": 127.4539595,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.6297865,
+          "lng": 127.453855,
+          "altitude": 58.2
+        },
+        {
+          "lat": 36.629992,
+          "lng": 127.4539782,
+          "altitude": 60.8
+        },
+        {
+          "lat": 36.6301903,
+          "lng": 127.4541128,
+          "altitude": 58.9
+        },
+        {
+          "lat": 36.6300638,
+          "lng": 127.4541992,
+          "altitude": 59.5
+        },
+        {
+          "lat": 36.6302702,
+          "lng": 127.454307,
+          "altitude": 59.9
+        },
+        {
+          "lat": 36.630478,
+          "lng": 127.4544293,
+          "altitude": 58.8
+        },
+        {
+          "lat": 36.630657,
+          "lng": 127.4545903,
+          "altitude": 58.5
+        },
+        {
+          "lat": 36.6306158,
+          "lng": 127.4548685,
+          "altitude": 57.4
+        },
+        {
+          "lat": 36.6304813,
+          "lng": 127.4551013,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6305587,
+          "lng": 127.4553453,
+          "altitude": 57.9
+        }
+      ]
+    },
+    {
+      "id": "EN015-N017",
+      "from": "N015",
+      "to": "N017",
+      "distanceKm": 0.262,
+      "climbM": 6,
+      "descentM": 3,
+      "altitudeRange": "64-70 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6261402,
+          "lng": 127.45465,
+          "altitude": 66.3
+        },
+        {
+          "lat": 36.6262168,
+          "lng": 127.4542818,
+          "altitude": 64.9
+        },
+        {
+          "lat": 36.6264287,
+          "lng": 127.4541848,
+          "altitude": 64.2
+        },
+        {
+          "lat": 36.6266677,
+          "lng": 127.4542048,
+          "altitude": 65.6
+        },
+        {
+          "lat": 36.6268733,
+          "lng": 127.4543158,
+          "altitude": 65
+        },
+        {
+          "lat": 36.6270837,
+          "lng": 127.4544473,
+          "altitude": 65.6
+        },
+        {
+          "lat": 36.6272857,
+          "lng": 127.4545733,
+          "altitude": 68
+        },
+        {
+          "lat": 36.6274783,
+          "lng": 127.4544482,
+          "altitude": 67.9
+        },
+        {
+          "lat": 36.6275527,
+          "lng": 127.4541893,
+          "altitude": 70
+        },
+        {
+          "lat": 36.6275072,
+          "lng": 127.4538955,
+          "altitude": 69.2
+        },
+        {
+          "lat": 36.6274023,
+          "lng": 127.4536468,
+          "altitude": 69
+        }
+      ]
+    },
+    {
+      "id": "EN023-N033",
+      "from": "N023",
+      "to": "N033",
+      "distanceKm": 0.263,
+      "climbM": 10,
+      "descentM": 3,
+      "altitudeRange": "56-63 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6313895,
+          "lng": 127.4539535,
+          "altitude": 56.7
+        },
+        {
+          "lat": 36.6311867,
+          "lng": 127.4542593,
+          "altitude": 56.7
+        },
+        {
+          "lat": 36.631052,
+          "lng": 127.4544835,
+          "altitude": 56.6
+        },
+        {
+          "lat": 36.630834,
+          "lng": 127.4544067,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6306142,
+          "lng": 127.454348,
+          "altitude": 56.2
+        },
+        {
+          "lat": 36.6304088,
+          "lng": 127.4542303,
+          "altitude": 58.7
+        },
+        {
+          "lat": 36.6301903,
+          "lng": 127.4541128,
+          "altitude": 58.9
+        },
+        {
+          "lat": 36.629992,
+          "lng": 127.4539782,
+          "altitude": 60.8
+        },
+        {
+          "lat": 36.6297865,
+          "lng": 127.453855,
+          "altitude": 58.2
+        },
+        {
+          "lat": 36.6295948,
+          "lng": 127.4537237,
+          "altitude": 59.4
+        },
+        {
+          "lat": 36.629385,
+          "lng": 127.4535985,
+          "altitude": 63.4
+        }
+      ]
+    },
+    {
+      "id": "EN004-N029",
+      "from": "N004",
+      "to": "N029",
+      "distanceKm": 0.263,
+      "climbM": 1,
+      "descentM": 4,
+      "altitudeRange": "61-65 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6266727,
+          "lng": 127.459374,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6268117,
+          "lng": 127.4591413,
+          "altitude": 63.8
+        },
+        {
+          "lat": 36.6269487,
+          "lng": 127.4589067,
+          "altitude": 63.4
+        },
+        {
+          "lat": 36.6271077,
+          "lng": 127.4586962,
+          "altitude": 63
+        },
+        {
+          "lat": 36.6272253,
+          "lng": 127.4584455,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.627368,
+          "lng": 127.4581993,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6275162,
+          "lng": 127.457979,
+          "altitude": 60.9
+        },
+        {
+          "lat": 36.6277468,
+          "lng": 127.4580102,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6279625,
+          "lng": 127.4581468,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.6281398,
+          "lng": 127.4583352,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.6281212,
+          "lng": 127.4583168,
+          "altitude": 62
+        }
+      ]
+    },
+    {
+      "id": "EN024-N033",
+      "from": "N024",
+      "to": "N033",
+      "distanceKm": 0.266,
+      "climbM": 10,
+      "descentM": 5,
+      "altitudeRange": "57-63 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6305587,
+          "lng": 127.4553453,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6304813,
+          "lng": 127.4551013,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6306158,
+          "lng": 127.4548685,
+          "altitude": 57.4
+        },
+        {
+          "lat": 36.630657,
+          "lng": 127.4545903,
+          "altitude": 58.5
+        },
+        {
+          "lat": 36.630478,
+          "lng": 127.4544293,
+          "altitude": 58.8
+        },
+        {
+          "lat": 36.6302702,
+          "lng": 127.454307,
+          "altitude": 59.9
+        },
+        {
+          "lat": 36.6300638,
+          "lng": 127.4541992,
+          "altitude": 59.5
+        },
+        {
+          "lat": 36.6301903,
+          "lng": 127.4541128,
+          "altitude": 58.9
+        },
+        {
+          "lat": 36.629992,
+          "lng": 127.4539782,
+          "altitude": 60.8
+        },
+        {
+          "lat": 36.6297865,
+          "lng": 127.453855,
+          "altitude": 58.2
+        },
+        {
+          "lat": 36.6295948,
+          "lng": 127.4537237,
+          "altitude": 59.4
+        },
+        {
+          "lat": 36.629385,
+          "lng": 127.4535985,
+          "altitude": 63.4
+        }
+      ]
+    },
+    {
+      "id": "EN004-N031",
+      "from": "N004",
+      "to": "N031",
+      "distanceKm": 0.269,
+      "climbM": 12,
+      "descentM": 5,
+      "altitudeRange": "60-71 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6263315,
+          "lng": 127.4595712,
+          "altitude": 64.7
+        },
+        {
+          "lat": 36.6262842,
+          "lng": 127.4594177,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.626352,
+          "lng": 127.459277,
+          "altitude": 60.4
+        },
+        {
+          "lat": 36.6261672,
+          "lng": 127.4591092,
+          "altitude": 60
+        },
+        {
+          "lat": 36.6259615,
+          "lng": 127.458968,
+          "altitude": 63.2
+        },
+        {
+          "lat": 36.6257768,
+          "lng": 127.4588037,
+          "altitude": 62.9
+        },
+        {
+          "lat": 36.6255903,
+          "lng": 127.4586388,
+          "altitude": 63.5
+        },
+        {
+          "lat": 36.62539,
+          "lng": 127.458511,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.625192,
+          "lng": 127.4583372,
+          "altitude": 66
+        },
+        {
+          "lat": 36.6250057,
+          "lng": 127.4581692,
+          "altitude": 66.3
+        },
+        {
+          "lat": 36.6247928,
+          "lng": 127.4580638,
+          "altitude": 65.8
+        },
+        {
+          "lat": 36.6248067,
+          "lng": 127.4579527,
+          "altitude": 71.2
+        }
+      ]
+    },
+    {
+      "id": "EN011-N015",
+      "from": "N011",
+      "to": "N015",
+      "distanceKm": 0.272,
+      "climbM": 2,
+      "descentM": 8,
+      "altitudeRange": "66-74 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.62621,
+          "lng": 127.457197,
+          "altitude": 71.4
+        },
+        {
+          "lat": 36.6261022,
+          "lng": 127.457264,
+          "altitude": 71.7
+        },
+        {
+          "lat": 36.6258747,
+          "lng": 127.4572072,
+          "altitude": 72.7
+        },
+        {
+          "lat": 36.6259145,
+          "lng": 127.457045,
+          "altitude": 73.5
+        },
+        {
+          "lat": 36.6259327,
+          "lng": 127.4567877,
+          "altitude": 73.8
+        },
+        {
+          "lat": 36.625994,
+          "lng": 127.4565045,
+          "altitude": 73.3
+        },
+        {
+          "lat": 36.6260473,
+          "lng": 127.4562208,
+          "altitude": 73.9
+        },
+        {
+          "lat": 36.6260482,
+          "lng": 127.455942,
+          "altitude": 73.1
+        },
+        {
+          "lat": 36.6260378,
+          "lng": 127.4556583,
+          "altitude": 71.5
+        },
+        {
+          "lat": 36.6260158,
+          "lng": 127.4553787,
+          "altitude": 70.1
+        },
+        {
+          "lat": 36.6261088,
+          "lng": 127.4551248,
+          "altitude": 69.1
+        },
+        {
+          "lat": 36.6261402,
+          "lng": 127.45465,
+          "altitude": 66.3
+        }
+      ]
+    },
+    {
+      "id": "EN026-N034",
+      "from": "N026",
+      "to": "N034",
+      "distanceKm": 0.275,
+      "climbM": 15,
+      "descentM": 5,
+      "altitudeRange": "58-73 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6308607,
+          "lng": 127.4569035,
+          "altitude": 62.3
+        },
+        {
+          "lat": 36.6306717,
+          "lng": 127.4568025,
+          "altitude": 58.3
+        },
+        {
+          "lat": 36.6305518,
+          "lng": 127.457039,
+          "altitude": 58.4
+        },
+        {
+          "lat": 36.6304458,
+          "lng": 127.457283,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6305525,
+          "lng": 127.4574623,
+          "altitude": 63.5
+        },
+        {
+          "lat": 36.6306585,
+          "lng": 127.4576953,
+          "altitude": 66.4
+        },
+        {
+          "lat": 36.6307275,
+          "lng": 127.4579613,
+          "altitude": 66.5
+        },
+        {
+          "lat": 36.6306955,
+          "lng": 127.4582485,
+          "altitude": 71.7
+        },
+        {
+          "lat": 36.630661,
+          "lng": 127.4585327,
+          "altitude": 71.5
+        },
+        {
+          "lat": 36.6306257,
+          "lng": 127.4588128,
+          "altitude": 71.7
+        },
+        {
+          "lat": 36.6306047,
+          "lng": 127.4591072,
+          "altitude": 71.1
+        },
+        {
+          "lat": 36.6305323,
+          "lng": 127.459433,
+          "altitude": 72.8
+        }
+      ]
+    },
+    {
+      "id": "EN010-N030",
+      "from": "N010",
+      "to": "N030",
+      "distanceKm": 0.275,
+      "climbM": 8,
+      "descentM": 8,
+      "altitudeRange": "68-76 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6244698,
+          "lng": 127.4560718,
+          "altitude": 68.2
+        },
+        {
+          "lat": 36.6246528,
+          "lng": 127.456221,
+          "altitude": 68.6
+        },
+        {
+          "lat": 36.624842,
+          "lng": 127.4563755,
+          "altitude": 69.9
+        },
+        {
+          "lat": 36.625013,
+          "lng": 127.4565787,
+          "altitude": 69.8
+        },
+        {
+          "lat": 36.6249512,
+          "lng": 127.4568492,
+          "altitude": 74.1
+        },
+        {
+          "lat": 36.6248263,
+          "lng": 127.4570963,
+          "altitude": 75.3
+        },
+        {
+          "lat": 36.624713,
+          "lng": 127.4573388,
+          "altitude": 75.5
+        },
+        {
+          "lat": 36.6246865,
+          "lng": 127.4573828,
+          "altitude": 74.8
+        },
+        {
+          "lat": 36.6248783,
+          "lng": 127.4575227,
+          "altitude": 72.6
+        },
+        {
+          "lat": 36.625038,
+          "lng": 127.4577225,
+          "altitude": 74.1
+        },
+        {
+          "lat": 36.6251908,
+          "lng": 127.4579227,
+          "altitude": 73.5
+        },
+        {
+          "lat": 36.6251385,
+          "lng": 127.4580917,
+          "altitude": 69.9
+        },
+        {
+          "lat": 36.6250947,
+          "lng": 127.4582055,
+          "altitude": 69.1
+        },
+        {
+          "lat": 36.6250955,
+          "lng": 127.4583877,
+          "altitude": 69.6
+        }
+      ]
+    },
+    {
+      "id": "EN008-N011",
+      "from": "N008",
+      "to": "N011",
+      "distanceKm": 0.281,
+      "climbM": 4,
+      "descentM": 7,
+      "altitudeRange": "71-76 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6243007,
+          "lng": 127.4580227,
+          "altitude": 75.1
+        },
+        {
+          "lat": 36.6243007,
+          "lng": 127.4580227,
+          "altitude": 75.1
+        },
+        {
+          "lat": 36.6244283,
+          "lng": 127.4577843,
+          "altitude": 74.7
+        },
+        {
+          "lat": 36.6245765,
+          "lng": 127.4575727,
+          "altitude": 75.6
+        },
+        {
+          "lat": 36.624713,
+          "lng": 127.4573388,
+          "altitude": 75.5
+        },
+        {
+          "lat": 36.6248263,
+          "lng": 127.4570963,
+          "altitude": 75.3
+        },
+        {
+          "lat": 36.6248737,
+          "lng": 127.4570427,
+          "altitude": 75.3
+        },
+        {
+          "lat": 36.6250307,
+          "lng": 127.4568357,
+          "altitude": 74.5
+        },
+        {
+          "lat": 36.6252097,
+          "lng": 127.4567135,
+          "altitude": 71.8
+        },
+        {
+          "lat": 36.6254002,
+          "lng": 127.4568657,
+          "altitude": 74.1
+        },
+        {
+          "lat": 36.6255883,
+          "lng": 127.4570273,
+          "altitude": 74.7
+        },
+        {
+          "lat": 36.6257902,
+          "lng": 127.4571772,
+          "altitude": 74.9
+        },
+        {
+          "lat": 36.6260078,
+          "lng": 127.4572447,
+          "altitude": 73
+        },
+        {
+          "lat": 36.62621,
+          "lng": 127.457197,
+          "altitude": 71.4
+        }
+      ]
+    },
+    {
+      "id": "EN017-N033",
+      "from": "N017",
+      "to": "N033",
+      "distanceKm": 0.282,
+      "climbM": 12,
+      "descentM": 17,
+      "altitudeRange": "61-72 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6274023,
+          "lng": 127.4536468,
+          "altitude": 69
+        },
+        {
+          "lat": 36.6275217,
+          "lng": 127.453114,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.627671,
+          "lng": 127.452897,
+          "altitude": 62.9
+        },
+        {
+          "lat": 36.6278958,
+          "lng": 127.4528025,
+          "altitude": 60.6
+        },
+        {
+          "lat": 36.6281205,
+          "lng": 127.4528697,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.6283323,
+          "lng": 127.4529817,
+          "altitude": 61.7
+        },
+        {
+          "lat": 36.6285367,
+          "lng": 127.4530983,
+          "altitude": 72.3
+        },
+        {
+          "lat": 36.6287573,
+          "lng": 127.4532147,
+          "altitude": 67.3
+        },
+        {
+          "lat": 36.628969,
+          "lng": 127.453348,
+          "altitude": 65.1
+        },
+        {
+          "lat": 36.6291682,
+          "lng": 127.4534713,
+          "altitude": 64.7
+        },
+        {
+          "lat": 36.629385,
+          "lng": 127.4535985,
+          "altitude": 63.4
+        },
+        {
+          "lat": 36.629385,
+          "lng": 127.4535985,
+          "altitude": 63.4
+        }
+      ]
+    },
+    {
+      "id": "EN003-N014",
+      "from": "N003",
+      "to": "N014",
+      "distanceKm": 0.285,
+      "climbM": 3,
+      "descentM": 5,
+      "altitudeRange": "61-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6262592,
+          "lng": 127.4600645,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6262592,
+          "lng": 127.4600645,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6264068,
+          "lng": 127.459838,
+          "altitude": 64.7
+        },
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6266727,
+          "lng": 127.459374,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6268117,
+          "lng": 127.4591413,
+          "altitude": 63.8
+        },
+        {
+          "lat": 36.6269487,
+          "lng": 127.4589067,
+          "altitude": 63.4
+        },
+        {
+          "lat": 36.6271077,
+          "lng": 127.4586962,
+          "altitude": 63
+        },
+        {
+          "lat": 36.6272253,
+          "lng": 127.4584455,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.627368,
+          "lng": 127.4581993,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6275162,
+          "lng": 127.457979,
+          "altitude": 60.9
+        },
+        {
+          "lat": 36.6277468,
+          "lng": 127.4580102,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.627927,
+          "lng": 127.4581892,
+          "altitude": 63.7
+        }
+      ]
+    },
+    {
+      "id": "EN011-N029",
+      "from": "N011",
+      "to": "N029",
+      "distanceKm": 0.289,
+      "climbM": 1,
+      "descentM": 11,
+      "altitudeRange": "61-71 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.62621,
+          "lng": 127.457197,
+          "altitude": 71.4
+        },
+        {
+          "lat": 36.6263217,
+          "lng": 127.4573348,
+          "altitude": 69.8
+        },
+        {
+          "lat": 36.6265535,
+          "lng": 127.4573627,
+          "altitude": 69.8
+        },
+        {
+          "lat": 36.626784,
+          "lng": 127.457377,
+          "altitude": 68.2
+        },
+        {
+          "lat": 36.627004,
+          "lng": 127.4574495,
+          "altitude": 66.5
+        },
+        {
+          "lat": 36.6271872,
+          "lng": 127.4576078,
+          "altitude": 64.6
+        },
+        {
+          "lat": 36.6273625,
+          "lng": 127.4577875,
+          "altitude": 63.1
+        },
+        {
+          "lat": 36.6273332,
+          "lng": 127.4580393,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.627368,
+          "lng": 127.4581993,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6275162,
+          "lng": 127.457979,
+          "altitude": 60.9
+        },
+        {
+          "lat": 36.6277468,
+          "lng": 127.4580102,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6279625,
+          "lng": 127.4581468,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.6281398,
+          "lng": 127.4583352,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.6281212,
+          "lng": 127.4583168,
+          "altitude": 62
+        }
+      ]
+    },
+    {
+      "id": "EN036-N038",
+      "from": "N036",
+      "to": "N038",
+      "distanceKm": 0.292,
+      "climbM": 2,
+      "descentM": 14,
+      "altitudeRange": "62-75 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6304318,
+          "lng": 127.4603467,
+          "altitude": 73.7
+        },
+        {
+          "lat": 36.6302262,
+          "lng": 127.4599155,
+          "altitude": 75.4
+        },
+        {
+          "lat": 36.6299962,
+          "lng": 127.4598877,
+          "altitude": 74.1
+        },
+        {
+          "lat": 36.6297767,
+          "lng": 127.4598292,
+          "altitude": 72.8
+        },
+        {
+          "lat": 36.629767,
+          "lng": 127.4598092,
+          "altitude": 71.5
+        },
+        {
+          "lat": 36.6295458,
+          "lng": 127.4597847,
+          "altitude": 70.1
+        },
+        {
+          "lat": 36.6293942,
+          "lng": 127.4596337,
+          "altitude": 66.7
+        },
+        {
+          "lat": 36.6293253,
+          "lng": 127.4593587,
+          "altitude": 65.8
+        },
+        {
+          "lat": 36.6291842,
+          "lng": 127.4591417,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.6290063,
+          "lng": 127.4589757,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.6288568,
+          "lng": 127.4591397,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.6287377,
+          "lng": 127.4593753,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6285982,
+          "lng": 127.4596103,
+          "altitude": 62.4
+        }
+      ]
+    },
+    {
+      "id": "EN004-N028",
+      "from": "N004",
+      "to": "N028",
+      "distanceKm": 0.293,
+      "climbM": 10,
+      "descentM": 5,
+      "altitudeRange": "62-70 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6266727,
+          "lng": 127.459374,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6268117,
+          "lng": 127.4591413,
+          "altitude": 63.8
+        },
+        {
+          "lat": 36.6267938,
+          "lng": 127.4589828,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6269253,
+          "lng": 127.4587513,
+          "altitude": 64.5
+        },
+        {
+          "lat": 36.627063,
+          "lng": 127.4585098,
+          "altitude": 64.2
+        },
+        {
+          "lat": 36.6272,
+          "lng": 127.4582762,
+          "altitude": 62.4
+        },
+        {
+          "lat": 36.6273332,
+          "lng": 127.4580393,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.6273625,
+          "lng": 127.4577875,
+          "altitude": 63.1
+        },
+        {
+          "lat": 36.6271872,
+          "lng": 127.4576078,
+          "altitude": 64.6
+        },
+        {
+          "lat": 36.627004,
+          "lng": 127.4574495,
+          "altitude": 66.5
+        },
+        {
+          "lat": 36.626784,
+          "lng": 127.457377,
+          "altitude": 68.2
+        },
+        {
+          "lat": 36.6265535,
+          "lng": 127.4573627,
+          "altitude": 69.8
+        }
+      ]
+    },
+    {
+      "id": "EN003-N031",
+      "from": "N003",
+      "to": "N031",
+      "distanceKm": 0.295,
+      "climbM": 12,
+      "descentM": 5,
+      "altitudeRange": "60-71 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6262592,
+          "lng": 127.4600645,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6261857,
+          "lng": 127.4598353,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.626321,
+          "lng": 127.4596065,
+          "altitude": 64.9
+        },
+        {
+          "lat": 36.6262842,
+          "lng": 127.4594177,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.626352,
+          "lng": 127.459277,
+          "altitude": 60.4
+        },
+        {
+          "lat": 36.6261672,
+          "lng": 127.4591092,
+          "altitude": 60
+        },
+        {
+          "lat": 36.6259615,
+          "lng": 127.458968,
+          "altitude": 63.2
+        },
+        {
+          "lat": 36.6257768,
+          "lng": 127.4588037,
+          "altitude": 62.9
+        },
+        {
+          "lat": 36.6255903,
+          "lng": 127.4586388,
+          "altitude": 63.5
+        },
+        {
+          "lat": 36.62539,
+          "lng": 127.458511,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.625192,
+          "lng": 127.4583372,
+          "altitude": 66
+        },
+        {
+          "lat": 36.6250057,
+          "lng": 127.4581692,
+          "altitude": 66.3
+        },
+        {
+          "lat": 36.6247928,
+          "lng": 127.4580638,
+          "altitude": 65.8
+        },
+        {
+          "lat": 36.6248067,
+          "lng": 127.4579527,
+          "altitude": 71.2
+        }
+      ]
+    },
+    {
+      "id": "EN004-N038",
+      "from": "N004",
+      "to": "N038",
+      "distanceKm": 0.295,
+      "climbM": 4,
+      "descentM": 8,
+      "altitudeRange": "62-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6266727,
+          "lng": 127.459374,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6266457,
+          "lng": 127.4592113,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.62667,
+          "lng": 127.4591753,
+          "altitude": 62.1
+        },
+        {
+          "lat": 36.6268563,
+          "lng": 127.4592705,
+          "altitude": 63.6
+        },
+        {
+          "lat": 36.6270497,
+          "lng": 127.4594473,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.6272495,
+          "lng": 127.4596137,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.6274355,
+          "lng": 127.4597795,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.6276167,
+          "lng": 127.4599387,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.6278233,
+          "lng": 127.4600203,
+          "altitude": 63.1
+        },
+        {
+          "lat": 36.628046,
+          "lng": 127.4600757,
+          "altitude": 63.8
+        },
+        {
+          "lat": 36.6282627,
+          "lng": 127.4599937,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.6285982,
+          "lng": 127.4596103,
+          "altitude": 62.4
+        }
+      ]
+    },
+    {
+      "id": "EN034-N038",
+      "from": "N034",
+      "to": "N038",
+      "distanceKm": 0.298,
+      "climbM": 5,
+      "descentM": 16,
+      "altitudeRange": "62-74 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6305323,
+          "lng": 127.459433,
+          "altitude": 72.8
+        },
+        {
+          "lat": 36.6302885,
+          "lng": 127.4598275,
+          "altitude": 74.2
+        },
+        {
+          "lat": 36.630066,
+          "lng": 127.4598308,
+          "altitude": 71.5
+        },
+        {
+          "lat": 36.6298398,
+          "lng": 127.4597717,
+          "altitude": 68.7
+        },
+        {
+          "lat": 36.6298072,
+          "lng": 127.4597948,
+          "altitude": 72.1
+        },
+        {
+          "lat": 36.629767,
+          "lng": 127.4598092,
+          "altitude": 71.5
+        },
+        {
+          "lat": 36.6295458,
+          "lng": 127.4597847,
+          "altitude": 70.1
+        },
+        {
+          "lat": 36.6293942,
+          "lng": 127.4596337,
+          "altitude": 66.7
+        },
+        {
+          "lat": 36.6293253,
+          "lng": 127.4593587,
+          "altitude": 65.8
+        },
+        {
+          "lat": 36.6291842,
+          "lng": 127.4591417,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.6290063,
+          "lng": 127.4589757,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.6288568,
+          "lng": 127.4591397,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.6287377,
+          "lng": 127.4593753,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6285982,
+          "lng": 127.4596103,
+          "altitude": 62.4
+        }
+      ]
+    },
+    {
+      "id": "EN001-N002",
+      "from": "N001",
+      "to": "N002",
+      "distanceKm": 0.666,
+      "climbM": 24,
+      "descentM": 15,
+      "altitudeRange": "63-76 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6249365,
+          "lng": 127.4634122,
+          "altitude": 64.3
+        },
+        {
+          "lat": 36.6249365,
+          "lng": 127.4634122,
+          "altitude": 64.3
+        },
+        {
+          "lat": 36.6251745,
+          "lng": 127.4633332,
+          "altitude": 63.6
+        },
+        {
+          "lat": 36.6253942,
+          "lng": 127.463268,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.625622,
+          "lng": 127.4631985,
+          "altitude": 65
+        },
+        {
+          "lat": 36.6258485,
+          "lng": 127.463113,
+          "altitude": 63.1
+        },
+        {
+          "lat": 36.626061,
+          "lng": 127.4630288,
+          "altitude": 64.1
+        },
+        {
+          "lat": 36.6262837,
+          "lng": 127.4629515,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.6265032,
+          "lng": 127.4628603,
+          "altitude": 65.6
+        },
+        {
+          "lat": 36.6267297,
+          "lng": 127.4627855,
+          "altitude": 66.7
+        },
+        {
+          "lat": 36.6269628,
+          "lng": 127.4627073,
+          "altitude": 67.9
+        },
+        {
+          "lat": 36.6271917,
+          "lng": 127.4626417,
+          "altitude": 70.8
+        },
+        {
+          "lat": 36.6274093,
+          "lng": 127.4625677,
+          "altitude": 72.9
+        },
+        {
+          "lat": 36.6276285,
+          "lng": 127.4625007,
+          "altitude": 74.1
+        },
+        {
+          "lat": 36.6278538,
+          "lng": 127.4624285,
+          "altitude": 75.7
+        },
+        {
+          "lat": 36.6280695,
+          "lng": 127.4623457,
+          "altitude": 74.9
+        },
+        {
+          "lat": 36.6282975,
+          "lng": 127.4622778,
+          "altitude": 74.6
+        },
+        {
+          "lat": 36.628516,
+          "lng": 127.4622037,
+          "altitude": 74
+        },
+        {
+          "lat": 36.6287297,
+          "lng": 127.4621217,
+          "altitude": 76.3
+        },
+        {
+          "lat": 36.6289442,
+          "lng": 127.4620438,
+          "altitude": 74.8
+        },
+        {
+          "lat": 36.6291627,
+          "lng": 127.4619448,
+          "altitude": 71.4
+        },
+        {
+          "lat": 36.629385,
+          "lng": 127.4618705,
+          "altitude": 73.8
+        },
+        {
+          "lat": 36.6296095,
+          "lng": 127.461814,
+          "altitude": 74.5
+        },
+        {
+          "lat": 36.6298403,
+          "lng": 127.4617497,
+          "altitude": 73
+        },
+        {
+          "lat": 36.6300637,
+          "lng": 127.4616803,
+          "altitude": 72.5
+        },
+        {
+          "lat": 36.6302842,
+          "lng": 127.4615963,
+          "altitude": 72.2
+        },
+        {
+          "lat": 36.630487,
+          "lng": 127.4614997,
+          "altitude": 68.5
+        },
+        {
+          "lat": 36.6307095,
+          "lng": 127.4614343,
+          "altitude": 71.8
+        }
+      ]
+    },
+    {
+      "id": "EN021-N041",
+      "from": "N021",
+      "to": "N041",
+      "distanceKm": 0.129,
+      "climbM": 12,
+      "descentM": 7,
+      "altitudeRange": "55-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6297257,
+          "lng": 127.4542595,
+          "altitude": 61.4
+        },
+        {
+          "lat": 36.6297955,
+          "lng": 127.4542383,
+          "altitude": 54.7
+        },
+        {
+          "lat": 36.6296523,
+          "lng": 127.4543583,
+          "altitude": 59.3
+        },
+        {
+          "lat": 36.6294808,
+          "lng": 127.4545332,
+          "altitude": 63.7
+        },
+        {
+          "lat": 36.629315,
+          "lng": 127.4547318,
+          "altitude": 63.2
+        },
+        {
+          "lat": 36.629151,
+          "lng": 127.4549223,
+          "altitude": 65.6
+        },
+        {
+          "lat": 36.6289762,
+          "lng": 127.4551222,
+          "altitude": 66.3
+        },
+        {
+          "lat": 36.6289762,
+          "lng": 127.4551222,
+          "altitude": 66.3
+        }
+      ]
+    },
+    {
+      "id": "EN041-N042",
+      "from": "N041",
+      "to": "N042",
+      "distanceKm": 0.081,
+      "climbM": 2,
+      "descentM": 3,
+      "altitudeRange": "63-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6289762,
+          "lng": 127.4551222,
+          "altitude": 66.3
+        },
+        {
+          "lat": 36.6289762,
+          "lng": 127.4551222,
+          "altitude": 66.3
+        },
+        {
+          "lat": 36.628797,
+          "lng": 127.4553302,
+          "altitude": 63.2
+        },
+        {
+          "lat": 36.6286388,
+          "lng": 127.455524,
+          "altitude": 63.5
+        },
+        {
+          "lat": 36.628496,
+          "lng": 127.4557443,
+          "altitude": 64.7
+        },
+        {
+          "lat": 36.6284923,
+          "lng": 127.4557065,
+          "altitude": 65.5
+        }
+      ]
+    },
+    {
+      "id": "EN042-N043",
+      "from": "N042",
+      "to": "N043",
+      "distanceKm": 0.102,
+      "climbM": 5,
+      "descentM": 9,
+      "altitudeRange": "59-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6284923,
+          "lng": 127.4557065,
+          "altitude": 65.5
+        },
+        {
+          "lat": 36.6284923,
+          "lng": 127.4557065,
+          "altitude": 65.5
+        },
+        {
+          "lat": 36.6283745,
+          "lng": 127.4559455,
+          "altitude": 62.5
+        },
+        {
+          "lat": 36.6283747,
+          "lng": 127.4559532,
+          "altitude": 59
+        },
+        {
+          "lat": 36.6282705,
+          "lng": 127.456209,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6281705,
+          "lng": 127.456459,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.6280622,
+          "lng": 127.4567167,
+          "altitude": 61.8
+        }
+      ]
+    },
+    {
+      "id": "EN014-N043",
+      "from": "N043",
+      "to": "N014",
+      "distanceKm": 0.153,
+      "climbM": 2,
+      "descentM": 1,
+      "altitudeRange": "62-64 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6280622,
+          "lng": 127.4567167,
+          "altitude": 61.8
+        },
+        {
+          "lat": 36.6280622,
+          "lng": 127.4567167,
+          "altitude": 61.8
+        },
+        {
+          "lat": 36.6279623,
+          "lng": 127.4569825,
+          "altitude": 63
+        },
+        {
+          "lat": 36.6278598,
+          "lng": 127.4572393,
+          "altitude": 63.5
+        },
+        {
+          "lat": 36.6277517,
+          "lng": 127.457493,
+          "altitude": 63.6
+        },
+        {
+          "lat": 36.627656,
+          "lng": 127.4577525,
+          "altitude": 62.9
+        },
+        {
+          "lat": 36.6277588,
+          "lng": 127.4579863,
+          "altitude": 62.8
+        },
+        {
+          "lat": 36.627927,
+          "lng": 127.4581892,
+          "altitude": 63.7
+        },
+        {
+          "lat": 36.627927,
+          "lng": 127.4581892,
+          "altitude": 63.7
+        }
+      ]
+    },
+    {
+      "id": "EN029-N043",
+      "from": "N043",
+      "to": "N029",
+      "distanceKm": 0.177,
+      "climbM": 2,
+      "descentM": 2,
+      "altitudeRange": "62-64 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6280622,
+          "lng": 127.4567167,
+          "altitude": 61.8
+        },
+        {
+          "lat": 36.6280622,
+          "lng": 127.4567167,
+          "altitude": 61.8
+        },
+        {
+          "lat": 36.6279623,
+          "lng": 127.4569825,
+          "altitude": 63
+        },
+        {
+          "lat": 36.6278598,
+          "lng": 127.4572393,
+          "altitude": 63.5
+        },
+        {
+          "lat": 36.6277517,
+          "lng": 127.457493,
+          "altitude": 63.6
+        },
+        {
+          "lat": 36.627656,
+          "lng": 127.4577525,
+          "altitude": 62.9
+        },
+        {
+          "lat": 36.6277588,
+          "lng": 127.4579863,
+          "altitude": 62.8
+        },
+        {
+          "lat": 36.627927,
+          "lng": 127.4581892,
+          "altitude": 63.7
+        },
+        {
+          "lat": 36.6281212,
+          "lng": 127.4583168,
+          "altitude": 62
+        },
+        {
+          "lat": 36.6281212,
+          "lng": 127.4583168,
+          "altitude": 62
+        }
+      ]
+    },
+    {
+      "id": "EN028-N043",
+      "from": "N043",
+      "to": "N028",
+      "distanceKm": 0.231,
+      "climbM": 9,
+      "descentM": 2,
+      "altitudeRange": "62-70 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6280622,
+          "lng": 127.4567167,
+          "altitude": 61.8
+        },
+        {
+          "lat": 36.6279715,
+          "lng": 127.456707,
+          "altitude": 63.2
+        },
+        {
+          "lat": 36.6278652,
+          "lng": 127.4569642,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6277523,
+          "lng": 127.4572133,
+          "altitude": 62.4
+        },
+        {
+          "lat": 36.6276385,
+          "lng": 127.4574657,
+          "altitude": 62.5
+        },
+        {
+          "lat": 36.627498,
+          "lng": 127.4576782,
+          "altitude": 62.6
+        },
+        {
+          "lat": 36.627306,
+          "lng": 127.4575422,
+          "altitude": 65.8
+        },
+        {
+          "lat": 36.6271238,
+          "lng": 127.4573528,
+          "altitude": 67
+        },
+        {
+          "lat": 36.6268992,
+          "lng": 127.4572717,
+          "altitude": 66.9
+        },
+        {
+          "lat": 36.6266675,
+          "lng": 127.457242,
+          "altitude": 66.2
+        },
+        {
+          "lat": 36.6265535,
+          "lng": 127.4573627,
+          "altitude": 69.8
+        }
+      ]
+    },
+    {
+      "id": "EN003-N007",
+      "from": "N003",
+      "to": "N007",
+      "distanceKm": 0.315,
+      "climbM": 20,
+      "descentM": 3,
+      "altitudeRange": "66-83 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6262592,
+          "lng": 127.4600645,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6261857,
+          "lng": 127.4598353,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6261895,
+          "lng": 127.4597858,
+          "altitude": 66.3
+        },
+        {
+          "lat": 36.6260137,
+          "lng": 127.4598172,
+          "altitude": 67.5
+        },
+        {
+          "lat": 36.6258168,
+          "lng": 127.4596608,
+          "altitude": 69.4
+        },
+        {
+          "lat": 36.625588,
+          "lng": 127.459604,
+          "altitude": 68.5
+        },
+        {
+          "lat": 36.6253513,
+          "lng": 127.4595823,
+          "altitude": 70.2
+        },
+        {
+          "lat": 36.625107,
+          "lng": 127.4595628,
+          "altitude": 74.1
+        },
+        {
+          "lat": 36.624878,
+          "lng": 127.4595855,
+          "altitude": 75.6
+        },
+        {
+          "lat": 36.6246563,
+          "lng": 127.4596398,
+          "altitude": 76.6
+        },
+        {
+          "lat": 36.6244345,
+          "lng": 127.4595412,
+          "altitude": 75.6
+        },
+        {
+          "lat": 36.6242572,
+          "lng": 127.459359,
+          "altitude": 74.8
+        },
+        {
+          "lat": 36.624222,
+          "lng": 127.4593027,
+          "altitude": 77.7
+        },
+        {
+          "lat": 36.6243773,
+          "lng": 127.4595195,
+          "altitude": 80.7
+        },
+        {
+          "lat": 36.6241473,
+          "lng": 127.4596617,
+          "altitude": 83.2
+        }
+      ]
+    },
+    {
+      "id": "EN003-N045",
+      "from": "N003",
+      "to": "N045",
+      "distanceKm": 0.275,
+      "climbM": 9,
+      "descentM": 9,
+      "altitudeRange": "66-72 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6262592,
+          "lng": 127.4600645,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6261327,
+          "lng": 127.460309,
+          "altitude": 66.7
+        },
+        {
+          "lat": 36.6259947,
+          "lng": 127.4605435,
+          "altitude": 67.4
+        },
+        {
+          "lat": 36.6258565,
+          "lng": 127.460778,
+          "altitude": 68.8
+        },
+        {
+          "lat": 36.6257302,
+          "lng": 127.4610142,
+          "altitude": 70.1
+        },
+        {
+          "lat": 36.6255915,
+          "lng": 127.4612462,
+          "altitude": 71.8
+        },
+        {
+          "lat": 36.62545,
+          "lng": 127.4614807,
+          "altitude": 71.6
+        },
+        {
+          "lat": 36.6253155,
+          "lng": 127.461727,
+          "altitude": 67.9
+        },
+        {
+          "lat": 36.6251842,
+          "lng": 127.4619632,
+          "altitude": 68.3
+        },
+        {
+          "lat": 36.625065,
+          "lng": 127.4622115,
+          "altitude": 68.3
+        },
+        {
+          "lat": 36.6250758,
+          "lng": 127.4621963,
+          "altitude": 68.5
+        },
+        {
+          "lat": 36.624989,
+          "lng": 127.462391,
+          "altitude": 71
+        },
+        {
+          "lat": 36.6248073,
+          "lng": 127.462424,
+          "altitude": 65.9
+        }
+      ]
+    },
+    {
+      "id": "EN025-N042",
+      "from": "N025",
+      "to": "N042",
+      "distanceKm": 0.224,
+      "climbM": 9,
+      "descentM": 2,
+      "altitudeRange": "58-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.630313,
+          "lng": 127.4564483,
+          "altitude": 58
+        },
+        {
+          "lat": 36.630117,
+          "lng": 127.4563093,
+          "altitude": 59
+        },
+        {
+          "lat": 36.6300608,
+          "lng": 127.4561668,
+          "altitude": 58.8
+        },
+        {
+          "lat": 36.6299108,
+          "lng": 127.4561078,
+          "altitude": 58.2
+        },
+        {
+          "lat": 36.6297218,
+          "lng": 127.4561025,
+          "altitude": 59
+        },
+        {
+          "lat": 36.629526,
+          "lng": 127.4559355,
+          "altitude": 58.6
+        },
+        {
+          "lat": 36.6292892,
+          "lng": 127.455928,
+          "altitude": 58.9
+        },
+        {
+          "lat": 36.629092,
+          "lng": 127.4557767,
+          "altitude": 59.4
+        },
+        {
+          "lat": 36.6288608,
+          "lng": 127.4557832,
+          "altitude": 58.3
+        },
+        {
+          "lat": 36.6286367,
+          "lng": 127.4557713,
+          "altitude": 58.9
+        },
+        {
+          "lat": 36.6284923,
+          "lng": 127.4557065,
+          "altitude": 65.5
+        },
+        {
+          "lat": 36.6284923,
+          "lng": 127.4557065,
+          "altitude": 65.5
+        }
+      ]
+    },
+    {
+      "id": "EN042-N046",
+      "from": "N046",
+      "to": "N042",
+      "distanceKm": 0.222,
+      "climbM": 11,
+      "descentM": 6,
+      "altitudeRange": "59-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        },
+        {
+          "lat": 36.6292412,
+          "lng": 127.4572867,
+          "altitude": 61.8
+        },
+        {
+          "lat": 36.6290388,
+          "lng": 127.4571708,
+          "altitude": 62.5
+        },
+        {
+          "lat": 36.6288553,
+          "lng": 127.4569918,
+          "altitude": 61.4
+        },
+        {
+          "lat": 36.6286605,
+          "lng": 127.4568188,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.628476,
+          "lng": 127.456636,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.628295,
+          "lng": 127.4564717,
+          "altitude": 63.5
+        },
+        {
+          "lat": 36.628258,
+          "lng": 127.4562475,
+          "altitude": 63.2
+        },
+        {
+          "lat": 36.6283625,
+          "lng": 127.4559813,
+          "altitude": 64
+        },
+        {
+          "lat": 36.6283747,
+          "lng": 127.4559532,
+          "altitude": 59
+        },
+        {
+          "lat": 36.6283745,
+          "lng": 127.4559455,
+          "altitude": 62.5
+        },
+        {
+          "lat": 36.6284923,
+          "lng": 127.4557065,
+          "altitude": 65.5
+        },
+        {
+          "lat": 36.6284923,
+          "lng": 127.4557065,
+          "altitude": 65.5
+        }
+      ]
+    },
+    {
+      "id": "EN043-N046",
+      "from": "N046",
+      "to": "N043",
+      "distanceKm": 0.186,
+      "climbM": 4,
+      "descentM": 3,
+      "altitudeRange": "61-64 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        },
+        {
+          "lat": 36.6292412,
+          "lng": 127.4572867,
+          "altitude": 61.8
+        },
+        {
+          "lat": 36.6290388,
+          "lng": 127.4571708,
+          "altitude": 62.5
+        },
+        {
+          "lat": 36.6288553,
+          "lng": 127.4569918,
+          "altitude": 61.4
+        },
+        {
+          "lat": 36.6286605,
+          "lng": 127.4568188,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.628476,
+          "lng": 127.456636,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.628295,
+          "lng": 127.4564717,
+          "altitude": 63.5
+        },
+        {
+          "lat": 36.6281705,
+          "lng": 127.456459,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.6280622,
+          "lng": 127.4567167,
+          "altitude": 61.8
+        }
+      ]
+    },
+    {
+      "id": "EN025-N046",
+      "from": "N025",
+      "to": "N046",
+      "distanceKm": 0.214,
+      "climbM": 6,
+      "descentM": 4,
+      "altitudeRange": "57-61 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.630313,
+          "lng": 127.4564483,
+          "altitude": 58
+        },
+        {
+          "lat": 36.630117,
+          "lng": 127.4563093,
+          "altitude": 59
+        },
+        {
+          "lat": 36.6300608,
+          "lng": 127.4561668,
+          "altitude": 58.8
+        },
+        {
+          "lat": 36.6299108,
+          "lng": 127.4561078,
+          "altitude": 58.2
+        },
+        {
+          "lat": 36.6299408,
+          "lng": 127.4560277,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6297938,
+          "lng": 127.4562488,
+          "altitude": 58.7
+        },
+        {
+          "lat": 36.6296677,
+          "lng": 127.4564775,
+          "altitude": 57.2
+        },
+        {
+          "lat": 36.6295313,
+          "lng": 127.4567052,
+          "altitude": 58.5
+        },
+        {
+          "lat": 36.6293997,
+          "lng": 127.4569505,
+          "altitude": 59.5
+        },
+        {
+          "lat": 36.6292627,
+          "lng": 127.4571908,
+          "altitude": 59.6
+        },
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        }
+      ]
+    },
+    {
+      "id": "EN024-N046",
+      "from": "N024",
+      "to": "N046",
+      "distanceKm": 0.25,
+      "climbM": 5,
+      "descentM": 3,
+      "altitudeRange": "57-61 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6305587,
+          "lng": 127.4553453,
+          "altitude": 57.9
+        },
+        {
+          "lat": 36.6303428,
+          "lng": 127.455324,
+          "altitude": 57.3
+        },
+        {
+          "lat": 36.6302097,
+          "lng": 127.4555617,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6300707,
+          "lng": 127.4557902,
+          "altitude": 56.8
+        },
+        {
+          "lat": 36.6299408,
+          "lng": 127.4560277,
+          "altitude": 56.5
+        },
+        {
+          "lat": 36.6297938,
+          "lng": 127.4562488,
+          "altitude": 58.7
+        },
+        {
+          "lat": 36.6296677,
+          "lng": 127.4564775,
+          "altitude": 57.2
+        },
+        {
+          "lat": 36.6295313,
+          "lng": 127.4567052,
+          "altitude": 58.5
+        },
+        {
+          "lat": 36.6293997,
+          "lng": 127.4569505,
+          "altitude": 59.5
+        },
+        {
+          "lat": 36.6292627,
+          "lng": 127.4571908,
+          "altitude": 59.6
+        },
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        }
+      ]
+    },
+    {
+      "id": "EN029-N046",
+      "from": "N029",
+      "to": "N046",
+      "distanceKm": 0.199,
+      "climbM": 4,
+      "descentM": 6,
+      "altitudeRange": "59-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6281212,
+          "lng": 127.4583168,
+          "altitude": 62
+        },
+        {
+          "lat": 36.6282767,
+          "lng": 127.4584417,
+          "altitude": 65.5
+        },
+        {
+          "lat": 36.6284988,
+          "lng": 127.458458,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6286995,
+          "lng": 127.458529,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6288378,
+          "lng": 127.4583025,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.6289825,
+          "lng": 127.4580615,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6291305,
+          "lng": 127.4578237,
+          "altitude": 59.4
+        },
+        {
+          "lat": 36.6292598,
+          "lng": 127.4575905,
+          "altitude": 59.6
+        },
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        },
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        }
+      ]
+    },
+    {
+      "id": "EN014-N046",
+      "from": "N014",
+      "to": "N046",
+      "distanceKm": 0.228,
+      "climbM": 5,
+      "descentM": 9,
+      "altitudeRange": "59-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.627927,
+          "lng": 127.4581892,
+          "altitude": 63.7
+        },
+        {
+          "lat": 36.6279625,
+          "lng": 127.4581468,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.6281398,
+          "lng": 127.4583352,
+          "altitude": 61.6
+        },
+        {
+          "lat": 36.6282767,
+          "lng": 127.4584417,
+          "altitude": 65.5
+        },
+        {
+          "lat": 36.6284988,
+          "lng": 127.458458,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6286995,
+          "lng": 127.458529,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6288378,
+          "lng": 127.4583025,
+          "altitude": 62.7
+        },
+        {
+          "lat": 36.6289825,
+          "lng": 127.4580615,
+          "altitude": 61.5
+        },
+        {
+          "lat": 36.6291305,
+          "lng": 127.4578237,
+          "altitude": 59.4
+        },
+        {
+          "lat": 36.6292598,
+          "lng": 127.4575905,
+          "altitude": 59.6
+        },
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        },
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        }
+      ]
+    },
+    {
+      "id": "EN026-N046",
+      "from": "N026",
+      "to": "N046",
+      "distanceKm": 0.267,
+      "climbM": 11,
+      "descentM": 13,
+      "altitudeRange": "61-72 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6308607,
+          "lng": 127.4569035,
+          "altitude": 62.3
+        },
+        {
+          "lat": 36.6310382,
+          "lng": 127.4570883,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6311857,
+          "lng": 127.457321,
+          "altitude": 62.4
+        },
+        {
+          "lat": 36.6311258,
+          "lng": 127.4574242,
+          "altitude": 72
+        },
+        {
+          "lat": 36.6308998,
+          "lng": 127.4574753,
+          "altitude": 69.7
+        },
+        {
+          "lat": 36.6306738,
+          "lng": 127.4574433,
+          "altitude": 68.1
+        },
+        {
+          "lat": 36.6304463,
+          "lng": 127.457423,
+          "altitude": 64.9
+        },
+        {
+          "lat": 36.6302135,
+          "lng": 127.4574295,
+          "altitude": 65.4
+        },
+        {
+          "lat": 36.6299828,
+          "lng": 127.4574892,
+          "altitude": 63.7
+        },
+        {
+          "lat": 36.629762,
+          "lng": 127.4573942,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.629565,
+          "lng": 127.4572218,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        },
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        }
+      ]
+    },
+    {
+      "id": "EN026-N047",
+      "from": "N026",
+      "to": "N047",
+      "distanceKm": 0.06,
+      "climbM": 3,
+      "descentM": 0,
+      "altitudeRange": "62-65 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6308607,
+          "lng": 127.4569035,
+          "altitude": 62.3
+        },
+        {
+          "lat": 36.6310382,
+          "lng": 127.4570883,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6312325,
+          "lng": 127.4573875,
+          "altitude": 65.4
+        }
+      ]
+    },
+    {
+      "id": "EN046-N047",
+      "from": "N046",
+      "to": "N047",
+      "distanceKm": 0.215,
+      "climbM": 10,
+      "descentM": 4,
+      "altitudeRange": "61-70 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        },
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        },
+        {
+          "lat": 36.629565,
+          "lng": 127.4572218,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.629762,
+          "lng": 127.4573942,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.6299828,
+          "lng": 127.4574892,
+          "altitude": 63.7
+        },
+        {
+          "lat": 36.6302135,
+          "lng": 127.4574295,
+          "altitude": 65.4
+        },
+        {
+          "lat": 36.6304463,
+          "lng": 127.457423,
+          "altitude": 64.9
+        },
+        {
+          "lat": 36.6306738,
+          "lng": 127.4574433,
+          "altitude": 68.1
+        },
+        {
+          "lat": 36.6308998,
+          "lng": 127.4574753,
+          "altitude": 69.7
+        },
+        {
+          "lat": 36.6312325,
+          "lng": 127.4573875,
+          "altitude": 65.4
+        }
+      ]
+    },
+    {
+      "id": "EN041-N044",
+      "from": "N041",
+      "to": "N044",
+      "distanceKm": 0.303,
+      "climbM": 15,
+      "descentM": 7,
+      "altitudeRange": "60-74 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6289762,
+          "lng": 127.4551222,
+          "altitude": 66.3
+        },
+        {
+          "lat": 36.628876,
+          "lng": 127.4549717,
+          "altitude": 60.4
+        },
+        {
+          "lat": 36.6287065,
+          "lng": 127.4551382,
+          "altitude": 62.3
+        },
+        {
+          "lat": 36.628779,
+          "lng": 127.4549588,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6286663,
+          "lng": 127.4549965,
+          "altitude": 65.6
+        },
+        {
+          "lat": 36.6287467,
+          "lng": 127.4547347,
+          "altitude": 67.4
+        },
+        {
+          "lat": 36.6285988,
+          "lng": 127.454859,
+          "altitude": 66.8
+        },
+        {
+          "lat": 36.6285258,
+          "lng": 127.455133,
+          "altitude": 66.1
+        },
+        {
+          "lat": 36.6284023,
+          "lng": 127.455321,
+          "altitude": 67.8
+        },
+        {
+          "lat": 36.6282582,
+          "lng": 127.455421,
+          "altitude": 67.8
+        },
+        {
+          "lat": 36.6280502,
+          "lng": 127.4555437,
+          "altitude": 68.6
+        },
+        {
+          "lat": 36.6278445,
+          "lng": 127.4556967,
+          "altitude": 68.6
+        },
+        {
+          "lat": 36.6276107,
+          "lng": 127.4557447,
+          "altitude": 68.7
+        },
+        {
+          "lat": 36.627501,
+          "lng": 127.4552958,
+          "altitude": 74.2
+        }
+      ]
+    },
+    {
+      "id": "EN042-N044",
+      "from": "N042",
+      "to": "N044",
+      "distanceKm": 0.367,
+      "climbM": 17,
+      "descentM": 8,
+      "altitudeRange": "59-74 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6284923,
+          "lng": 127.4557065,
+          "altitude": 65.5
+        },
+        {
+          "lat": 36.6284917,
+          "lng": 127.455705,
+          "altitude": 61.1
+        },
+        {
+          "lat": 36.6286508,
+          "lng": 127.4554855,
+          "altitude": 61.7
+        },
+        {
+          "lat": 36.6286687,
+          "lng": 127.455298,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.628833,
+          "lng": 127.4551127,
+          "altitude": 58.9
+        },
+        {
+          "lat": 36.628876,
+          "lng": 127.4549717,
+          "altitude": 60.4
+        },
+        {
+          "lat": 36.6287065,
+          "lng": 127.4551382,
+          "altitude": 62.3
+        },
+        {
+          "lat": 36.628779,
+          "lng": 127.4549588,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6286663,
+          "lng": 127.4549965,
+          "altitude": 65.6
+        },
+        {
+          "lat": 36.6287467,
+          "lng": 127.4547347,
+          "altitude": 67.4
+        },
+        {
+          "lat": 36.6285988,
+          "lng": 127.454859,
+          "altitude": 66.8
+        },
+        {
+          "lat": 36.6285258,
+          "lng": 127.455133,
+          "altitude": 66.1
+        },
+        {
+          "lat": 36.6284023,
+          "lng": 127.455321,
+          "altitude": 67.8
+        },
+        {
+          "lat": 36.6282582,
+          "lng": 127.455421,
+          "altitude": 67.8
+        },
+        {
+          "lat": 36.6280502,
+          "lng": 127.4555437,
+          "altitude": 68.6
+        },
+        {
+          "lat": 36.6278445,
+          "lng": 127.4556967,
+          "altitude": 68.6
+        },
+        {
+          "lat": 36.6276107,
+          "lng": 127.4557447,
+          "altitude": 68.7
+        },
+        {
+          "lat": 36.627501,
+          "lng": 127.4552958,
+          "altitude": 74.2
+        }
+      ]
+    },
+    {
+      "id": "EN044-N048",
+      "from": "N048",
+      "to": "N044",
+      "distanceKm": 0.088,
+      "climbM": 6,
+      "descentM": 0,
+      "altitudeRange": "68-74 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6274783,
+          "lng": 127.4544482,
+          "altitude": 67.9
+        },
+        {
+          "lat": 36.6276657,
+          "lng": 127.4548093,
+          "altitude": 71.2
+        },
+        {
+          "lat": 36.627534,
+          "lng": 127.4549863,
+          "altitude": 72.4
+        },
+        {
+          "lat": 36.627501,
+          "lng": 127.4552958,
+          "altitude": 74.2
+        }
+      ]
+    },
+    {
+      "id": "EN016-N048",
+      "from": "N048",
+      "to": "N016",
+      "distanceKm": 0.075,
+      "climbM": 0,
+      "descentM": 3,
+      "altitudeRange": "65-68 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6274783,
+          "lng": 127.4544482,
+          "altitude": 67.9
+        },
+        {
+          "lat": 36.6272857,
+          "lng": 127.4545733,
+          "altitude": 68
+        },
+        {
+          "lat": 36.6270837,
+          "lng": 127.4544473,
+          "altitude": 65.6
+        },
+        {
+          "lat": 36.6268733,
+          "lng": 127.4543158,
+          "altitude": 65
+        }
+      ]
+    },
+    {
+      "id": "EN017-N048",
+      "from": "N048",
+      "to": "N017",
+      "distanceKm": 0.076,
+      "climbM": 2,
+      "descentM": 1,
+      "altitudeRange": "68-70 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6274783,
+          "lng": 127.4544482,
+          "altitude": 67.9
+        },
+        {
+          "lat": 36.6275527,
+          "lng": 127.4541893,
+          "altitude": 70
+        },
+        {
+          "lat": 36.6275072,
+          "lng": 127.4538955,
+          "altitude": 69.2
+        },
+        {
+          "lat": 36.6274023,
+          "lng": 127.4536468,
+          "altitude": 69
+        }
+      ]
+    },
+    {
+      "id": "EN041-N048",
+      "from": "N048",
+      "to": "N041",
+      "distanceKm": 0.395,
+      "climbM": 13,
+      "descentM": 15,
+      "altitudeRange": "60-74 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6274783,
+          "lng": 127.4544482,
+          "altitude": 67.9
+        },
+        {
+          "lat": 36.6276657,
+          "lng": 127.4548093,
+          "altitude": 71.2
+        },
+        {
+          "lat": 36.627534,
+          "lng": 127.4549863,
+          "altitude": 72.4
+        },
+        {
+          "lat": 36.6275038,
+          "lng": 127.4552702,
+          "altitude": 74.1
+        },
+        {
+          "lat": 36.6274817,
+          "lng": 127.4555485,
+          "altitude": 72.9
+        },
+        {
+          "lat": 36.6276107,
+          "lng": 127.4557447,
+          "altitude": 68.7
+        },
+        {
+          "lat": 36.6278445,
+          "lng": 127.4556967,
+          "altitude": 68.6
+        },
+        {
+          "lat": 36.6280502,
+          "lng": 127.4555437,
+          "altitude": 68.6
+        },
+        {
+          "lat": 36.6282582,
+          "lng": 127.455421,
+          "altitude": 67.8
+        },
+        {
+          "lat": 36.6284023,
+          "lng": 127.455321,
+          "altitude": 67.8
+        },
+        {
+          "lat": 36.6285258,
+          "lng": 127.455133,
+          "altitude": 66.1
+        },
+        {
+          "lat": 36.6285988,
+          "lng": 127.454859,
+          "altitude": 66.8
+        },
+        {
+          "lat": 36.6287467,
+          "lng": 127.4547347,
+          "altitude": 67.4
+        },
+        {
+          "lat": 36.6286663,
+          "lng": 127.4549965,
+          "altitude": 65.6
+        },
+        {
+          "lat": 36.628779,
+          "lng": 127.4549588,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6287065,
+          "lng": 127.4551382,
+          "altitude": 62.3
+        },
+        {
+          "lat": 36.628876,
+          "lng": 127.4549717,
+          "altitude": 60.4
+        },
+        {
+          "lat": 36.6289762,
+          "lng": 127.4551222,
+          "altitude": 66.3
+        }
+      ]
+    },
+    {
+      "id": "EN043-N049",
+      "from": "N049",
+      "to": "N043",
+      "distanceKm": 0.112,
+      "climbM": 1,
+      "descentM": 1,
+      "altitudeRange": "62-63 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.627498,
+          "lng": 127.4576782,
+          "altitude": 62.6
+        },
+        {
+          "lat": 36.627498,
+          "lng": 127.4576782,
+          "altitude": 62.6
+        },
+        {
+          "lat": 36.6276385,
+          "lng": 127.4574657,
+          "altitude": 62.5
+        },
+        {
+          "lat": 36.6277523,
+          "lng": 127.4572133,
+          "altitude": 62.4
+        },
+        {
+          "lat": 36.6278652,
+          "lng": 127.4569642,
+          "altitude": 63.3
+        },
+        {
+          "lat": 36.6279715,
+          "lng": 127.456707,
+          "altitude": 63.2
+        },
+        {
+          "lat": 36.6280622,
+          "lng": 127.4567167,
+          "altitude": 61.8
+        }
+      ]
+    },
+    {
+      "id": "EN014-N049",
+      "from": "N049",
+      "to": "N014",
+      "distanceKm": 0.069,
+      "climbM": 1,
+      "descentM": 0,
+      "altitudeRange": "63-64 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.627498,
+          "lng": 127.4576782,
+          "altitude": 62.6
+        },
+        {
+          "lat": 36.627656,
+          "lng": 127.4577525,
+          "altitude": 62.9
+        },
+        {
+          "lat": 36.6277588,
+          "lng": 127.4579863,
+          "altitude": 62.8
+        },
+        {
+          "lat": 36.627927,
+          "lng": 127.4581892,
+          "altitude": 63.7
+        },
+        {
+          "lat": 36.627927,
+          "lng": 127.4581892,
+          "altitude": 63.7
+        }
+      ]
+    },
+    {
+      "id": "EN004-N049",
+      "from": "N049",
+      "to": "N004",
+      "distanceKm": 0.21,
+      "climbM": 5,
+      "descentM": 3,
+      "altitudeRange": "62-66 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.627498,
+          "lng": 127.4576782,
+          "altitude": 62.6
+        },
+        {
+          "lat": 36.6273625,
+          "lng": 127.4577875,
+          "altitude": 63.1
+        },
+        {
+          "lat": 36.6273332,
+          "lng": 127.4580393,
+          "altitude": 62.2
+        },
+        {
+          "lat": 36.6272,
+          "lng": 127.4582762,
+          "altitude": 62.4
+        },
+        {
+          "lat": 36.627063,
+          "lng": 127.4585098,
+          "altitude": 64.2
+        },
+        {
+          "lat": 36.6269253,
+          "lng": 127.4587513,
+          "altitude": 64.5
+        },
+        {
+          "lat": 36.6267938,
+          "lng": 127.4589828,
+          "altitude": 65.7
+        },
+        {
+          "lat": 36.6268117,
+          "lng": 127.4591413,
+          "altitude": 63.8
+        },
+        {
+          "lat": 36.6266727,
+          "lng": 127.459374,
+          "altitude": 64.4
+        },
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        },
+        {
+          "lat": 36.6265447,
+          "lng": 127.4596092,
+          "altitude": 65.3
+        }
+      ]
+    },
+    {
+      "id": "EN047-N050",
+      "from": "N050",
+      "to": "N047",
+      "distanceKm": 0.063,
+      "climbM": 2,
+      "descentM": 4,
+      "altitudeRange": "65-70 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6306738,
+          "lng": 127.4574433,
+          "altitude": 68.1
+        },
+        {
+          "lat": 36.6308998,
+          "lng": 127.4574753,
+          "altitude": 69.7
+        },
+        {
+          "lat": 36.6312325,
+          "lng": 127.4573875,
+          "altitude": 65.4
+        }
+      ]
+    },
+    {
+      "id": "EN046-N050",
+      "from": "N050",
+      "to": "N046",
+      "distanceKm": 0.152,
+      "climbM": 0,
+      "descentM": 8,
+      "altitudeRange": "61-68 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6306738,
+          "lng": 127.4574433,
+          "altitude": 68.1
+        },
+        {
+          "lat": 36.6306738,
+          "lng": 127.4574433,
+          "altitude": 68.1
+        },
+        {
+          "lat": 36.6304463,
+          "lng": 127.457423,
+          "altitude": 64.9
+        },
+        {
+          "lat": 36.6302135,
+          "lng": 127.4574295,
+          "altitude": 65.4
+        },
+        {
+          "lat": 36.6299828,
+          "lng": 127.4574892,
+          "altitude": 63.7
+        },
+        {
+          "lat": 36.629762,
+          "lng": 127.4573942,
+          "altitude": 63.9
+        },
+        {
+          "lat": 36.629565,
+          "lng": 127.4572218,
+          "altitude": 61.2
+        },
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        },
+        {
+          "lat": 36.6293965,
+          "lng": 127.4573498,
+          "altitude": 60.5
+        }
+      ]
+    },
+    {
+      "id": "EN035-N050",
+      "from": "N050",
+      "to": "N035",
+      "distanceKm": 0.107,
+      "climbM": 5,
+      "descentM": 2,
+      "altitudeRange": "66-72 m",
+      "method": "GNSS 보조 노드 최단 경로",
+      "path": [
+        {
+          "lat": 36.6306738,
+          "lng": 127.4574433,
+          "altitude": 68.1
+        },
+        {
+          "lat": 36.6306585,
+          "lng": 127.4576953,
+          "altitude": 66.4
+        },
+        {
+          "lat": 36.6307275,
+          "lng": 127.4579613,
+          "altitude": 66.5
+        },
+        {
+          "lat": 36.6306955,
+          "lng": 127.4582485,
+          "altitude": 71.7
+        },
+        {
+          "lat": 36.6306443,
+          "lng": 127.4586208,
+          "altitude": 71.2
         }
       ]
     }

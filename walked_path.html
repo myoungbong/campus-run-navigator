@@ -21,6 +21,7 @@
   <nav class="quick-links" aria-label="페이지 이동">
     <a class="quick-link" href="index.html">추천 경로 설계</a>
     <a class="quick-link active" href="walked_path.html">실측 GNSS 경로 보기</a>
+    <a class="quick-link" href="graph_view.html">연결 노드 보기</a>
   </nav>
 
   <main class="walk-shell">
@@ -38,10 +39,12 @@
           <option value="all" selected>전체 실측 경로</option>
           <option value="gnss_log_2.csv">실측 경로 1</option>
           <option value="gnss_log_3.csv">실측 경로 2</option>
+          <option value="gnss_log_4.csv">실측 경로 3</option>
         </select>
         <input id="walkNaverClientId" type="password" placeholder="네이버 지도 Client ID 입력">
         <button id="loadWalkNaverMap">네이버 지도에 표시</button>
         <a href="index.html">추천 경로 화면</a>
+        <a href="graph_view.html">연결 노드 보기</a>
       </div>
 
       <div class="walk-map-wrap">
@@ -87,6 +90,6 @@
     </section>
   </main>
 
-  <script src="walked_path.js"></script>
+  <script src="walked_path.js?v=20260520-red-polyline-dots"></script>
 </body>
 </html>
