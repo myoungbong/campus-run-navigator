@@ -1795,28 +1795,34 @@ function selectRecommendedCandidate(candidates, difficulty) {
     return Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
   });
   const bestDistanceError = Math.abs(byDistance[0].distance - targetDistance);
-  const tolerance = Math.max(0.35, targetDistance * 0.06, bestDistanceError + 0.2);
+  const tolerance = Math.max(0.35, targetDistance * 0.06);
   const nearTarget = byDistance.filter((candidate) => Math.abs(candidate.distance - targetDistance) <= tolerance);
-  const pool = nearTarget.length >= 3 ? nearTarget : byDistance.slice(0, Math.min(40, byDistance.length));
+  const pool = nearTarget.length
+    ? nearTarget
+    : byDistance.slice(0, Math.min(12, byDistance.length));
   const climbScore = (candidate) => (candidate.climb || 0) + (candidate.descent || 0) * 0.65;
+  const distanceThenDifficulty = (a, b, difficultyCompare) => {
+    const distanceCompare = Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
+    if (!nearTarget.length && Math.abs(distanceCompare) > 0.35) return distanceCompare;
+    return difficultyCompare || distanceCompare;
+  };
 
   if (difficulty === "easy") {
     return [...pool].sort((a, b) => {
-      return climbScore(a) - climbScore(b) || Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
+      return distanceThenDifficulty(a, b, climbScore(a) - climbScore(b));
     })[0];
   }
 
   if (difficulty === "hard") {
     return [...pool].sort((a, b) => {
-      return climbScore(b) - climbScore(a) || Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
+      return distanceThenDifficulty(a, b, climbScore(b) - climbScore(a));
     })[0];
   }
 
   const sortedByClimb = [...pool].sort((a, b) => climbScore(a) - climbScore(b));
   const medianClimb = climbScore(sortedByClimb[Math.floor(sortedByClimb.length / 2)]);
   return [...pool].sort((a, b) => {
-    return Math.abs(climbScore(a) - medianClimb) - Math.abs(climbScore(b) - medianClimb)
-      || Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
+    return distanceThenDifficulty(a, b, Math.abs(climbScore(a) - medianClimb) - Math.abs(climbScore(b) - medianClimb));
   })[0];
 }
 
@@ -1833,11 +1839,11 @@ function findRecommendedGraphRoute() {
   }
 
   const adjacency = buildGraphAdjacency();
-  const maxDistance = Math.max(targetDistance + 1.2, targetDistance * 1.15);
-  const maxDepth = Math.max(18, Math.ceil(targetDistance / 0.3) + 6);
-  const beamLimit = 3500;
-  const maxNodeVisits = targetDistance >= 7 ? 4 : 3;
-  const maxEdgeUses = targetDistance >= 7 ? 2 : 1;
+  const maxDistance = Math.max(targetDistance + 1.5, targetDistance * 1.2);
+  const maxDepth = Math.max(26, Math.ceil(targetDistance / 0.22) + 8);
+  const beamLimit = targetDistance >= 8 ? 9000 : 4500;
+  const maxNodeVisits = targetDistance >= 8 ? 6 : targetDistance >= 5 ? 5 : 3;
+  const maxEdgeUses = targetDistance >= 8 ? 3 : targetDistance >= 5 ? 2 : 1;
   let states = [{
     nodeId: startId,
     nodeIds: [startId],
@@ -1890,7 +1896,10 @@ function findRecommendedGraphRoute() {
         if (step.to === endId && nextState.edgeSteps.length >= 1) {
           candidates.push(nextState);
         }
-        if (step.to !== endId || endId === startId) {
+        const shouldKeepExploring = step.to !== endId
+          || endId === startId
+          || nextState.distance < targetDistance - 0.25;
+        if (shouldKeepExploring) {
           nextStates.push(nextState);
         }
       });
