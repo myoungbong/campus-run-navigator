@@ -1829,7 +1829,7 @@ function getRouteSpreadProfile(candidate) {
     repeatedEdgeCount,
     uniqueNodeRatio,
     spreadKm,
-    concentrationPenalty: repeatedNodeCount * 0.9 + repeatedEdgeCount * 1.8 + compactLoopPenalty - uniqueNodeRatio
+    concentrationPenalty: repeatedNodeCount * 3.2 + repeatedEdgeCount * 6 + compactLoopPenalty * 2.4 - uniqueNodeRatio * 2.2 - spreadKm * 0.35
   };
 }
 
@@ -1886,9 +1886,9 @@ function findRecommendedGraphRoute() {
   const adjacency = buildGraphAdjacency();
   const maxDistance = Math.max(targetDistance + 1.5, targetDistance * 1.2);
   const maxDepth = Math.max(26, Math.ceil(targetDistance / 0.22) + 8);
-  const beamLimit = targetDistance >= 8 ? 9000 : 4500;
-  const maxNodeVisits = targetDistance >= 8 ? 6 : targetDistance >= 5 ? 5 : 3;
-  const maxEdgeUses = targetDistance >= 8 ? 3 : targetDistance >= 5 ? 2 : 1;
+  const beamLimit = targetDistance >= 8 ? 14000 : 6000;
+  const maxNodeVisits = targetDistance >= 8 ? 4 : targetDistance >= 5 ? 3 : 2;
+  const maxEdgeUses = targetDistance >= 8 ? 2 : 1;
   let states = [{
     nodeId: startId,
     nodeIds: [startId],
@@ -1908,6 +1908,8 @@ function findRecommendedGraphRoute() {
     states.forEach((state) => {
       const neighbors = adjacency.get(state.nodeId) || [];
       neighbors.forEach((step) => {
+        const lastStep = state.edgeSteps[state.edgeSteps.length - 1];
+        const isImmediateBacktrack = lastStep && makeEdgeKey(lastStep.edge.from, lastStep.edge.to) === makeEdgeKey(step.edge.from, step.edge.to);
         const nextVisitCount = (state.visits[step.to] || 0) + 1;
         const canFinishAtStart = step.to === startId && endId === startId && state.edgeSteps.length >= 2;
         if (step.to === startId && !canFinishAtStart && nextVisitCount > 1) return;
@@ -1916,6 +1918,7 @@ function findRecommendedGraphRoute() {
         const edgeKey = makeEdgeKey(step.edge.from, step.edge.to);
         const nextEdgeUseCount = (state.edgeUses[edgeKey] || 0) + 1;
         if (nextEdgeUseCount > maxEdgeUses) return;
+        if (isImmediateBacktrack && nextEdgeUseCount > 1 && state.distance < targetDistance - 0.4) return;
 
         const nextDistance = state.distance + step.edge.distanceKm;
         if (nextDistance > maxDistance) return;
@@ -1954,7 +1957,11 @@ function findRecommendedGraphRoute() {
       .sort((a, b) => {
         const aRemaining = Math.max(0, targetDistance - a.distance);
         const bRemaining = Math.max(0, targetDistance - b.distance);
-        return aRemaining - bRemaining || Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
+        const aSpread = getRouteSpreadProfile(a);
+        const bSpread = getRouteSpreadProfile(b);
+        const distanceCompare = aRemaining - bRemaining || Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
+        const varietyCompare = aSpread.concentrationPenalty - bSpread.concentrationPenalty;
+        return distanceCompare || varietyCompare;
       })
       .slice(0, beamLimit);
     if (!states.length) break;
