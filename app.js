@@ -108,6 +108,7 @@ let measuredTrack = [];
 let selectableMeasuredNodes = [];
 let selectedNodeIds = [];
 let targetDistance = Number(targetDistanceInput?.value || 5);
+const MAX_TARGET_DISTANCE = 5;
 let nodeGraph = loadNodeGraph();
 let graphEdgeCandidates = [];
 let graphCandidateMessage = "";
@@ -1786,14 +1787,17 @@ function scoreGraphRoute(candidate, difficulty) {
   const distanceError = Math.abs(candidate.distance - targetDistance);
   const climbTotal = candidate.climb + candidate.descent;
   const climbDensity = climbTotal / Math.max(candidate.distance, 0.1);
+  const spreadProfile = getRouteSpreadProfile(candidate);
+  const repeatPenalty = spreadProfile.repeatedNodeCount * 20 + spreadProfile.repeatedEdgeCount * 45;
+  const spreadBonus = spreadProfile.spreadKm * 2.5 + spreadProfile.uniqueNodeRatio * 8;
   if (difficulty === "easy") {
-    return distanceError * 14 + climbDensity * 0.016 + candidate.climb * 0.01;
+    return distanceError * 22 + repeatPenalty + climbDensity * 0.08 + candidate.climb * 0.08 - spreadBonus;
   }
   if (difficulty === "hard") {
-    return distanceError * 14 - candidate.climb * 0.012 - climbDensity * 0.004;
+    return distanceError * 22 + repeatPenalty - candidate.climb * 0.08 - climbDensity * 0.035 - spreadBonus;
   }
   const targetClimbDensity = 35;
-  return distanceError * 14 + Math.abs(climbDensity - targetClimbDensity) * 0.01;
+  return distanceError * 22 + repeatPenalty + Math.abs(climbDensity - targetClimbDensity) * 0.045 - spreadBonus;
 }
 
 function getRouteSpreadProfile(candidate) {
@@ -1822,14 +1826,14 @@ function getRouteSpreadProfile(candidate) {
   const northEast = { lat: Math.max(...lats), lng: Math.max(...lngs) };
   const spreadKm = distanceKm(southWest, northEast);
   const uniqueNodeRatio = uniqueNodeCount / Math.max(1, candidate.nodeIds.length);
-  const compactLoopPenalty = Math.max(0, targetDistance * 0.12 - spreadKm) * 1.8;
+  const compactLoopPenalty = Math.max(0, targetDistance * 0.16 - spreadKm) * 2.6;
 
   return {
     repeatedNodeCount,
     repeatedEdgeCount,
     uniqueNodeRatio,
     spreadKm,
-    concentrationPenalty: repeatedNodeCount * 3.2 + repeatedEdgeCount * 6 + compactLoopPenalty * 2.4 - uniqueNodeRatio * 2.2 - spreadKm * 0.35
+    concentrationPenalty: repeatedNodeCount * 8 + repeatedEdgeCount * 18 + compactLoopPenalty * 4 - uniqueNodeRatio * 4 - spreadKm * 1.2
   };
 }
 
@@ -1845,11 +1849,12 @@ function selectRecommendedCandidate(candidates, difficulty) {
     : byDistance.slice(0, Math.min(12, byDistance.length));
   const climbScore = (candidate) => (candidate.climb || 0) + (candidate.descent || 0) * 0.65;
   const routeVarietyScore = (candidate) => getRouteSpreadProfile(candidate).concentrationPenalty;
+  const overallScore = (candidate) => scoreGraphRoute(candidate, difficulty);
   const distanceThenDifficulty = (a, b, difficultyCompare) => {
     const distanceCompare = Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
-    if (!nearTarget.length && Math.abs(distanceCompare) > 0.35) return distanceCompare;
+    if (!nearTarget.length && Math.abs(distanceCompare) > 0.25) return distanceCompare;
     const varietyCompare = routeVarietyScore(a) - routeVarietyScore(b);
-    return varietyCompare || difficultyCompare || distanceCompare;
+    return overallScore(a) - overallScore(b) || difficultyCompare || varietyCompare || distanceCompare;
   };
 
   if (difficulty === "easy") {
@@ -1867,7 +1872,9 @@ function selectRecommendedCandidate(candidates, difficulty) {
   const sortedByClimb = [...pool].sort((a, b) => climbScore(a) - climbScore(b));
   const medianClimb = climbScore(sortedByClimb[Math.floor(sortedByClimb.length / 2)]);
   return [...pool].sort((a, b) => {
-    return distanceThenDifficulty(a, b, Math.abs(climbScore(a) - medianClimb) - Math.abs(climbScore(b) - medianClimb));
+    const balancedClimbCompare = Math.abs(climbScore(a) - medianClimb) - Math.abs(climbScore(b) - medianClimb);
+    const varietyCompare = routeVarietyScore(a) - routeVarietyScore(b);
+    return varietyCompare || balancedClimbCompare || Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
   })[0];
 }
 
@@ -1884,11 +1891,11 @@ function findRecommendedGraphRoute() {
   }
 
   const adjacency = buildGraphAdjacency();
-  const maxDistance = Math.max(targetDistance + 1.5, targetDistance * 1.2);
-  const maxDepth = Math.max(26, Math.ceil(targetDistance / 0.22) + 8);
-  const beamLimit = targetDistance >= 8 ? 14000 : 6000;
-  const maxNodeVisits = targetDistance >= 8 ? 4 : targetDistance >= 5 ? 3 : 2;
-  const maxEdgeUses = targetDistance >= 8 ? 2 : 1;
+  const maxDistance = Math.min(MAX_TARGET_DISTANCE + 0.45, Math.max(targetDistance + 0.55, targetDistance * 1.12));
+  const maxDepth = Math.max(24, Math.ceil(targetDistance / 0.2) + 6);
+  const beamLimit = 9000;
+  const maxNodeVisits = targetDistance >= 4.5 ? 2 : 1;
+  const maxEdgeUses = 1;
   let states = [{
     nodeId: startId,
     nodeIds: [startId],
@@ -2129,7 +2136,10 @@ function updateCustomRoute() {
 }
 
 function setTargetDistance(distance) {
-  targetDistance = Number(distance);
+  targetDistance = Math.min(MAX_TARGET_DISTANCE, Number(distance));
+  if (targetDistanceInput && Number(targetDistanceInput.value) !== targetDistance) {
+    targetDistanceInput.value = String(targetDistance);
+  }
   if (targetDistanceValue) targetDistanceValue.textContent = formatTargetDistance(targetDistance);
   if (selectedNodeIds.length < 2) {
     document.querySelector("#routeBadge").textContent = `${formatTargetDistance()} km 기준`;
