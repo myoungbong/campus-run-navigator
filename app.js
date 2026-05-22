@@ -1798,16 +1798,18 @@ function scoreGraphRoute(candidate, difficulty) {
   const climbTotal = candidate.climb + candidate.descent;
   const climbDensity = climbTotal / Math.max(candidate.distance, 0.1);
   const spreadProfile = getRouteSpreadProfile(candidate);
+  const qualityProfile = getRouteQualityProfile(candidate);
   const repeatPenalty = spreadProfile.repeatedNodeCount * 32 + spreadProfile.repeatedEdgeCount * 70;
   const spreadBonus = spreadProfile.spreadKm * 5.5 + spreadProfile.uniqueNodeRatio * 14;
+  const movementQuality = qualityProfile.qualityPenalty * 2.3;
   if (difficulty === "easy") {
-    return distanceError * 18 + repeatPenalty + climbDensity * 0.1 + candidate.climb * 0.1 - spreadBonus;
+    return distanceError * 18 + repeatPenalty + movementQuality + climbDensity * 0.1 + candidate.climb * 0.1 - spreadBonus;
   }
   if (difficulty === "hard") {
-    return distanceError * 18 + repeatPenalty - candidate.climb * 0.1 - climbDensity * 0.045 - spreadBonus;
+    return distanceError * 18 + repeatPenalty + movementQuality - candidate.climb * 0.1 - climbDensity * 0.045 - spreadBonus;
   }
   const targetClimbDensity = 35;
-  return distanceError * 18 + repeatPenalty + Math.abs(climbDensity - targetClimbDensity) * 0.055 - spreadBonus;
+  return distanceError * 18 + repeatPenalty + movementQuality + Math.abs(climbDensity - targetClimbDensity) * 0.055 - spreadBonus;
 }
 
 function getRouteDistanceBand(target = targetDistance) {
@@ -1815,6 +1817,112 @@ function getRouteDistanceBand(target = targetDistance) {
     min: Math.max(0.75, target * 0.78),
     max: Math.min(MAX_TARGET_DISTANCE + 0.08, target + 0.12)
   };
+}
+
+function getCampusBounds() {
+  const nodes = nodeGraph.nodes.filter((node) => Number.isFinite(node.lat) && Number.isFinite(node.lng));
+  if (!nodes.length) return null;
+  return {
+    minLat: Math.min(...nodes.map((node) => node.lat)),
+    maxLat: Math.max(...nodes.map((node) => node.lat)),
+    minLng: Math.min(...nodes.map((node) => node.lng)),
+    maxLng: Math.max(...nodes.map((node) => node.lng))
+  };
+}
+
+function getCampusZoneKey(node) {
+  const bounds = getCampusBounds();
+  if (!bounds) return "unknown";
+  const latRange = Math.max(0.000001, bounds.maxLat - bounds.minLat);
+  const lngRange = Math.max(0.000001, bounds.maxLng - bounds.minLng);
+  const row = Math.max(0, Math.min(2, Math.floor(((node.lat - bounds.minLat) / latRange) * 3)));
+  const col = Math.max(0, Math.min(2, Math.floor(((node.lng - bounds.minLng) / lngRange) * 3)));
+  return `${row}-${col}`;
+}
+
+function getTurnAngleDegrees(prev, current, next) {
+  const ax = current.lng - prev.lng;
+  const ay = current.lat - prev.lat;
+  const bx = next.lng - current.lng;
+  const by = next.lat - current.lat;
+  const aLength = Math.hypot(ax, ay);
+  const bLength = Math.hypot(bx, by);
+  if (!aLength || !bLength) return 0;
+  const dot = (ax * bx + ay * by) / (aLength * bLength);
+  return Math.acos(Math.max(-1, Math.min(1, dot))) * (180 / Math.PI);
+}
+
+function getRouteQualityProfile(candidate) {
+  if (candidate._qualityProfile) return candidate._qualityProfile;
+
+  const nodesById = new Map(nodeGraph.nodes.map((node) => [node.id, node]));
+  const routeNodes = candidate.nodeIds
+    .map((id) => nodesById.get(id))
+    .filter((node) => Number.isFinite(node?.lat) && Number.isFinite(node?.lng));
+
+  if (routeNodes.length < 2) {
+    candidate._qualityProfile = {
+      sharpTurnPenalty: 0,
+      shortHopPenalty: 0,
+      clusterPenalty: 0,
+      zoneBonus: 0,
+      farBonus: 0,
+      qualityPenalty: 0,
+      zoneCount: 0,
+      farthestFromStartKm: 0
+    };
+    return candidate._qualityProfile;
+  }
+
+  let sharpTurnPenalty = 0;
+  for (let index = 1; index < routeNodes.length - 1; index += 1) {
+    const angle = getTurnAngleDegrees(routeNodes[index - 1], routeNodes[index], routeNodes[index + 1]);
+    if (angle > 105) sharpTurnPenalty += ((angle - 105) / 35) ** 2 * 7;
+    if (angle > 150) sharpTurnPenalty += 8;
+  }
+
+  const edgeDistances = candidate.edgeSteps?.map((step) => step.edge.distanceKm || 0) || [];
+  let shortHopPenalty = 0;
+  let shortHopRun = 0;
+  edgeDistances.forEach((distance) => {
+    if (distance < 0.18) {
+      shortHopPenalty += (0.18 - distance) * 75;
+      shortHopRun += 1;
+      if (shortHopRun >= 3) shortHopPenalty += 10;
+    } else {
+      shortHopRun = 0;
+    }
+  });
+
+  let clusterPenalty = 0;
+  for (let index = 0; index <= routeNodes.length - 4; index += 1) {
+    const windowNodes = routeNodes.slice(index, index + 4);
+    const lats = windowNodes.map((node) => node.lat);
+    const lngs = windowNodes.map((node) => node.lng);
+    const diagonal = distanceKm(
+      { lat: Math.min(...lats), lng: Math.min(...lngs) },
+      { lat: Math.max(...lats), lng: Math.max(...lngs) }
+    );
+    if (diagonal < 0.42) clusterPenalty += (0.42 - diagonal) * 32;
+  }
+
+  const zoneCount = new Set(routeNodes.map(getCampusZoneKey)).size;
+  const farthestFromStartKm = Math.max(...routeNodes.map((node) => distanceKm(routeNodes[0], node)));
+  const zoneBonus = zoneCount * 6;
+  const farBonus = farthestFromStartKm * 8;
+  const qualityPenalty = sharpTurnPenalty + shortHopPenalty + clusterPenalty - zoneBonus - farBonus;
+
+  candidate._qualityProfile = {
+    sharpTurnPenalty,
+    shortHopPenalty,
+    clusterPenalty,
+    zoneBonus,
+    farBonus,
+    qualityPenalty,
+    zoneCount,
+    farthestFromStartKm
+  };
+  return candidate._qualityProfile;
 }
 
 function getRouteSpreadProfile(candidate) {
@@ -1863,11 +1971,13 @@ function selectRecommendedCandidate(candidates, difficulty) {
     .slice(0, Math.min(80, byDistance.length));
   const climbScore = (candidate) => (candidate.climb || 0) + (candidate.descent || 0) * 0.65;
   const routeVarietyScore = (candidate) => getRouteSpreadProfile(candidate).concentrationPenalty;
+  const routeQualityScore = (candidate) => getRouteQualityProfile(candidate).qualityPenalty;
   const overallScore = (candidate) => scoreGraphRoute(candidate, difficulty);
   const qualityThenDifficulty = (a, b, difficultyCompare) => {
     const varietyCompare = routeVarietyScore(a) - routeVarietyScore(b);
+    const movementCompare = routeQualityScore(a) - routeQualityScore(b);
     const distanceCompare = Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
-    return overallScore(a) - overallScore(b) || varietyCompare || difficultyCompare || distanceCompare;
+    return overallScore(a) - overallScore(b) || movementCompare || varietyCompare || difficultyCompare || distanceCompare;
   };
 
   if (difficulty === "easy") {
@@ -1887,7 +1997,8 @@ function selectRecommendedCandidate(candidates, difficulty) {
   return [...pool].sort((a, b) => {
     const balancedClimbCompare = Math.abs(climbScore(a) - medianClimb) - Math.abs(climbScore(b) - medianClimb);
     const varietyCompare = routeVarietyScore(a) - routeVarietyScore(b);
-    return varietyCompare || balancedClimbCompare || Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
+    const movementCompare = routeQualityScore(a) - routeQualityScore(b);
+    return movementCompare || varietyCompare || balancedClimbCompare || Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
   })[0];
 }
 
@@ -1969,8 +2080,9 @@ function findRecommendedGraphRoute() {
           if (candidates.length > maxCandidateCount) {
             candidates.sort((a, b) => {
               const scoreCompare = scoreGraphRoute(a, difficulty) - scoreGraphRoute(b, difficulty);
+              const qualityCompare = getRouteQualityProfile(a).qualityPenalty - getRouteQualityProfile(b).qualityPenalty;
               const spreadCompare = getRouteSpreadProfile(a).concentrationPenalty - getRouteSpreadProfile(b).concentrationPenalty;
-              return scoreCompare || spreadCompare;
+              return scoreCompare || qualityCompare || spreadCompare;
             });
             candidates.length = Math.floor(maxCandidateCount * 0.75);
           }
@@ -1987,8 +2099,9 @@ function findRecommendedGraphRoute() {
         const aSpread = getRouteSpreadProfile(a);
         const bSpread = getRouteSpreadProfile(b);
         const scoreCompare = scoreGraphRoute(a, difficulty) - scoreGraphRoute(b, difficulty);
+        const qualityCompare = getRouteQualityProfile(a).qualityPenalty - getRouteQualityProfile(b).qualityPenalty;
         const varietyCompare = aSpread.concentrationPenalty - bSpread.concentrationPenalty;
-        return scoreCompare || varietyCompare;
+        return scoreCompare || qualityCompare || varietyCompare;
       })
       .slice(0, beamLimit);
     if (!states.length) break;
@@ -2001,6 +2114,7 @@ function findRecommendedGraphRoute() {
 
   const best = selectRecommendedCandidate(candidates, difficulty);
   const spreadProfile = getRouteSpreadProfile(best);
+  const qualityProfile = getRouteQualityProfile(best);
   const nodesById = new Map(nodeGraph.nodes.map((node) => [node.id, node]));
   const fullPath = [];
   best.edgeSteps.forEach((step, stepIndex) => {
@@ -2062,6 +2176,7 @@ function findRecommendedGraphRoute() {
     stops,
     guideSegments,
     spreadProfile,
+    qualityProfile,
     latlng: fullPath.map((point) => [point.lat, point.lng]),
     description: best.nodeIds.map((id) => nodesById.get(id)?.name || id).join(" → ")
   };
@@ -2075,7 +2190,10 @@ function recommendGraphRoute() {
   const spreadText = route.spreadProfile
     ? `, 동선 분산 약 ${route.spreadProfile.spreadKm.toFixed(2)} km, 반복 구간 ${route.spreadProfile.repeatedEdgeCount}개`
     : "";
-  setMapStatus(`${route.level} 난이도 추천 경로를 만들었습니다. ${formatTargetDistance(route.targetDistance || targetDistance)} km 이내 / 실제 ${route.distance.toFixed(3)} km (${match.grade}), 누적 상승/하강 ${formatElevationChange(route.climb, route.descent)}, 고도 범위 ${formatAltitudeRange(route.minAltitude, route.maxAltitude)}${spreadText}.`);
+  const qualityText = route.qualityProfile
+    ? `, 통과 구역 ${route.qualityProfile.zoneCount}개, 출발점 기준 최대 이격 ${route.qualityProfile.farthestFromStartKm.toFixed(2)} km`
+    : "";
+  setMapStatus(`${route.level} 난이도 추천 경로를 만들었습니다. ${formatTargetDistance(route.targetDistance || targetDistance)} km 이내 / 실제 ${route.distance.toFixed(3)} km (${match.grade}), 누적 상승/하강 ${formatElevationChange(route.climb, route.descent)}, 고도 범위 ${formatAltitudeRange(route.minAltitude, route.maxAltitude)}${spreadText}${qualityText}.`);
 }
 
 function drawPoints(points) {
