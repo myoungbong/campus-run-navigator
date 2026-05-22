@@ -1836,14 +1836,14 @@ function getDistanceTuning(target = targetDistance) {
   }
   if (target <= 3.5) {
     return {
-      spreadWeight: 0.65,
-      farWeight: 0.55,
-      zoneWeight: 0.7,
-      turnWeight: 1.15,
-      shortHopWeight: 1.1,
-      clusterWeight: 1,
+      spreadWeight: 0.42,
+      farWeight: 0.35,
+      zoneWeight: 0.45,
+      turnWeight: 1.75,
+      shortHopWeight: 1.45,
+      clusterWeight: 1.45,
       compactWeight: 0.8,
-      distanceWeight: 22,
+      distanceWeight: 24,
       poolLimit: 64
     };
   }
@@ -1919,18 +1919,19 @@ function getRouteQualityProfile(candidate) {
   let sharpTurnPenalty = 0;
   for (let index = 1; index < routeNodes.length - 1; index += 1) {
     const angle = getTurnAngleDegrees(routeNodes[index - 1], routeNodes[index], routeNodes[index + 1]);
-    if (angle > 105) sharpTurnPenalty += ((angle - 105) / 35) ** 2 * 7;
-    if (angle > 150) sharpTurnPenalty += 8;
+    if (angle > 75) sharpTurnPenalty += ((angle - 75) / 35) ** 2 * 8;
+    if (angle > 125) sharpTurnPenalty += 8;
+    if (angle > 155) sharpTurnPenalty += 14;
   }
 
   const edgeDistances = candidate.edgeSteps?.map((step) => step.edge.distanceKm || 0) || [];
   let shortHopPenalty = 0;
   let shortHopRun = 0;
   edgeDistances.forEach((distance) => {
-    if (distance < 0.18) {
-      shortHopPenalty += (0.18 - distance) * 75;
+    if (distance < 0.22) {
+      shortHopPenalty += (0.22 - distance) * 85;
       shortHopRun += 1;
-      if (shortHopRun >= 3) shortHopPenalty += 10;
+      if (shortHopRun >= 3) shortHopPenalty += 16;
     } else {
       shortHopRun = 0;
     }
@@ -2020,32 +2021,36 @@ function selectRecommendedCandidate(candidates, difficulty) {
   const routeVarietyScore = (candidate) => getRouteSpreadProfile(candidate).concentrationPenalty;
   const routeQualityScore = (candidate) => getRouteQualityProfile(candidate).qualityPenalty;
   const overallScore = (candidate) => scoreGraphRoute(candidate, difficulty);
-  const qualityThenDifficulty = (a, b, difficultyCompare) => {
+  const shapeScore = (candidate) => routeQualityScore(candidate) + routeVarietyScore(candidate) * 0.75
+    + Math.abs(candidate.distance - targetDistance) * tuning.distanceWeight;
+  const bestShapeScore = Math.min(...pool.map(shapeScore));
+  const qualityWindow = difficulty === "medium" ? 18 : 34;
+  const difficultyPool = pool.filter((candidate) => shapeScore(candidate) <= bestShapeScore + qualityWindow);
+  const rankingPool = difficultyPool.length >= 3 ? difficultyPool : pool.slice(0, Math.min(24, pool.length));
+  const compareQuality = (a, b, difficultyCompare) => {
     const varietyCompare = routeVarietyScore(a) - routeVarietyScore(b);
     const movementCompare = routeQualityScore(a) - routeQualityScore(b);
     const distanceCompare = Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
-    return overallScore(a) - overallScore(b) || movementCompare || varietyCompare || difficultyCompare || distanceCompare;
+    return movementCompare || varietyCompare || distanceCompare || difficultyCompare || overallScore(a) - overallScore(b);
   };
 
   if (difficulty === "easy") {
-    return [...pool].sort((a, b) => {
-      return qualityThenDifficulty(a, b, climbScore(a) - climbScore(b));
+    return [...rankingPool].sort((a, b) => {
+      return climbScore(a) - climbScore(b) || compareQuality(a, b, 0);
     })[0];
   }
 
   if (difficulty === "hard") {
-    return [...pool].sort((a, b) => {
-      return qualityThenDifficulty(a, b, climbScore(b) - climbScore(a));
+    return [...rankingPool].sort((a, b) => {
+      return climbScore(b) - climbScore(a) || compareQuality(a, b, 0);
     })[0];
   }
 
-  const sortedByClimb = [...pool].sort((a, b) => climbScore(a) - climbScore(b));
+  const sortedByClimb = [...rankingPool].sort((a, b) => climbScore(a) - climbScore(b));
   const medianClimb = climbScore(sortedByClimb[Math.floor(sortedByClimb.length / 2)]);
-  return [...pool].sort((a, b) => {
+  return [...rankingPool].sort((a, b) => {
     const balancedClimbCompare = Math.abs(climbScore(a) - medianClimb) - Math.abs(climbScore(b) - medianClimb);
-    const varietyCompare = routeVarietyScore(a) - routeVarietyScore(b);
-    const movementCompare = routeQualityScore(a) - routeQualityScore(b);
-    return movementCompare || varietyCompare || balancedClimbCompare || Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
+    return compareQuality(a, b, balancedClimbCompare);
   })[0];
 }
 
