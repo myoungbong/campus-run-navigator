@@ -1792,6 +1792,7 @@ function orientedEdgePath(edge, reversed) {
 
 function scoreGraphRoute(candidate, difficulty) {
   const band = getRouteDistanceBand(targetDistance);
+  const tuning = getDistanceTuning(targetDistance);
   const underDistance = Math.max(0, band.min - candidate.distance);
   const overDistance = Math.max(0, candidate.distance - band.max);
   const distanceError = underDistance * 1.2 + overDistance * 4;
@@ -1800,22 +1801,62 @@ function scoreGraphRoute(candidate, difficulty) {
   const spreadProfile = getRouteSpreadProfile(candidate);
   const qualityProfile = getRouteQualityProfile(candidate);
   const repeatPenalty = spreadProfile.repeatedNodeCount * 32 + spreadProfile.repeatedEdgeCount * 70;
-  const spreadBonus = spreadProfile.spreadKm * 5.5 + spreadProfile.uniqueNodeRatio * 14;
+  const spreadBonus = (spreadProfile.spreadKm * 5.5 + spreadProfile.uniqueNodeRatio * 14) * tuning.spreadWeight;
   const movementQuality = qualityProfile.qualityPenalty * 2.3;
   if (difficulty === "easy") {
-    return distanceError * 18 + repeatPenalty + movementQuality + climbDensity * 0.1 + candidate.climb * 0.1 - spreadBonus;
+    return distanceError * tuning.distanceWeight + repeatPenalty + movementQuality + climbDensity * 0.1 + candidate.climb * 0.1 - spreadBonus;
   }
   if (difficulty === "hard") {
-    return distanceError * 18 + repeatPenalty + movementQuality - candidate.climb * 0.1 - climbDensity * 0.045 - spreadBonus;
+    return distanceError * tuning.distanceWeight + repeatPenalty + movementQuality - candidate.climb * 0.1 - climbDensity * 0.045 - spreadBonus;
   }
   const targetClimbDensity = 35;
-  return distanceError * 18 + repeatPenalty + movementQuality + Math.abs(climbDensity - targetClimbDensity) * 0.055 - spreadBonus;
+  return distanceError * tuning.distanceWeight + repeatPenalty + movementQuality + Math.abs(climbDensity - targetClimbDensity) * 0.055 - spreadBonus;
 }
 
 function getRouteDistanceBand(target = targetDistance) {
   return {
     min: Math.max(0.75, target * 0.78),
     max: Math.min(MAX_TARGET_DISTANCE + 0.08, target + 0.12)
+  };
+}
+
+function getDistanceTuning(target = targetDistance) {
+  if (target <= 2) {
+    return {
+      spreadWeight: 0.28,
+      farWeight: 0.18,
+      zoneWeight: 0.25,
+      turnWeight: 1.35,
+      shortHopWeight: 1.2,
+      clusterWeight: 0.75,
+      compactWeight: 0.45,
+      distanceWeight: 28,
+      poolLimit: 48
+    };
+  }
+  if (target <= 3.5) {
+    return {
+      spreadWeight: 0.65,
+      farWeight: 0.55,
+      zoneWeight: 0.7,
+      turnWeight: 1.15,
+      shortHopWeight: 1.1,
+      clusterWeight: 1,
+      compactWeight: 0.8,
+      distanceWeight: 22,
+      poolLimit: 64
+    };
+  }
+  return {
+    spreadWeight: 1,
+    farWeight: 1,
+    zoneWeight: 1,
+    turnWeight: 1,
+    shortHopWeight: 1,
+    clusterWeight: 1.1,
+    compactWeight: 1,
+    distanceWeight: 18,
+    poolLimit: 80
   };
 }
 
@@ -1854,6 +1895,7 @@ function getTurnAngleDegrees(prev, current, next) {
 
 function getRouteQualityProfile(candidate) {
   if (candidate._qualityProfile) return candidate._qualityProfile;
+  const tuning = getDistanceTuning(targetDistance);
 
   const nodesById = new Map(nodeGraph.nodes.map((node) => [node.id, node]));
   const routeNodes = candidate.nodeIds
@@ -1908,8 +1950,11 @@ function getRouteQualityProfile(candidate) {
 
   const zoneCount = new Set(routeNodes.map(getCampusZoneKey)).size;
   const farthestFromStartKm = Math.max(...routeNodes.map((node) => distanceKm(routeNodes[0], node)));
-  const zoneBonus = zoneCount * 6;
-  const farBonus = farthestFromStartKm * 8;
+  sharpTurnPenalty *= tuning.turnWeight;
+  shortHopPenalty *= tuning.shortHopWeight;
+  clusterPenalty *= tuning.clusterWeight;
+  const zoneBonus = zoneCount * 6 * tuning.zoneWeight;
+  const farBonus = farthestFromStartKm * 8 * tuning.farWeight;
   const qualityPenalty = sharpTurnPenalty + shortHopPenalty + clusterPenalty - zoneBonus - farBonus;
 
   candidate._qualityProfile = {
@@ -1926,6 +1971,7 @@ function getRouteQualityProfile(candidate) {
 }
 
 function getRouteSpreadProfile(candidate) {
+  const tuning = getDistanceTuning(targetDistance);
   const nodesById = new Map(nodeGraph.nodes.map((node) => [node.id, node]));
   const routeNodes = candidate.nodeIds
     .map((id) => nodesById.get(id))
@@ -1951,24 +1997,25 @@ function getRouteSpreadProfile(candidate) {
   const northEast = { lat: Math.max(...lats), lng: Math.max(...lngs) };
   const spreadKm = distanceKm(southWest, northEast);
   const uniqueNodeRatio = uniqueNodeCount / Math.max(1, candidate.nodeIds.length);
-  const compactLoopPenalty = Math.max(0, targetDistance * 0.16 - spreadKm) * 2.6;
+  const compactLoopPenalty = Math.max(0, targetDistance * 0.16 - spreadKm) * 2.6 * tuning.compactWeight;
 
   return {
     repeatedNodeCount,
     repeatedEdgeCount,
     uniqueNodeRatio,
     spreadKm,
-    concentrationPenalty: repeatedNodeCount * 8 + repeatedEdgeCount * 18 + compactLoopPenalty * 4 - uniqueNodeRatio * 4 - spreadKm * 1.2
+    concentrationPenalty: repeatedNodeCount * 8 + repeatedEdgeCount * 18 + compactLoopPenalty * 4 - uniqueNodeRatio * 4 - spreadKm * 1.2 * tuning.spreadWeight
   };
 }
 
 function selectRecommendedCandidate(candidates, difficulty) {
   const band = getRouteDistanceBand(targetDistance);
+  const tuning = getDistanceTuning(targetDistance);
   const byDistance = [...candidates].sort((a, b) => scoreGraphRoute(a, difficulty) - scoreGraphRoute(b, difficulty));
   const inRange = byDistance.filter((candidate) => candidate.distance >= band.min && candidate.distance <= band.max);
   const underRange = byDistance.filter((candidate) => candidate.distance < band.min && candidate.distance >= Math.max(0.6, targetDistance * 0.65));
   const pool = (inRange.length ? inRange : underRange.length ? underRange : byDistance)
-    .slice(0, Math.min(80, byDistance.length));
+    .slice(0, Math.min(tuning.poolLimit, byDistance.length));
   const climbScore = (candidate) => (candidate.climb || 0) + (candidate.descent || 0) * 0.65;
   const routeVarietyScore = (candidate) => getRouteSpreadProfile(candidate).concentrationPenalty;
   const routeQualityScore = (candidate) => getRouteQualityProfile(candidate).qualityPenalty;
@@ -2018,9 +2065,11 @@ function findRecommendedGraphRoute() {
   const difficulty = slopeMode?.value || "medium";
   const distanceBand = getRouteDistanceBand(targetDistance);
   const maxDistance = distanceBand.max;
-  const maxDepth = Math.max(20, Math.ceil(targetDistance / 0.24) + 5);
-  const beamLimit = 2800;
-  const maxCandidateCount = 1600;
+  const maxDepth = targetDistance <= 2
+    ? Math.max(10, Math.ceil(targetDistance / 0.2) + 4)
+    : Math.max(20, Math.ceil(targetDistance / 0.24) + 5);
+  const beamLimit = targetDistance <= 2 ? 1100 : targetDistance <= 3.5 ? 1900 : 2800;
+  const maxCandidateCount = targetDistance <= 2 ? 700 : targetDistance <= 3.5 ? 1100 : 1600;
   const maxNodeVisits = 1;
   const maxEdgeUses = 1;
   let states = [{
