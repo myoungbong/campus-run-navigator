@@ -13,6 +13,24 @@ let walkPolyline = null;
 let walkPolylines = [];
 let walkMarkers = [];
 
+const measuredLogFiles = [
+  "gnss_log_2.csv",
+  "gnss_log_3.csv",
+  "gnss_log_4.csv",
+  "gnss_log_5.csv",
+];
+
+const measuredLogGroups = {
+  all: measuredLogFiles,
+  "1+2": measuredLogFiles.slice(0, 2),
+  "1+2+3": measuredLogFiles.slice(0, 3),
+  "1+2+3+4": measuredLogFiles,
+};
+
+function getSelectedLogFiles(selectedLog) {
+  return measuredLogGroups[selectedLog] || [selectedLog];
+}
+
 function parseCsv(text) {
   const lines = text.trim().split(/\r?\n/);
   const headers = lines[0].split(",");
@@ -272,7 +290,7 @@ async function initNaverMap() {
 
 async function loadTrack() {
   const selectedLog = walkMeasuredLog?.value || "all";
-  const logFiles = selectedLog === "all" ? ["gnss_log_2.csv", "gnss_log_3.csv", "gnss_log_4.csv", "gnss_log_5.csv"] : [selectedLog];
+  const logFiles = getSelectedLogFiles(selectedLog);
   const groups = await Promise.all(logFiles.map(async (logFile) => {
     const response = await fetch(logFile);
     const csv = await response.text();
