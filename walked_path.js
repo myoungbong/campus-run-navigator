@@ -272,7 +272,7 @@ async function initNaverMap() {
 
 async function loadTrack() {
   const selectedLog = walkMeasuredLog?.value || "all";
-  const logFiles = selectedLog === "all" ? ["gnss_log_2.csv", "gnss_log_3.csv", "gnss_log_4.csv"] : [selectedLog];
+  const logFiles = selectedLog === "all" ? ["gnss_log_2.csv", "gnss_log_3.csv", "gnss_log_4.csv", "gnss_log_5.csv"] : [selectedLog];
   const groups = await Promise.all(logFiles.map(async (logFile) => {
     const response = await fetch(logFile);
     const csv = await response.text();

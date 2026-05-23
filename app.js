@@ -195,7 +195,7 @@ async function loadMeasuredTrack() {
 
   const selectedLog = measuredLogSelect?.value || "all";
   const logFiles = selectedLog === "all"
-    ? ["gnss_log_2.csv", "gnss_log_3.csv", "gnss_log_4.csv"]
+    ? ["gnss_log_2.csv", "gnss_log_3.csv", "gnss_log_4.csv", "gnss_log_5.csv"]
     : [selectedLog];
   const tracks = await Promise.all(logFiles.map(async (logFile, logOrder) => {
     const response = await fetch(logFile);
