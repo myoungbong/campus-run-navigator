@@ -952,13 +952,15 @@ function samplePathPoints(path, maxPoints = 1200) {
 
 function shouldRenderGraphDots() {
   if (!naverMap?.getZoom) return false;
-  return naverMap.getZoom() >= 18 && nodeGraph.edges.length <= 45;
+  return naverMap.getZoom() >= 16;
 }
 
 function getGraphDotBudget() {
   if (!naverMap?.getZoom) return 0;
   if (nodeGraph.edges.length <= 20 && naverMap.getZoom() >= 18) return 36;
   if (nodeGraph.edges.length <= 45 && naverMap.getZoom() >= 18) return 12;
+  if (naverMap.getZoom() >= 18) return 4;
+  if (naverMap.getZoom() >= 16) return 2;
   return 0;
 }
 
@@ -1019,6 +1021,9 @@ function renderNaverGraphOverlay() {
   const renderDots = shouldRenderGraphDots();
   const renderLabels = shouldRenderGraphLabels();
   const dotBudget = getGraphDotBudget();
+  const edgeCount = Math.max(1, nodeGraph.edges.length + graphEdgeCandidates.length);
+  const totalDotBudget = naverMap.getZoom() >= 18 ? 520 : 280;
+  const perEdgeDotBudget = renderDots ? Math.max(1, Math.min(dotBudget, Math.floor(totalDotBudget / edgeCount))) : 0;
   nodeGraph.edges.forEach((edge) => {
     const from = nodeGraph.nodes.find((node) => node.id === edge.from);
     const to = nodeGraph.nodes.find((node) => node.id === edge.to);
@@ -1038,8 +1043,8 @@ function renderNaverGraphOverlay() {
     });
     naverGraphPolylines.push(polyline);
 
-    if (renderDots && dotBudget > 0) {
-      sampleEdgeDotPoints(edgePath, 22, dotBudget).forEach((point) => {
+    if (renderDots && perEdgeDotBudget > 0) {
+      sampleEdgeDotPoints(edgePath, 26, perEdgeDotBudget).forEach((point) => {
         const dot = new naver.maps.Marker({
           map: naverMap,
           position: new naver.maps.LatLng(point.lat, point.lng),
@@ -1099,8 +1104,8 @@ function renderNaverGraphOverlay() {
     });
     naverGraphPolylines.push(candidatePolyline);
 
-    if (renderDots && dotBudget > 0) {
-      sampleEdgeDotPoints(edgePath, 22, Math.min(8, dotBudget)).forEach((point) => {
+    if (renderDots && perEdgeDotBudget > 0) {
+      sampleEdgeDotPoints(edgePath, 26, Math.min(8, perEdgeDotBudget)).forEach((point) => {
         const dot = new naver.maps.Marker({
           map: naverMap,
           position: new naver.maps.LatLng(point.lat, point.lng),
