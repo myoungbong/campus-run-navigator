@@ -1798,70 +1798,72 @@ function orientedEdgePath(edge, reversed) {
 function scoreGraphRoute(candidate, difficulty) {
   const band = getRouteDistanceBand(targetDistance);
   const tuning = getDistanceTuning(targetDistance);
+  const absoluteDistanceError = Math.abs(candidate.distance - targetDistance);
   const underDistance = Math.max(0, band.min - candidate.distance);
   const overDistance = Math.max(0, candidate.distance - band.max);
-  const distanceError = underDistance * 1.2 + overDistance * 4;
+  const distancePenalty = absoluteDistanceError * tuning.distanceWeight + underDistance * 180 + overDistance * 220;
   const climbTotal = candidate.climb + candidate.descent;
   const climbDensity = climbTotal / Math.max(candidate.distance, 0.1);
   const spreadProfile = getRouteSpreadProfile(candidate);
   const qualityProfile = getRouteQualityProfile(candidate);
-  const repeatPenalty = spreadProfile.repeatedNodeCount * 32 + spreadProfile.repeatedEdgeCount * 70;
-  const spreadBonus = (spreadProfile.spreadKm * 5.5 + spreadProfile.uniqueNodeRatio * 14) * tuning.spreadWeight;
-  const movementQuality = qualityProfile.qualityPenalty * 2.3;
+  const repeatPenalty = spreadProfile.repeatedNodeCount * 90 + spreadProfile.repeatedEdgeCount * 180;
+  const spreadBonus = Math.min(22, (spreadProfile.spreadKm * 4 + spreadProfile.uniqueNodeRatio * 8) * tuning.spreadWeight);
+  const movementQuality = qualityProfile.qualityPenalty * 4.5 + Math.max(0, spreadProfile.concentrationPenalty) * 1.35;
   if (difficulty === "easy") {
-    return distanceError * tuning.distanceWeight + repeatPenalty + movementQuality + climbDensity * 0.1 + candidate.climb * 0.1 - spreadBonus;
+    return distancePenalty + repeatPenalty + movementQuality + climbDensity * 0.14 + candidate.climb * 0.16 - spreadBonus;
   }
   if (difficulty === "hard") {
-    return distanceError * tuning.distanceWeight + repeatPenalty + movementQuality - candidate.climb * 0.1 - climbDensity * 0.045 - spreadBonus;
+    return distancePenalty + repeatPenalty + movementQuality - candidate.climb * 0.12 - climbDensity * 0.055 - spreadBonus;
   }
   const targetClimbDensity = 35;
-  return distanceError * tuning.distanceWeight + repeatPenalty + movementQuality + Math.abs(climbDensity - targetClimbDensity) * 0.055 - spreadBonus;
+  return distancePenalty + repeatPenalty + movementQuality + Math.abs(climbDensity - targetClimbDensity) * 0.08 - spreadBonus;
 }
 
 function getRouteDistanceBand(target = targetDistance) {
+  const tolerance = target <= 2 ? 0.18 : target <= 3.5 ? 0.24 : 0.3;
   return {
-    min: Math.max(0.75, target * 0.78),
-    max: Math.min(MAX_TARGET_DISTANCE + 0.08, target + 0.12)
+    min: Math.max(0.5, target - tolerance),
+    max: Math.min(MAX_TARGET_DISTANCE + 0.08, target + tolerance)
   };
 }
 
 function getDistanceTuning(target = targetDistance) {
   if (target <= 2) {
     return {
-      spreadWeight: 0.28,
-      farWeight: 0.18,
-      zoneWeight: 0.25,
-      turnWeight: 1.35,
-      shortHopWeight: 1.2,
-      clusterWeight: 0.75,
-      compactWeight: 0.45,
-      distanceWeight: 28,
-      poolLimit: 48
+      spreadWeight: 0.12,
+      farWeight: 0.12,
+      zoneWeight: 0.18,
+      turnWeight: 2.9,
+      shortHopWeight: 2.6,
+      clusterWeight: 1.7,
+      compactWeight: 1.15,
+      distanceWeight: 145,
+      poolLimit: 80
     };
   }
   if (target <= 3.5) {
     return {
-      spreadWeight: 0.42,
-      farWeight: 0.35,
-      zoneWeight: 0.45,
-      turnWeight: 1.75,
-      shortHopWeight: 1.45,
-      clusterWeight: 1.45,
-      compactWeight: 0.8,
-      distanceWeight: 24,
-      poolLimit: 64
+      spreadWeight: 0.18,
+      farWeight: 0.22,
+      zoneWeight: 0.32,
+      turnWeight: 3.4,
+      shortHopWeight: 3,
+      clusterWeight: 2.5,
+      compactWeight: 1.45,
+      distanceWeight: 125,
+      poolLimit: 100
     };
   }
   return {
-    spreadWeight: 1,
-    farWeight: 1,
-    zoneWeight: 1,
-    turnWeight: 1,
-    shortHopWeight: 1,
-    clusterWeight: 1.1,
-    compactWeight: 1,
-    distanceWeight: 18,
-    poolLimit: 80
+    spreadWeight: 0.28,
+    farWeight: 0.42,
+    zoneWeight: 0.5,
+    turnWeight: 3.1,
+    shortHopWeight: 2.8,
+    clusterWeight: 2.2,
+    compactWeight: 1.35,
+    distanceWeight: 110,
+    poolLimit: 120
   };
 }
 
@@ -2017,37 +2019,40 @@ function getRouteSpreadProfile(candidate) {
 function selectRecommendedCandidate(candidates, difficulty) {
   const band = getRouteDistanceBand(targetDistance);
   const tuning = getDistanceTuning(targetDistance);
-  const byDistance = [...candidates].sort((a, b) => scoreGraphRoute(a, difficulty) - scoreGraphRoute(b, difficulty));
+  const distanceError = (candidate) => Math.abs(candidate.distance - targetDistance);
+  const byDistance = [...candidates].sort((a, b) => distanceError(a) - distanceError(b));
   const inRange = byDistance.filter((candidate) => candidate.distance >= band.min && candidate.distance <= band.max);
-  const underRange = byDistance.filter((candidate) => candidate.distance < band.min && candidate.distance >= Math.max(0.6, targetDistance * 0.65));
-  const pool = (inRange.length ? inRange : underRange.length ? underRange : byDistance)
+  const nearRange = byDistance.filter((candidate) => distanceError(candidate) <= Math.max(0.45, targetDistance * 0.16));
+  const pool = (inRange.length ? inRange : nearRange.length ? nearRange : byDistance)
     .slice(0, Math.min(tuning.poolLimit, byDistance.length));
+  const bestDistanceError = Math.min(...pool.map(distanceError));
+  const closeDistanceWindow = Math.max(0.06, targetDistance * 0.035);
+  const closeDistancePool = pool.filter((candidate) => distanceError(candidate) <= bestDistanceError + closeDistanceWindow);
   const climbScore = (candidate) => (candidate.climb || 0) + (candidate.descent || 0) * 0.65;
   const routeVarietyScore = (candidate) => getRouteSpreadProfile(candidate).concentrationPenalty;
   const routeQualityScore = (candidate) => getRouteQualityProfile(candidate).qualityPenalty;
   const overallScore = (candidate) => scoreGraphRoute(candidate, difficulty);
-  const shapeScore = (candidate) => routeQualityScore(candidate) + routeVarietyScore(candidate) * 0.75
-    + Math.abs(candidate.distance - targetDistance) * tuning.distanceWeight;
-  const bestShapeScore = Math.min(...pool.map(shapeScore));
-  const qualityWindow = difficulty === "medium" ? 18 : 34;
-  const difficultyPool = pool.filter((candidate) => shapeScore(candidate) <= bestShapeScore + qualityWindow);
-  const rankingPool = difficultyPool.length >= 3 ? difficultyPool : pool.slice(0, Math.min(24, pool.length));
+  const shapeScore = (candidate) => routeQualityScore(candidate) + Math.max(0, routeVarietyScore(candidate)) * 0.9;
+  const rankingPool = closeDistancePool.length >= 4
+    ? closeDistancePool
+    : pool.slice(0, Math.min(36, pool.length));
+  const distanceBucket = (candidate) => Math.round(distanceError(candidate) / 0.025);
   const compareQuality = (a, b, difficultyCompare) => {
-    const varietyCompare = routeVarietyScore(a) - routeVarietyScore(b);
-    const movementCompare = routeQualityScore(a) - routeQualityScore(b);
-    const distanceCompare = Math.abs(a.distance - targetDistance) - Math.abs(b.distance - targetDistance);
-    return movementCompare || varietyCompare || distanceCompare || difficultyCompare || overallScore(a) - overallScore(b);
+    const distanceCompare = distanceBucket(a) - distanceBucket(b);
+    const shapeCompare = shapeScore(a) - shapeScore(b);
+    const rawDistanceCompare = distanceError(a) - distanceError(b);
+    return distanceCompare || shapeCompare || difficultyCompare || rawDistanceCompare || overallScore(a) - overallScore(b);
   };
 
   if (difficulty === "easy") {
     return [...rankingPool].sort((a, b) => {
-      return climbScore(a) - climbScore(b) || compareQuality(a, b, 0);
+      return compareQuality(a, b, climbScore(a) - climbScore(b));
     })[0];
   }
 
   if (difficulty === "hard") {
     return [...rankingPool].sort((a, b) => {
-      return climbScore(b) - climbScore(a) || compareQuality(a, b, 0);
+      return compareQuality(a, b, climbScore(b) - climbScore(a));
     })[0];
   }
 
@@ -2076,10 +2081,10 @@ function findRecommendedGraphRoute() {
   const distanceBand = getRouteDistanceBand(targetDistance);
   const maxDistance = distanceBand.max;
   const maxDepth = targetDistance <= 2
-    ? Math.max(10, Math.ceil(targetDistance / 0.2) + 4)
-    : Math.max(20, Math.ceil(targetDistance / 0.24) + 5);
-  const beamLimit = targetDistance <= 2 ? 1100 : targetDistance <= 3.5 ? 1900 : 2800;
-  const maxCandidateCount = targetDistance <= 2 ? 700 : targetDistance <= 3.5 ? 1100 : 1600;
+    ? Math.max(12, Math.ceil(targetDistance / 0.17) + 5)
+    : Math.max(24, Math.ceil(targetDistance / 0.2) + 7);
+  const beamLimit = targetDistance <= 2 ? 1400 : targetDistance <= 3.5 ? 2400 : 3600;
+  const maxCandidateCount = targetDistance <= 2 ? 900 : targetDistance <= 3.5 ? 1400 : 2100;
   const maxNodeVisits = 1;
   const maxEdgeUses = 1;
   let states = [{
