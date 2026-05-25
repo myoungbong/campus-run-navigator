@@ -2025,41 +2025,42 @@ function selectRecommendedCandidate(candidates, difficulty) {
   const nearRange = byDistance.filter((candidate) => distanceError(candidate) <= Math.max(0.45, targetDistance * 0.16));
   const pool = (inRange.length ? inRange : nearRange.length ? nearRange : byDistance)
     .slice(0, Math.min(tuning.poolLimit, byDistance.length));
-  const bestDistanceError = Math.min(...pool.map(distanceError));
-  const closeDistanceWindow = Math.max(0.06, targetDistance * 0.035);
-  const closeDistancePool = pool.filter((candidate) => distanceError(candidate) <= bestDistanceError + closeDistanceWindow);
   const climbScore = (candidate) => (candidate.climb || 0) + (candidate.descent || 0) * 0.65;
+  const climbDensityScore = (candidate) => climbScore(candidate) / Math.max(candidate.distance, 0.1);
   const routeVarietyScore = (candidate) => getRouteSpreadProfile(candidate).concentrationPenalty;
   const routeQualityScore = (candidate) => getRouteQualityProfile(candidate).qualityPenalty;
   const overallScore = (candidate) => scoreGraphRoute(candidate, difficulty);
   const shapeScore = (candidate) => routeQualityScore(candidate) + Math.max(0, routeVarietyScore(candidate)) * 0.9;
-  const rankingPool = closeDistancePool.length >= 4
-    ? closeDistancePool
-    : pool.slice(0, Math.min(36, pool.length));
-  const distanceBucket = (candidate) => Math.round(distanceError(candidate) / 0.025);
+  const bestShapeScore = Math.min(...pool.map(shapeScore));
+  const shapeWindow = targetDistance <= 2 ? 36 : targetDistance <= 3.5 ? 48 : 62;
+  const naturalPool = pool.filter((candidate) => shapeScore(candidate) <= bestShapeScore + shapeWindow);
+  const rankingPool = naturalPool.length >= 6
+    ? naturalPool
+    : pool.slice(0, Math.min(48, pool.length));
+  const distanceBucket = (candidate) => Math.round(distanceError(candidate) / 0.05);
   const compareQuality = (a, b, difficultyCompare) => {
     const distanceCompare = distanceBucket(a) - distanceBucket(b);
     const shapeCompare = shapeScore(a) - shapeScore(b);
     const rawDistanceCompare = distanceError(a) - distanceError(b);
-    return distanceCompare || shapeCompare || difficultyCompare || rawDistanceCompare || overallScore(a) - overallScore(b);
+    return distanceCompare || difficultyCompare || shapeCompare || rawDistanceCompare || overallScore(a) - overallScore(b);
   };
 
   if (difficulty === "easy") {
     return [...rankingPool].sort((a, b) => {
-      return compareQuality(a, b, climbScore(a) - climbScore(b));
+      return compareQuality(a, b, climbDensityScore(a) - climbDensityScore(b));
     })[0];
   }
 
   if (difficulty === "hard") {
     return [...rankingPool].sort((a, b) => {
-      return compareQuality(a, b, climbScore(b) - climbScore(a));
+      return compareQuality(a, b, climbDensityScore(b) - climbDensityScore(a));
     })[0];
   }
 
-  const sortedByClimb = [...rankingPool].sort((a, b) => climbScore(a) - climbScore(b));
-  const medianClimb = climbScore(sortedByClimb[Math.floor(sortedByClimb.length / 2)]);
+  const sortedByClimb = [...rankingPool].sort((a, b) => climbDensityScore(a) - climbDensityScore(b));
+  const medianClimb = climbDensityScore(sortedByClimb[Math.floor(sortedByClimb.length / 2)]);
   return [...rankingPool].sort((a, b) => {
-    const balancedClimbCompare = Math.abs(climbScore(a) - medianClimb) - Math.abs(climbScore(b) - medianClimb);
+    const balancedClimbCompare = Math.abs(climbDensityScore(a) - medianClimb) - Math.abs(climbDensityScore(b) - medianClimb);
     return compareQuality(a, b, balancedClimbCompare);
   })[0];
 }
