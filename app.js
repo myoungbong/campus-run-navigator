@@ -1914,6 +1914,7 @@ function getRouteQualityProfile(candidate) {
       sharpTurnPenalty: 0,
       shortHopPenalty: 0,
       clusterPenalty: 0,
+      zigzagPenalty: 0,
       zoneBonus: 0,
       farBonus: 0,
       qualityPenalty: 0,
@@ -1924,14 +1925,44 @@ function getRouteQualityProfile(candidate) {
   }
 
   let sharpTurnPenalty = 0;
+  let zigzagPenalty = 0;
+  let previousSharpTurnSign = 0;
+  let previousSharpTurnAngle = 0;
+  const edgeDistances = candidate.edgeSteps?.map((step) => step.edge.distanceKm || 0) || [];
   for (let index = 1; index < routeNodes.length - 1; index += 1) {
-    const angle = getTurnAngleDegrees(routeNodes[index - 1], routeNodes[index], routeNodes[index + 1]);
-    if (angle > 75) sharpTurnPenalty += ((angle - 75) / 35) ** 2 * 8;
-    if (angle > 125) sharpTurnPenalty += 8;
-    if (angle > 155) sharpTurnPenalty += 14;
+    const previousNode = routeNodes[index - 1];
+    const currentNode = routeNodes[index];
+    const nextNode = routeNodes[index + 1];
+    const angle = getTurnAngleDegrees(previousNode, currentNode, nextNode);
+    const ax = currentNode.lng - previousNode.lng;
+    const ay = currentNode.lat - previousNode.lat;
+    const bx = nextNode.lng - currentNode.lng;
+    const by = nextNode.lat - currentNode.lat;
+    const turnSign = Math.sign(ax * by - ay * bx);
+
+    if (angle > 55) sharpTurnPenalty += ((angle - 55) / 28) ** 2 * 10;
+    if (angle > 95) sharpTurnPenalty += 14;
+    if (angle > 135) sharpTurnPenalty += 28;
+    if (angle > 165) sharpTurnPenalty += 50;
+
+    const previousEdgeDistance = edgeDistances[index - 1] || 0;
+    const nextEdgeDistance = edgeDistances[index] || 0;
+    if (angle > 100 && (previousEdgeDistance < 0.18 || nextEdgeDistance < 0.18)) {
+      zigzagPenalty += 30;
+    }
+    if (angle > 65 && previousSharpTurnSign && turnSign && previousSharpTurnSign !== turnSign) {
+      zigzagPenalty += Math.max(0, angle + previousSharpTurnAngle - 120) * 0.95;
+    }
+
+    if (angle > 65 && turnSign) {
+      previousSharpTurnSign = turnSign;
+      previousSharpTurnAngle = angle;
+    } else if (angle <= 35) {
+      previousSharpTurnSign = 0;
+      previousSharpTurnAngle = 0;
+    }
   }
 
-  const edgeDistances = candidate.edgeSteps?.map((step) => step.edge.distanceKm || 0) || [];
   let shortHopPenalty = 0;
   let shortHopRun = 0;
   edgeDistances.forEach((distance) => {
@@ -1959,16 +1990,18 @@ function getRouteQualityProfile(candidate) {
   const zoneCount = new Set(routeNodes.map(getCampusZoneKey)).size;
   const farthestFromStartKm = Math.max(...routeNodes.map((node) => distanceKm(routeNodes[0], node)));
   sharpTurnPenalty *= tuning.turnWeight;
+  zigzagPenalty *= tuning.turnWeight;
   shortHopPenalty *= tuning.shortHopWeight;
   clusterPenalty *= tuning.clusterWeight;
   const zoneBonus = zoneCount * 6 * tuning.zoneWeight;
   const farBonus = farthestFromStartKm * 8 * tuning.farWeight;
-  const qualityPenalty = sharpTurnPenalty + shortHopPenalty + clusterPenalty - zoneBonus - farBonus;
+  const qualityPenalty = sharpTurnPenalty + zigzagPenalty + shortHopPenalty + clusterPenalty - zoneBonus - farBonus;
 
   candidate._qualityProfile = {
     sharpTurnPenalty,
     shortHopPenalty,
     clusterPenalty,
+    zigzagPenalty,
     zoneBonus,
     farBonus,
     qualityPenalty,
