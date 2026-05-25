@@ -1,41 +1,70 @@
 # Campus Run Navigator
 
-GNSS 로그 기반 충북대학교 러닝 경로 시각화 웹 프로토타입입니다.
+충북대학교 캠퍼스 안에서 러닝하는 사용자를 위해 만든 GNSS 기반 러닝 경로 추천 웹사이트입니다.
+
+ZED-F9P 수신기로 직접 측정한 교내 이동 경로를 CSV 데이터로 저장하고, 이를 지도 위에 표시한 뒤 대표 노드와 연결 구간으로 구성한 노드 그래프를 기반으로 경로를 추천합니다.
 
 ## 주요 기능
 
-- 네이버 지도 API 기반 캠퍼스 지도 표시
-- ZED-F9P로 수집한 `gnss_log_2.csv` 실측 경로 표시
-- 실측 경로 위 지점을 노드로 선택
-- 첫 노드부터 마지막 노드까지의 GNSS 로그 기반 거리 계산
-- 러닝 페이스에 따른 예상 시간 계산
+- 충북대학교 네이버 지도 기반 캠퍼스 경로 시각화
+- ZED-F9P로 수집한 GNSS 실측 경로 표시
+- 대표 노드 및 연결 노드 그래프 표시
+- 출발점, 도착점, 목표 거리, 러닝 페이스 설정
+- 목표 거리 기반 추천 경로 생성
+- 쉬움, 중간, 어려움 난이도별 고도 변화 반영
+- 추천 경로의 총 거리, 예상 시간, 고도 변화, 고도 범위 표시
+
+## 프로젝트 핵심
+
+이 프로젝트는 단순히 지도 위에 선을 그리는 것이 아니라, 직접 수집한 GNSS 로그를 기반으로 교내에서 실제 이동 가능한 구간을 그래프 형태로 만든 뒤 경로를 추천합니다.
+
+추천 알고리즘은 완전 탐색 방식이 아니라, 그래프 기반 후보 경로 탐색과 휴리스틱 점수화 방식을 사용합니다. 후보 경로는 목표 거리와의 차이, 급회전 및 지그재그 여부, 반복 구간, 고도 변화 등을 함께 고려하여 선택됩니다.
+
+## 데이터
+
+사용 데이터는 다음 파일들로 구성됩니다.
+
+- `gnss_log_2.csv`
+- `gnss_log_3.csv`
+- `gnss_log_4.csv`
+- `gnss_log_5.csv`
+- `node_graph.json`
+
+CSV에는 시간, 위도, 경도, 고도 등의 GNSS 측정값이 포함되어 있으며, `node_graph.json`에는 대표 노드와 연결 구간 정보가 저장되어 있습니다.
 
 ## 실행 방법
 
-정적 웹사이트이므로 `index.html`을 브라우저에서 열거나, 로컬 서버로 실행하면 됩니다.
+정적 웹사이트이므로 로컬 서버에서 실행할 수 있습니다.
 
 ```bash
 python -m http.server 4173
 ```
 
-브라우저에서 아래 주소를 엽니다.
+브라우저에서 아래 주소로 접속합니다.
 
 ```text
 http://127.0.0.1:4173/
 ```
 
-## 네이버 지도 API
+## 배포
 
-네이버 클라우드 플랫폼에서 Maps Dynamic Map Client ID를 발급받아 웹페이지의 입력칸에 넣으면 됩니다.
+GitHub Pages를 통해 외부에서도 확인할 수 있습니다.
 
-GitHub Pages로 배포하는 경우, 네이버 클라우드 콘솔의 Web 서비스 URL에 배포 주소를 추가해야 합니다.
+- Website: https://myoungbong.github.io/campus-run-navigator/
+- Repository: https://github.com/myoungbong/campus-run-navigator
 
-## 데이터
+## 기술 스택
 
-- `gnss_log_2.csv`: ZED-F9P 실측 GNSS 로그
+- HTML
+- CSS
+- JavaScript
+- Naver Maps JavaScript API
+- ZED-F9P GNSS log data
+- GitHub Pages
 
-CSV 형식:
+## 한계 및 개선 방향
 
-```csv
-PC_Time,UTC_Time,Latitude_NMEA,Lat_Direction,Longitude_NMEA,Lon_Direction,Fix,Satellites,Altitude_m
-```
+- GNSS 고도값은 수평 위치보다 오차가 커 반복 측정과 보정이 필요합니다.
+- 건물, 나무, 좁은 길 주변에서는 위치 튐 현상이 발생할 수 있습니다.
+- 현재 추천 경로는 직접 실측하고 노드 그래프로 구성한 구간을 중심으로 생성됩니다.
+- 향후 더 많은 실측 데이터와 보조 노드를 추가하면 더 자연스럽고 정확한 경로 추천이 가능합니다.
