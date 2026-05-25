@@ -1795,6 +1795,46 @@ function orientedEdgePath(edge, reversed) {
   return reversed ? [...cleanPath].reverse() : cleanPath;
 }
 
+const STADIUM_NODE_IDS = new Set(["N060", "N061", "N062", "N063"]);
+const STADIUM_RING_EDGE_KEYS = new Set([
+  makeEdgeKey("N060", "N061"),
+  makeEdgeKey("N061", "N062"),
+  makeEdgeKey("N062", "N063"),
+  makeEdgeKey("N060", "N063")
+]);
+
+function getStadiumFlowPenalty(candidate) {
+  const edgeSteps = candidate.edgeSteps || [];
+  let penalty = 0;
+  let stadiumAccessCount = 0;
+  let previousWasStadium = false;
+
+  edgeSteps.forEach((step) => {
+    const fromIsStadium = STADIUM_NODE_IDS.has(step.edge.from);
+    const toIsStadium = STADIUM_NODE_IDS.has(step.edge.to);
+    const touchesStadium = fromIsStadium || toIsStadium;
+    const stadiumToStadium = fromIsStadium && toIsStadium;
+    const edgeKey = makeEdgeKey(step.edge.from, step.edge.to);
+
+    if (stadiumToStadium && !STADIUM_RING_EDGE_KEYS.has(edgeKey)) {
+      penalty += 120;
+    }
+    if (touchesStadium && !stadiumToStadium && step.edge.distanceKm > 0.18) {
+      penalty += (step.edge.distanceKm - 0.18) * 420;
+    }
+    if (touchesStadium && !previousWasStadium) {
+      stadiumAccessCount += 1;
+    }
+    previousWasStadium = touchesStadium;
+  });
+
+  if (stadiumAccessCount >= 2) {
+    penalty += (stadiumAccessCount - 1) * 45;
+  }
+
+  return penalty;
+}
+
 function scoreGraphRoute(candidate, difficulty) {
   const band = getRouteDistanceBand(targetDistance);
   const tuning = getDistanceTuning(targetDistance);
@@ -1915,6 +1955,7 @@ function getRouteQualityProfile(candidate) {
       shortHopPenalty: 0,
       clusterPenalty: 0,
       zigzagPenalty: 0,
+      stadiumFlowPenalty: 0,
       zoneBonus: 0,
       farBonus: 0,
       qualityPenalty: 0,
@@ -1993,15 +2034,17 @@ function getRouteQualityProfile(candidate) {
   zigzagPenalty *= tuning.turnWeight;
   shortHopPenalty *= tuning.shortHopWeight;
   clusterPenalty *= tuning.clusterWeight;
+  const stadiumFlowPenalty = getStadiumFlowPenalty(candidate);
   const zoneBonus = zoneCount * 6 * tuning.zoneWeight;
   const farBonus = farthestFromStartKm * 8 * tuning.farWeight;
-  const qualityPenalty = sharpTurnPenalty + zigzagPenalty + shortHopPenalty + clusterPenalty - zoneBonus - farBonus;
+  const qualityPenalty = sharpTurnPenalty + zigzagPenalty + shortHopPenalty + clusterPenalty + stadiumFlowPenalty - zoneBonus - farBonus;
 
   candidate._qualityProfile = {
     sharpTurnPenalty,
     shortHopPenalty,
     clusterPenalty,
     zigzagPenalty,
+    stadiumFlowPenalty,
     zoneBonus,
     farBonus,
     qualityPenalty,
